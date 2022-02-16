@@ -90,15 +90,3 @@
         </div>
     </div>
 @endsection
-
-@section('scripts')
-    @if ($message = Session::get('success'))
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                text: '{{ $message }}',
-            })
-        </script>
-    @endif
-@endsection

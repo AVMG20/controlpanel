@@ -31,4 +31,5 @@
     </main>
 
     @yield('scripts')
+    @include('layouts.scripts')
 </body>

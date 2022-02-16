@@ -2,14 +2,11 @@
     <div class="container-fluid d-flex px-0">
         <div class="col-auto" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                @for($i = 0; $i <= count(Request::segments()); $i++)
+                @foreach(Request::segments() as $segment)
                     <li class="breadcrumb-item">
-                        <a href="">{{ucfirst(Request::segment($i))}}</a>
-                        @if($i < count(Request::segments()) & $i > 0)
-                            {!!'<i class="fa fa-angle-right"></i>'!!}
-                        @endif
+                        <span >{{ucfirst($segment)}}</span>
                     </li>
-                @endfor
+                @endforeach
             </ol>
         </div>
         <div class="d-flex justify-content-end w-100" id="navbarSupportedContent">
