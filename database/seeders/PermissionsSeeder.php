@@ -23,17 +23,17 @@ class PermissionsSeeder extends Seeder
     public function createPermissions(){
         Permission::create(['name' => '*']);
 
-        Permission::create(['name' => 'admin.roles.write']);
         Permission::create(['name' => 'admin.roles.read']);
+        Permission::create(['name' => 'admin.roles.write']);
 
         Permission::create(['name' => 'admin.users.read']);
-        Permission::create(['name' => 'admin.users.read']);
+        Permission::create(['name' => 'admin.users.write']);
     }
 
     public function createRoles(){
         /** @var Role $adminRole */
-        $adminRole = Role::create(['name' => 'admin']);
-        $memberRole = Role::create(['name' => 'member']);
+        $adminRole = Role::create(['name' => 'Admin']);
+        $memberRole = Role::create(['name' => 'Member']);
 
         $adminRole->givePermissionTo(Permission::findByName('*'));
     }

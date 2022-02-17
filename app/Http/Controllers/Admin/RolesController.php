@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
@@ -20,6 +21,8 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
+        $this->can('admin.roles.read');
+
         $roles = Role::all();
 
         return view('admin.roles.index', compact('roles'));
@@ -34,7 +37,9 @@ class RolesController extends Controller
     {
         $this->can('admin.roles.write');
 
-        return view('admin.roles.create');
+        $permissions = Permission::all();
+
+        return view('admin.roles.edit', compact('permissions'));
     }
 
     /**
@@ -45,18 +50,28 @@ class RolesController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->can('admin.roles.write');
+
         $request->validate([
-            'name' => 'required|string|max:60|unique:roles,name'
+            'name' => "required|string|max:60|unique:roles,name",
+            'color' => "required|string|max:60",
+            'permissions' => 'nullable|array'
         ]);
 
-        Role::create(['name' => $request->name]);
+        $role = Role::create([
+            'name' => $request->name,
+            'color' => $request->color
+        ]);
+
+        if ($request->permissions) {
+            $role->givePermissionTo($request->permissions);
+        }
 
         return redirect()
             ->route('admin.roles.index')
             ->with('success', __('Role saved'));
     }
-
-
+    
     /**
      * Display the specified resource.
      *
@@ -65,7 +80,7 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->can('admin.roles.read');
     }
 
     /**
@@ -76,7 +91,11 @@ class RolesController extends Controller
      */
     public function edit(Role $role): Application|Factory|View
     {
-        return view('admin.roles.edit', compact('role'));
+        $this->can('admin.roles.write');
+
+        $permissions = Permission::all();
+
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -88,11 +107,22 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        $this->can('admin.roles.write');
+
         $request->validate([
-            'name' => 'required|string|max:60|unique:roles,name'
+            'name' => "required|string|max:60|unique:roles,name,$role->id",
+            'color' => "required|string|max:60",
+            'permissions' => 'nullable|array'
         ]);
 
-        $role->update(['name' => $request->name]);
+        if ($request->permissions) {
+            $role->givePermissionTo($request->permissions);
+        }
+
+        $role->update([
+            'name' => $request->name,
+            'color' => $request->color
+        ]);
 
         return redirect()
             ->route('admin.roles.index')
@@ -106,6 +136,8 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->can('admin.roles.write');
+
         $role->delete();
 
         return redirect()

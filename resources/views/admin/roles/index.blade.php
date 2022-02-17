@@ -17,6 +17,8 @@
                 <thead class="bg-gray-50">
                 <tr>
                     <th class="border-gray-200">{{ __('Name') }}</th>
+                    <th class="border-gray-200">{{ __('Users') }}</th>
+                    <th class="border-gray-200">{{ __('Permissions') }}</th>
                     @can('admin.roles.write')
                         <th class="border-gray-200">{{ __('Actions') }}</th>
                     @endcan
@@ -25,7 +27,9 @@
                 <tbody>
                 @foreach ($roles as $role)
                     <tr>
-                        <td><span class="fw-normal">{{ $role->name }}</span></td>
+                        <td><span style="background-color: {{$role->color}}" class="badge">{{ $role->name }}</span></td>
+                        <td><span class="fw-normal">{{ $role->users()->count() }}</span></td>
+                        <td><span class="fw-normal">{{ $role->permissions()->count() }}</span></td>
                         @can('admin.roles.write')
                             <td style="width: 200px;">
                                 <a href="{{route('admin.roles.edit', $role)}}" class="btn btn-sm btn-info"><i
@@ -44,6 +48,14 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#datatable').DataTable();
+        });
+    </script>
 @endsection
 
 

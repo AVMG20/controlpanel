@@ -26,7 +26,7 @@
                             <td><span class="fw-normal">{{ $user->name }}</span></td>
                             <td><span class="fw-normal">{{ $user->email }}</span></td>
                             <td><span class="fw-normal"><i class="fa fas fa-coins me-2"></i>50.00</span></td>
-                            <td><span class="badge bg-success">Admin</span></td>
+                            <td><span style="background-color: {{$user->roles->first()->color}}" class="badge">{{$user->roles->first()->name}}</span></td>
                             <td>
                                 <button class="btn btn-sm btn-warning"><i class="fa fas fa-eye"></i></button>
                                 <button class="btn btn-sm btn-info"><i class="fa fas fa-edit"></i></button>
@@ -41,16 +41,11 @@
 @endsection
 
 @section('scripts')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             $('#datatable').DataTable();
             $( "#test" ).select2({
                 theme: "bootstrap-5",
-                dropdownCssClass: "select2--small",
             });
         });
     </script>
