@@ -3,7 +3,6 @@ import "simplebar";
 import SmoothScroll from "smooth-scroll";
 
 window.$ = window.jQuery = require( "jquery" );
-import 'select2/dist/js/select2.min.js';
 
 /*
 

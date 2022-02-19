@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Blade;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Html\Builder;
 
 class RolesController extends Controller
 {
@@ -18,14 +21,19 @@ class RolesController extends Controller
      * Display a listing of the resource.
      *
      * @return Application|Factory|View
+     * @throws Exception
      */
     public function index(Request $request)
     {
         $this->can('admin.roles.read');
 
-        $roles = Role::all();
+        //datatables
+        if ($request->ajax()) {
+            return $this->dataTableQuery();
+        }
 
-        return view('admin.roles.index', compact('roles'));
+        $html = $this->dataTable();
+        return view('admin.roles.index', compact('html'));
     }
 
     /**
@@ -71,7 +79,7 @@ class RolesController extends Controller
             ->route('admin.roles.index')
             ->with('success', __('Role saved'));
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -143,5 +151,59 @@ class RolesController extends Controller
         return redirect()
             ->route('admin.roles.index')
             ->with('success', __('Role removed'));
+    }
+
+    /**
+     * @description create table
+     *
+     * @return Builder
+     */
+    public function dataTable(): Builder
+    {
+        return $this->htmlBuilder
+            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
+            ->addColumn(['data' => 'users_count', 'name' => 'users_count', 'title' => __('User count')])
+            ->addColumn(['data' => 'permissions_count', 'name' => 'permissions_count', 'title' => __('Permissions count')])
+            ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('Updated at')])
+            ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
+            ->parameters([
+                'stateSave' => 'true',
+                'order'=> [[ 1, "desc" ]],
+            ]);
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public function dataTableQuery(): mixed
+    {
+        $query = Role::query()->withCount(['users', 'permissions']);
+
+        return datatables($query)
+            ->addColumn('actions', function (Role $role) {
+                return Blade::render('
+                        @can("admin.roles.write")
+                            <td style="width: 200px;">
+                                <a href="{{route("admin.roles.edit", $role)}}" class="btn btn-sm btn-info"><i
+                                        class="fa fas fa-edit"></i></a>
+                                <form class="d-inline" method="post" action="{{route("admin.roles.destroy", $role)}}">
+                                    @csrf
+                                    @method("DELETE")
+                                    <button type="submit" class="btn btn-sm btn-danger confirm"><i
+                                            class="fa fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        @endcan'
+                    , compact('role'));
+            })
+            ->editColumn('name', function (Role $role) {
+                return "<span style=\"color: $role->color\">$role->name</span>";
+            })
+            ->addColumn('updated_at', function (Role $role) {
+                return $role->updated_at ? $role->updated_at->diffForHumans() : '';
+            })
+            ->rawColumns(['actions', 'name'])
+            ->make(true);
     }
 }

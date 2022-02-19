@@ -8,9 +8,17 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Html\Builder;
 
 class Controller extends BaseController
 {
+    public Builder $htmlBuilder;
+
+    public function __construct(Builder $htmlBuilder)
+    {
+        $this->htmlBuilder = $htmlBuilder;
+    }
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**

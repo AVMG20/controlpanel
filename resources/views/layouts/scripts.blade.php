@@ -1,7 +1,14 @@
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+
+<!-- Datatables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.js"></script>
+<!-- Sweet alert 2 -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if ($message = Session::get('success'))
-    <script>
+    <script defer>
         //success message
         const Toast = Swal.mixin({
             toast: true,
