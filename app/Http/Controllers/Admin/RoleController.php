@@ -15,7 +15,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Html\Builder;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -162,14 +162,11 @@ class RolesController extends Controller
     {
         return $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
-            ->addColumn(['data' => 'users_count', 'name' => 'users_count', 'title' => __('User count')])
-            ->addColumn(['data' => 'permissions_count', 'name' => 'permissions_count', 'title' => __('Permissions count')])
-            ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('Updated at')])
+            ->addColumn(['data' => 'users_count', 'name' => 'users_count', 'title' => __('User count'), 'searchable' => false])
+            ->addColumn(['data' => 'permissions_count', 'name' => 'users_count', 'title' => __('Permissions count'), 'searchable' => false])
+            ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('Updated at'), 'searchable' => false])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
-            ->parameters([
-                'stateSave' => 'true',
-                'order'=> [[ 1, "desc" ]],
-            ]);
+            ->parameters($this->dataTableDefaultParameters());
     }
 
     /**
@@ -184,24 +181,22 @@ class RolesController extends Controller
             ->addColumn('actions', function (Role $role) {
                 return Blade::render('
                         @can("admin.roles.write")
-                            <td style="width: 200px;">
-                                <a href="{{route("admin.roles.edit", $role)}}" class="btn btn-sm btn-info"><i
-                                        class="fa fas fa-edit"></i></a>
-                                <form class="d-inline" method="post" action="{{route("admin.roles.destroy", $role)}}">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button type="submit" class="btn btn-sm btn-danger confirm"><i
-                                            class="fa fas fa-trash"></i></button>
-                                </form>
-                            </td>
+                            <a title="{{\'Edit\'}}" href="{{route("admin.roles.edit", $role)}}" class="btn btn-sm btn-info"><i
+                                    class="fa fas fa-edit"></i></a>
+                            <form class="d-inline" method="post" action="{{route("admin.roles.destroy", $role)}}">
+                                @csrf
+                                @method("DELETE")
+                                <button title="{{\'Delete\'}}" type="submit" class="btn btn-sm btn-danger confirm"><i
+                                        class="fa fas fa-trash"></i></button>
+                            </form>
                         @endcan'
                     , compact('role'));
             })
             ->editColumn('name', function (Role $role) {
                 return "<span style=\"color: $role->color\">$role->name</span>";
             })
-            ->addColumn('updated_at', function (Role $role) {
-                return $role->updated_at ? $role->updated_at->diffForHumans() : '';
+            ->editColumn('updated_at', function ($model) {
+                return $model->updated_at ? $model->updated_at->diffForHumans() : '';
             })
             ->rawColumns(['actions', 'name'])
             ->make(true);

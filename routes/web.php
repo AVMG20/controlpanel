@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +25,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
-    Route::resource('roles', RolesController::class);
+    Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
 });
 

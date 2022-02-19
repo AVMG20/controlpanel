@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\DataTableDefaults;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,7 +20,7 @@ class Controller extends BaseController
         $this->htmlBuilder = $htmlBuilder;
     }
 
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, DataTableDefaults;
 
     /**
      * Check if user has permissions
