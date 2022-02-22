@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('credits', 10, 6)->default(0);
+            $table->float('credits', 18, 6)->default(0);
+            $table->unsignedInteger('server_limit')->default(0);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

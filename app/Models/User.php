@@ -20,6 +20,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'credits',
+        'server_limit',
         'email',
         'password',
     ];
@@ -41,5 +43,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'credits' => 'float',
+        'server_limit' => 'int',
     ];
+
+    /**
+     * Gravatar's
+     *
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+    }
 }

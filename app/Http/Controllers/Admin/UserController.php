@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Html\Builder;
 
@@ -84,11 +85,45 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
-        //
+        $request->validate([
+            'name' => 'sometimes|string|min:4|max:30',
+            'email' => 'sometimes|string|email',
+            'credits' => 'sometimes|numeric|between:0,99999999999.999999',
+            'server_limit' => 'sometimes|numeric|max:2147483647|min:0',
+            'roles' => 'nullable|array',
+        ]);
+
+        //update roles
+        if ($request->has('roles')) {
+            $roles = Role::query()->findMany($request->roles);
+            $user->syncRoles($roles);
+        }
+
+        //update password
+        if ($request->has('password')) {
+            $request->validate([
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'credits' => $request->credits,
+            'server_limit' => $request->server_limit,
+        ]);
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', __('User saved'));
     }
 
     /**
@@ -99,7 +134,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        dd($user);
     }
 
     /**
@@ -116,7 +151,6 @@ class UserController extends Controller
             ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => __('Credits')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
-
     }
 
     /**
