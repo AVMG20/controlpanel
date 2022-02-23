@@ -28,7 +28,8 @@ class Controller extends BaseController
      * @param string $guardName
      * @return void
      */
-    public function can(string $permission, string $guardName = 'web'){
+    public function can(string $permission, string $guardName = 'web')
+    {
         /** @var User $user */
         $user = Auth::user();
 

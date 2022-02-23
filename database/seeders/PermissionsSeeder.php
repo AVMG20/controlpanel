@@ -20,16 +20,14 @@ class PermissionsSeeder extends Seeder
         $this->createRoles();
     }
 
+    //TODO run on each seed
     public function createPermissions(){
-        Permission::create(['name' => '*']);
-
-        Permission::create(['name' => 'admin.roles.read']);
-        Permission::create(['name' => 'admin.roles.write']);
-
-        Permission::create(['name' => 'admin.users.read']);
-        Permission::create(['name' => 'admin.users.write']);
+        foreach (config('permissions_web') as $name) {
+            Permission::create(['name' =>$name]);
+        }
     }
 
+    //TODO run only once
     public function createRoles(){
         /** @var Role $adminRole */
         $adminRole = Role::create(['name' => 'Admin']);

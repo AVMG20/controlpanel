@@ -124,7 +124,7 @@ class RoleController extends Controller
         ]);
 
         if ($request->permissions) {
-            $role->givePermissionTo($request->permissions);
+            $role->syncPermissions($request->permissions);
         }
 
         $role->update([

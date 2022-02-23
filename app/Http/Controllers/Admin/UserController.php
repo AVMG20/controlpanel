@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->can('admin.roles.read');
+        $this->can('admin.users.read');
 
         //datatables
         if ($request->ajax()) {
@@ -76,8 +76,11 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        $this->can('admin.users.write');
+
         $roles = Role::all();
-        return view('admin.users.edit', compact('user','roles'));
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -89,6 +92,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
+        $this->can('admin.users.write');
+
         $request->validate([
             'name' => 'sometimes|string|min:4|max:30',
             'email' => 'sometimes|string|email',
@@ -98,13 +103,12 @@ class UserController extends Controller
         ]);
 
         //update roles
-        if ($request->has('roles')) {
-            $roles = Role::query()->findMany($request->roles);
-            $user->syncRoles($roles);
+        if ($request->roles) {
+            $user->syncRoles($request->roles);
         }
 
         //update password
-        if ($request->has('password')) {
+        if ($request->password) {
             $request->validate([
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
@@ -134,6 +138,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->can('admin.users.write');
+
         dd($user);
     }
 
@@ -147,7 +153,7 @@ class UserController extends Controller
         return $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => __('Email')])
-            ->addColumn(['data' => 'roles', 'name' => 'roles', 'title' => __('Roles'),  'searchable' => false])
+            ->addColumn(['data' => 'roles', 'name' => 'roles', 'title' => __('Roles'), 'searchable' => false])
             ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => __('Credits')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
