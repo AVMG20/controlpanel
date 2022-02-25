@@ -11,18 +11,18 @@
                 <div class="col-lg-6">
 
                     <div class="form-group mb-3">
-                        <label for="pterodactyl_url">{{(__('Pterodactyl URL'))}}</label>
-                        <input value="{{old('pterodactyl_url',  $settings->pterodactyl_url)}}" id="pterodactyl_url" name="pterodactyl_url"
-                               type="text" placeholder="https://panel.domain.com" class="form-control @error('pterodactyl_url')is-invalid @enderror">
-                        @error('pterodactyl_url')
+                        <label for="url">{{(__('Pterodactyl URL'))}}</label>
+                        <input value="{{old('url',  $settings->url)}}" id="url" name="url"
+                               type="text" placeholder="https://panel.domain.com" class="form-control @error('url')is-invalid @enderror">
+                        @error('url')
                         <div class="invalid-feedback">{{$message}}</div>@enderror
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="pterodactyl_api_key">{{(__('Pterodactyl API key'))}}</label>
-                        <input value="{{old('pterodactyl_api_key',  $settings->pterodactyl_api_key)}}" id="pterodactyl_api_key" name="pterodactyl_api_key"
-                               type="text" placeholder="OfbeIWTskurX7PyDWiGr4DG21w72KDZb" class="form-control @error('pterodactyl_api_key')is-invalid @enderror">
-                        @error('pterodactyl_api_key')
+                        <label for="api_key">{{(__('Pterodactyl API key'))}}</label>
+                        <input value="{{old('api_key',  $settings->api_key)}}" id="api_key" name="api_key"
+                               type="text" placeholder="OfbeIWTskurX7PyDWiGr4DG21w72KDZb" class="form-control @error('api_key')is-invalid @enderror">
+                        @error('api_key')
                         <div class="invalid-feedback">{{$message}}</div>@enderror
                     </div>
 

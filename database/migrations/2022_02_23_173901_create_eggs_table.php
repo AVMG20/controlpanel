@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('nest_id')->references('id')->on('nests')->cascadeOnDelete();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->string('docker_image');
             $table->text('startup');
             $table->json('environment');

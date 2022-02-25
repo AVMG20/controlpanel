@@ -36,12 +36,12 @@ class PterodactylSettingsController extends Controller
         $this->can('settings.pterodactyl.write');
 
         $request->validate([
-            'pterodactyl_url' => 'required|string|url|max:191',
-            'pterodactyl_api_key' => 'required|string|max:191'
+            'url' => 'required|string|url|max:191',
+            'api_key' => 'required|string|max:191'
         ]);
 
-        $settings->pterodactyl_url = $request->pterodactyl_url;
-        $settings->pterodactyl_api_key = $request->pterodactyl_api_key;
+        $settings->url = $request->url;
+        $settings->api_key = $request->api_key;
 
         $settings->save();
 

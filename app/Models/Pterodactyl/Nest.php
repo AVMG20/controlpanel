@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pterodactyl;
 
-use App\Classes\Pterodactyl;
+use App\Classes\PterodactylClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +22,9 @@ class Nest extends Model
 
     public static function syncNests()
     {
-        $nests = Pterodactyl::getNests();
+        /** @var PterodactylClient $client */
+        $client = app(PterodactylClient::class);
+        $nests = $client->getNests()->json()['data'];
 
         //map response
         $nests = array_map(function ($nest) {
@@ -39,7 +41,6 @@ class Nest extends Model
             ], [
                 'name' => $nest['name'],
                 'description' => $nest['description'],
-                'disabled' => false
             ]);
         }
 

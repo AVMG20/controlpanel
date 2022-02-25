@@ -47,7 +47,7 @@
     </li>
     @endcan
 
-    @can('settings.pterodactyl.read')
+    @can('settings.general.read')
         <li class="nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
             <a href="{{ route('settings.general.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">

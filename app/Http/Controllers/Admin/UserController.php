@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -150,11 +151,14 @@ class UserController extends Controller
      */
     public function dataTable(): Builder
     {
+        /** @var GeneralSettings $settings */
+        $settings = app(GeneralSettings::class);
+
         return $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => __('Email')])
             ->addColumn(['data' => 'roles', 'name' => 'roles', 'title' => __('Roles'), 'searchable' => false])
-            ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => __('Credits')])
+            ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => $settings->credits_display_name])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
     }

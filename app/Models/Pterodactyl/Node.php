@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pterodactyl;
 
-use App\Classes\Pterodactyl;
+use App\Classes\PterodactylClient;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,8 +21,9 @@ class Node extends Model
      */
     public static function syncNodes()
     {
-        Location::syncLocations();
-        $nodes = Pterodactyl::getNodes();
+        /** @var PterodactylClient $client */
+        $client = app(PterodactylClient::class);
+        $nodes = $client->getNodes()->json()['data'];
 
         //map response
         $nodes = array_map(function ($node) {
@@ -44,7 +45,6 @@ class Node extends Model
                     'name' => $node['name'],
                     'description' => $node['description'],
                     'location_id' => $node['location_id'],
-                    'disabled' => false
                 ]);
         }
 

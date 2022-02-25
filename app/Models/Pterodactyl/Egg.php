@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pterodactyl;
 
-use App\Classes\Pterodactyl;
+use App\Classes\PterodactylClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use function now;
 
 class Egg extends Model
 {
@@ -26,10 +27,11 @@ class Egg extends Model
 
     public static function syncEggs()
     {
-        Nest::syncNests();
+        /** @var PterodactylClient $client */
+        $client = app(PterodactylClient::class);
 
-        Nest::all()->each(function (Nest $nest) {
-            $eggs = Pterodactyl::getEggs($nest);
+        Nest::all()->each(function (Nest $nest) use ($client) {
+            $eggs = $client->getEggs($nest->id)->json()['data'];
 
             foreach ($eggs as $egg) {
                 $array = [];

@@ -6,7 +6,7 @@ class CreatePterodactylSettings extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('pterodactyl.pterodactyl_url', '');
-        $this->migrator->add('pterodactyl.pterodactyl_api_key', '');
+        $this->migrator->add('pterodactyl.url', '');
+        $this->migrator->add('pterodactyl.api_key', '');
     }
 }
