@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
 use App\Http\Controllers\Settings\PterodactylSettingsController;
+use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Route;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +23,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+//redirect to main website if one is set
+Route::get('/', function () {
+    /** @var GeneralSettings $settings */
+    $settings = app(GeneralSettings::class);
+
+    if (empty($settings->main_site)) {
+        return view('home');
+    }
+
+    return redirect($settings->main_site);
+})->name('home');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
+//auth routes
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 //admin
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){

@@ -1,4 +1,5 @@
-import "bootstrap";
+import "@popperjs/core/dist/umd/popper.min.js"
+import "./bootstrap";
 import "simplebar";
 import SmoothScroll from "smooth-scroll";
 

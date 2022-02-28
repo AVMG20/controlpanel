@@ -20,16 +20,16 @@
 </head>
 
 <body>
-    @include('layouts.components.nav')
-    @include('layouts.components.sidenav')
+    @include('layouts.parts.app.nav')
+    @include('layouts.parts.app.sidenav')
     <main class="content">
         {{-- TopBar --}}
-        @include('layouts.components.topbar')
+        @include('layouts.parts.app.topbar')
         @yield('content')
         {{-- Footer --}}
-        @include('layouts.components.footer')
+        @include('layouts.parts.app.footer')
     </main>
 
-    @include('layouts.components.scripts')
+    @include('layouts.parts.app.scripts')
     @yield('scripts')
 </body>

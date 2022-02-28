@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <div class="main py-4">
@@ -23,50 +23,43 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Name'))}}</label>
-                            <input value="{{old('name',  $user->name)}}" id="name" name="name"
-                                   type="text" class="form-control @error('name')is-invalid @enderror">
-                            @error('name')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.text label="{{(__('Name'))}}"
+                                      name="name"
+                                      value="{{ isset($user) ? $user->name : null}}"/>
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Email'))}}</label>
-                            <input value="{{old('email',  $user->email)}}" id="email" name="email"
-                                   type="text" class="form-control @error('email')is-invalid @enderror">
-                            @error('email')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.text label="{{(__('Email'))}}"
+                                      name="email"
+                                      value="{{ isset($user) ? $user->email : null}}"/>
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Credits'))}}</label>
-                            <input value="{{old('credits',  $user->credits)}}" id="credits" name="credits"
-                                   type="number" max="9999999999999" min="0" step=".000001" class="form-control @error('credits')is-invalid @enderror">
-                            @error('credits')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.number label="{{(__('Credits'))}}"
+                                        name="credits"
+                                        min="0"
+                                        max="9999999999999"
+                                        step=".000001"
+                                        value="{{ isset($user) ? $user->credits : null}}"/>
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Server limit'))}}</label>
-                            <input value="{{old('server_limit',  $user->server_limit)}}" id="server_limit" name="server_limit"
-                                   type="number" min="0" max="2147483647" class="form-control @error('server_limit')is-invalid @enderror">
-                            @error('server_limit')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.number label="{{(__('Server limit'))}}"
+                                        name="server_limit"
+                                        min="0"
+                                        tooltip="{{__('The amount of servers an user can have')}}"
+                                        max="2147483647"
+                                        step="1"
+                                        value="{{ isset($user) ? $user->server_limit : null}}"/>
 
                     </div>
                     <div class="col-lg-6">
-                        <div class="form-group mb-3">
-                            <label for="roles">{{(__('Roles'))}}</label>
-                            <select class="form-control form-select-lg" multiple name="roles[]" id="roles">
-                                @foreach($roles as $role)
-                                    <option style="color: {{$role->color}}"
-                                            @if(isset($user) && $user->roles->contains($role)) selected
-                                            @endif value="{{$role->id}}">{{$role->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
+                        <x-input.select
+                            label="{{(__('Roles'))}}"
+                            name="roles"
+                            multiple>
+                            @foreach($roles as $role)
+                                <option style="color: {{$role->color}}"
+                                        @if(isset($user) && $user->roles->contains($role)) selected
+                                        @endif value="{{$role->id}}">{{$role->name}}</option>
+                            @endforeach
+                        </x-input.select>
+
                     </div>
                 </div>
                 <div class="form-group d-flex justify-content-end mt-3">
@@ -79,22 +72,13 @@
                     <div class="card card-body border-0 shadow table-wrapper mt-3">
                         <h2 class="mb-4 h5">{{_('Edit user password')}}</h2>
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Password'))}}</label>
-                            <input value="" id="password" name="password"
-                                   type="password" class="form-control @error('password')is-invalid @enderror">
-                            @error('password')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.text label="{{(__('Password'))}}"
+                                      type="password"
+                                      name="password"/>
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Password confirmation'))}}</label>
-                            <input value="" id="password_confirmation" name="password_confirmation"
-                                   type="password"
-                                   class="form-control @error('password_confirmation')is-invalid @enderror">
-                            @error('password_confirmation')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.text label="{{(__('Password confirmation'))}}"
+                                      type="password"
+                                      name="password_confirmation"/>
 
                     </div>
                 </div>

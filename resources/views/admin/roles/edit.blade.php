@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <div class="main py-4">
@@ -16,36 +16,28 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-                        <div class="form-group mb-3">
-                            <label for="name">{{(__('Name'))}}</label>
-                            <input value="{{old('name', isset($role) ? $role->name : '')}}" id="name" name="name"
-                                   type="text" class="form-control @error('name')is-invalid @enderror">
-                            @error('name')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.text label="{{(__('Name'))}}"
+                                      name="name"
+                                      value="{{ isset($role) ? $role->name : null}}"/>
 
-                        <div class="form-group mb-3">
-                            <label for="color">{{(__('Badge color'))}}</label>
-                            <input value="{{old('color', isset($role) ? $role->color : '')}}" id="color" name="color"
-                                   type="color" class="form-control @error('color')is-invalid @enderror">
-                            @error('color')
-                            <div class="invalid-feedback">{{$message}}</div>@enderror
-                        </div>
+                        <x-input.color label="{{(__('Badge color'))}}"
+                                      name="color"
+                                      value="{{ isset($role) ? $role->color : null}}"/>
 
                     </div>
 
                     <div class="col-lg-6">
 
-                        <div class="form-group mb-3">
-                            <label for="permissions">{{(__('Permissions'))}}</label>
-                            <select style="height: 180px;" class="form-control form-select-lg" multiple name="permissions[]"
-                                    id="permissions">
-                                @foreach($permissions as $permission)
-                                    <option @if(isset($role) && $role->permissions->contains($permission)) selected
-                                            @endif value="{{$permission->id}}">{{$permission->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <x-input.select
+                            label="{{(__('Permissions'))}}"
+                            name="permissions"
+                            style="height: 200px"
+                            multiple>
+                            @foreach($permissions as $permission)
+                                <option @if(isset($role) && $role->permissions->contains($permission)) selected
+                                        @endif value="{{$permission->id}}">{{$permission->name}}</option>
+                            @endforeach
+                        </x-input.select>
 
                     </div>
                 </div>

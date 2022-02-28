@@ -10,14 +10,15 @@
             <div class="row">
                 <div class="col-lg-6">
 
-                    <div class="form-group mb-3">
-                        <label for="credits_display_name">{{(__('Credits display name'))}}</label>
-                        <input value="{{old('credits_display_name',  $settings->credits_display_name)}}" id="credits_display_name" name="credits_display_name"
-                               type="text" class="form-control @error('credits_display_name')is-invalid @enderror">
-                        @error('credits_display_name')
-                        <div class="invalid-feedback">{{$message}}</div>@enderror
-                    </div>
+                    <x-input.text label="{{(__('Main site'))}}"
+                                  name="main_site"
+                                  tooltip="{{(__('Your main website'))}}"
+                                  value="{{$settings->main_site}}"/>
 
+                    <x-input.text label="{{(__('Credits display name'))}}"
+                                   name="credits_display_name"
+                                   tooltip="{{(__('Change the name Credits to anything you like'))}}"
+                                   value="{{$settings->credits_display_name}}"/>
 
                     <div class="form-group d-flex justify-content-end mt-3">
                         <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>

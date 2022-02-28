@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.auth')
 
 @section('content')
     <div class="container">
@@ -10,7 +10,7 @@
                     </div>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        
+
                         <!-- Form -->
                         <div class="form-group mt-4 mb-4">
                             <label for="name">{{ __('Your Name') }}</label>

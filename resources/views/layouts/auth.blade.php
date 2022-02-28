@@ -8,16 +8,16 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <script src="{{ asset('js/app.js') }}"></script>
-
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
 </head>
 
 <body>
-    @include('layouts.parts.guest.navigation')
-    @yield('content')
+    <main>
+        <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
+            @yield('content')
+        </section>
+    </main>
 </body>
 
 </html>
