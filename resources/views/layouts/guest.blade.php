@@ -17,6 +17,7 @@
 
 <body>
     @include('layouts.parts.guest.navigation')
+
     @yield('content')
 </body>
 

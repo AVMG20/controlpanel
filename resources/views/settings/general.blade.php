@@ -12,7 +12,7 @@
 
                     <x-input.text label="{{(__('Main site'))}}"
                                   name="main_site"
-                                  tooltip="{{(__('Your main website'))}}"
+                                  tooltip="{{(__('Your main website, Leave empty if you dont have one yet'))}}"
                                   value="{{$settings->main_site}}"/>
 
                     <x-input.text label="{{(__('Credits display name'))}}"

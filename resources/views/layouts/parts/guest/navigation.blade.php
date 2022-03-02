@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-dark navbar-theme-primary mb-4">
     <div class="container position-relative">
-        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+        <a class="navbar-brand me-lg-5" href="{{ route('main-site') }}">
             <img class="navbar-brand-dark" src="{{ asset('images/brand/light.svg') }}" alt="Volt logo"/>
             <img class="navbar-brand-light" src="{{ asset('images/brand/dark.svg') }}" alt="Volt logo"/>
         </a>
@@ -21,7 +21,7 @@
             </div>
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link"><i style="font-size: 16px;" class="fas pe-1 fa-home"></i>{{__('Home')}}</a>
+                    <a href="{{ route('main-site') }}" class="nav-link"><i style="font-size: 16px;" class="fas pe-1 fa-home"></i>{{__('Home')}}</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link"><i style="font-size: 16px;" class="fas pe-1 fa-server"></i>{{__('Client Area')}}</a>

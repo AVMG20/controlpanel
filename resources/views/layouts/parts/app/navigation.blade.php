@@ -23,28 +23,48 @@
         </a>
     </li>
 
+    <li class="nav-item {{ request()->routeIs('checkout') ? 'active' : '' }}">
+        <a href="{{ route('checkout') }}" class="nav-link">
+           <span class="sidebar-icon me-3">
+                <i class="fas fa-server fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Create server') }}</span>
+        </a>
+    </li>
+
     <hr>
 
     @can('admin.users.read')
-    <li class="nav-item {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
-        <a href="{{ route('admin.users.index') }}" class="nav-link">
-            <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
-            </span>
-            <span class="sidebar-text">{{ __('Users') }}</span>
-        </a>
-    </li>
+        <li class="nav-item {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                <span class="sidebar-icon me-3">
+                    <i class="fas fa-users fa-fw"></i>
+                </span>
+                <span class="sidebar-text">{{ __('Users') }}</span>
+            </a>
+        </li>
     @endcan
 
     @can('admin.roles.read')
-    <li class="nav-item {{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
-        <a href="{{ route('admin.roles.index') }}" class="nav-link">
+        <li class="nav-item {{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.roles.index') }}" class="nav-link">
+                <span class="sidebar-icon me-3">
+                   <i class="fas fa-shield-alt fa-fw"></i>
+                </span>
+                <span class="sidebar-text">{{ __('Roles') }}</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('admin.configurations.read')
+        <li class="nav-item {{ request()->routeIs('admin.configurations.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.configurations.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-               <i class="fas fa-shield-alt fa-fw"></i>
+               <i class="fas fa-cog fa-fw"></i>
             </span>
-            <span class="sidebar-text">{{ __('Roles') }}</span>
-        </a>
-    </li>
+                <span class="sidebar-text">{{ __('Configurations') }}</span>
+            </a>
+        </li>
     @endcan
 
     @can('settings.general.read')

@@ -23,15 +23,15 @@ class PermissionsSeeder extends Seeder
     //TODO run on each seed
     public function createPermissions(){
         foreach (config('permissions_web') as $name) {
-            Permission::create(['name' =>$name]);
+            Permission::findOrCreate($name);
         }
     }
 
     //TODO run only once
     public function createRoles(){
         /** @var Role $adminRole */
-        $adminRole = Role::create(['name' => 'Admin']);
-        $memberRole = Role::create(['name' => 'Member']);
+        $adminRole = Role::findOrCreate('Admin');
+        $memberRole = Role::findOrCreate('Member');
 
         $adminRole->givePermissionTo(Permission::findByName('*'));
     }

@@ -14,6 +14,9 @@ return [
     'admin.users.read',
     'admin.users.write',
 
+    'admin.configurations.read',
+    'admin.configurations.write',
+
     /*
      * Permissions for settings
      */
