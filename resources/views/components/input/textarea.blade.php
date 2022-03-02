@@ -4,6 +4,7 @@
  * @required string $label
  *
  * @optional string $value
+ * @optional string $rows
  * @optional string $tooltip
  */
 ?>
@@ -15,9 +16,10 @@
             <span><i data-bs-toggle="tooltip" data-bs-placement="top" title="{{$tooltip}}" class="fas fa-info-circle"></i></span>
         @endif
     </div>
-    <input value="{{old($name,  $value ?? null)}}" id="{{$name}}"
-           name="{{$name}}"
-           type="color" class="form-control @error($name)is-invalid @enderror">
+
+    <textarea rows="{{$rows ?? 2}}" id="{{$name}}" class="form-control @error($name)is-invalid @enderror">{{old($name,  $value ?? null)}}</textarea>
+
     @error($name)
-    <div class="invalid-feedback">{{$message}}</div>@enderror
+        <div class="invalid-feedback">{{$message}}</div>
+    @enderror
 </div>

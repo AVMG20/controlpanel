@@ -14,7 +14,7 @@ class Configuration extends Model
         'description',
         'price',
         'setup_price',
-        'minimum_price',
+        'minimum_required_credits',
         'memory',
         'cpu',
         'swap',
@@ -28,7 +28,7 @@ class Configuration extends Model
     protected $casts = [
         'price' => 'float',
         'setup_price' => 'float',
-        'minimum_price' => 'float',
+        'minimum_required_credits' => 'float',
         'memory' => 'int',
         'cpu' => 'int',
         'swap' => 'int',

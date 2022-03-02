@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 //public
 Route::redirect('/', '/dashboard')->name('home');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

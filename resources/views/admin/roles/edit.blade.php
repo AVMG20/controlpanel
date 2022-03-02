@@ -20,7 +20,8 @@
                                       name="name"
                                       value="{{ isset($role) ? $role->name : null}}"/>
 
-                        <x-input.color label="{{(__('Badge color'))}}"
+                        <x-input.text label="{{(__('Badge color'))}}"
+                                      type="color"
                                       name="color"
                                       value="{{ isset($role) ? $role->color : null}}"/>
 
