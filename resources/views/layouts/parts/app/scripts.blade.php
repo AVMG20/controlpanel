@@ -1,6 +1,3 @@
-<!-- Sweet alert 2 -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 @if ($message = Session::get('success'))
     <script defer>
         //success message

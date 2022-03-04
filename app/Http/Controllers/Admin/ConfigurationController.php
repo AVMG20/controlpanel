@@ -50,8 +50,8 @@ class ConfigurationController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        $eggs = Egg::all();
-        $locations = Location::all();
+        $eggs = Egg::all()->sortBy('id');
+        $locations = Location::all()->sortBy('id');
 
         return view('admin.configurations.edit', compact('eggs', 'locations', 'settings'));
     }
@@ -98,8 +98,8 @@ class ConfigurationController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        $eggs = Egg::all();
-        $locations = Location::all();
+        $eggs = Egg::all()->sortBy('id');
+        $locations = Location::all()->sortBy('id');
 
         return view('admin.configurations.edit', compact('eggs', 'configuration', 'locations', 'settings'));
     }
@@ -152,8 +152,8 @@ class ConfigurationController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        $eggs = Egg::all();
-        $locations = Location::all();
+        $eggs = Egg::all()->sortBy('id');
+        $locations = Location::all()->sortBy('id');
 
         return view('admin.configurations.edit', compact('eggs', 'configuration', 'locations', 'settings'));
     }
@@ -166,6 +166,7 @@ class ConfigurationController extends Controller
     public function dataTable(): Builder
     {
         $builder = $this->htmlBuilder
+            ->addColumn(['data' => 'id', 'name' => 'id', 'title' => __('ID')])
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'price', 'name' => 'price', 'title' => __('Price')])
             ->addColumn(['data' => 'cpu', 'name' => 'cpu', 'title' => __('CPU')])
@@ -175,7 +176,7 @@ class ConfigurationController extends Controller
             ->addColumn(['data' => 'locations_count', 'name' => 'locations_count', 'title' => __('Locations'), 'searchable' => false])
             ->addColumn(['data' => 'eggs_count', 'name' => 'eggs_count', 'title' => __('Eggs'), 'searchable' => false])
             ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('Updated at')])
-            ->addColumn(['data' => 'disabled', 'name' => 'disabled', 'title' => __('Disabled')])
+            ->addColumn(['data' => 'disabled', 'name' => 'disabled', 'title' => __('Status')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
 
@@ -188,7 +189,6 @@ class ConfigurationController extends Controller
 
     /**
      * @return mixed
-     * @throws Exception
      */
     public function dataTableQuery(): mixed
     {

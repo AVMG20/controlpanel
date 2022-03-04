@@ -3,9 +3,11 @@
 namespace App\Models\Pterodactyl;
 
 use App\Classes\PterodactylClient;
+use App\Models\Configuration;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
@@ -69,6 +71,11 @@ class Location extends Model
     public function nodes(): HasMany
     {
         return $this->hasMany(Node::class, 'location_id', 'id');
+    }
+
+    public function configurations(): BelongsToMany
+    {
+        return $this->belongsToMany(Configuration::class);
     }
 
 }

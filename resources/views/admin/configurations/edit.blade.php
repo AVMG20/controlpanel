@@ -17,7 +17,9 @@
                     <h2 class="mb-4 h5">{{ isset($configuration) ?  __('Edit configuration') : __('Create configuration') }}</h2>
                     <div class="form-check form-switch ">
 
-                        <input class="form-check-input" name="disabled" value="1" @if(isset($configuration) && $configuration->disabled) checked @endif type="checkbox" id="flexSwitchCheckDefault">
+                        <input class="form-check-input" name="disabled" value="1"
+                               @if(isset($configuration) && $configuration->disabled) checked @endif type="checkbox"
+                               id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">{{__('Disabled')}}</label>
                     </div>
                 </div>
@@ -33,7 +35,8 @@
 
                         <x-input.textarea label="{{(__('Small description'))}}"
                                           name="description"
-                                          value="{{ isset($configuration) ? $configuration->description : null}}"/>
+                                          ckeditor
+                                          value="{!!isset($configuration) ? $configuration->description : null!!}"/>
 
 
                         <div class="row mt-4">
@@ -109,7 +112,6 @@
                         </div>
 
 
-
                     </div>
 
                     <div class="col-lg-6">
@@ -146,20 +148,23 @@
 
                         <x-input.select label="{{(__('Locations'))}}"
                                         multiple
+                                        tooltip="{{__('Number within () is the ID of the given resource')}}"
                                         name="locations">
                             @foreach($locations as $location)
-                                <option @if(isset($configuration) && $configuration->locations->contains($location)) selected
-                                        @endif value="{{$location->id}}">{{$location->name}}</option>
+                                <option
+                                    @if(isset($configuration) && $configuration->locations->contains($location)) selected
+                                    @endif value="{{$location->id}}">({{$location->id}}) {{$location->name}}</option>
                             @endforeach
                         </x-input.select>
 
                         <x-input.select label="{{(__('Eggs'))}}"
                                         multiple
+                                        tooltip="{{__('Number within () is the ID of the given resource')}}"
                                         style="height: 180px;"
                                         name="eggs">
                             @foreach($eggs as $egg)
                                 <option @if(isset($configuration) && $configuration->eggs->contains($egg)) selected
-                                        @endif value="{{$egg->id}}">{{$egg->name}}</option>
+                                        @endif value="{{$egg->id}}">({{$egg->id}}) {{$egg->name}}</option>
                             @endforeach
                         </x-input.select>
 
@@ -175,4 +180,5 @@
 
     </div>
 @endsection
+
 

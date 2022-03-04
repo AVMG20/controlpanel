@@ -6,6 +6,7 @@
  * @optional string $value
  * @optional string $rows
  * @optional string $tooltip
+ * @optional bool $ckeditor
  */
 ?>
 
@@ -17,7 +18,7 @@
         @endif
     </div>
 
-    <textarea rows="{{$rows ?? 2}}" id="{{$name}}" class="form-control @error($name)is-invalid @enderror">{{old($name,  $value ?? null)}}</textarea>
+    <textarea rows="{{$rows ?? 2}}" id="{{$name}}" name="{{$name}}" class="form-control @isset($ckeditor) ckeditor @endif @error($name)is-invalid @enderror">{{old($name,  $value ?? null)}}</textarea>
 
     @error($name)
         <div class="invalid-feedback">{{$message}}</div>

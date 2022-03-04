@@ -3,9 +3,11 @@
 namespace App\Models\Pterodactyl;
 
 use App\Classes\PterodactylClient;
+use App\Models\Configuration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use function now;
 
 class Egg extends Model
@@ -100,5 +102,10 @@ class Egg extends Model
     public function nest(): BelongsTo
     {
         return $this->belongsTo(Nest::class);
+    }
+
+    public function configurations(): BelongsToMany
+    {
+        return $this->belongsToMany(Configuration::class);
     }
 }
