@@ -20,9 +20,11 @@
                                    tooltip="{{(__('Change the name Credits to anything you like'))}}"
                                    value="{{$settings->credits_display_name}}"/>
 
-                    <div class="form-group d-flex justify-content-end mt-3">
-                        <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
-                    </div>
+                    @can('settings.general.write')
+                        <div class="form-group d-flex justify-content-end mt-3">
+                            <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
+                        </div>
+                    @endcan
 
                 </div>
             </div>

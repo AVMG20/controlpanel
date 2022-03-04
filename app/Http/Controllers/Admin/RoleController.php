@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\RoleStoreRequest;
+use App\Http\Requests\Role\RoleUpdateRequest;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -17,15 +19,19 @@ use Yajra\DataTables\Html\Builder;
 
 class RoleController extends Controller
 {
+    const READ_PERMISSIONS = 'admin.roles.read';
+    const WRITE_PERMISSIONS = 'admin.roles.write';
+
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @param Request $request
+     * @return mixed
      * @throws Exception
      */
-    public function index(Request $request)
+    public function index(Request $request): mixed
     {
-        $this->can('admin.roles.read');
+        $this->checkPermission(self::READ_PERMISSIONS);
 
         //datatables
         if ($request->ajax()) {
@@ -43,7 +49,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $this->can('admin.roles.write');
+        $this->checkPermission(self::WRITE_PERMISSIONS);
 
         $permissions = Permission::all();
 
@@ -53,19 +59,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param RoleStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RoleStoreRequest $request): RedirectResponse
     {
-        $this->can('admin.roles.write');
-
-        $request->validate([
-            'name' => "required|string|max:60|unique:roles,name",
-            'color' => "required|string|max:60",
-            'permissions' => 'nullable|array'
-        ]);
-
         $role = Role::create([
             'name' => $request->name,
             'color' => $request->color
@@ -88,7 +86,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $this->can('admin.roles.read');
+        $this->checkPermission(self::READ_PERMISSIONS);
     }
 
     /**
@@ -99,7 +97,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role): Application|Factory|View
     {
-        $this->can('admin.roles.write');
+        $this->checkPermission(self::WRITE_PERMISSIONS);
 
         $permissions = Permission::all();
 
@@ -109,20 +107,12 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param RoleUpdateRequest $request
      * @param Role $role
      * @return RedirectResponse
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
-        $this->can('admin.roles.write');
-
-        $request->validate([
-            'name' => "required|string|max:60|unique:roles,name,$role->id",
-            'color' => "required|string|max:60",
-            'permissions' => 'nullable|array'
-        ]);
-
         if ($request->permissions) {
             $role->syncPermissions($request->permissions);
         }
@@ -144,7 +134,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->can('admin.roles.write');
+        $this->checkPermission(self::WRITE_PERMISSIONS);
 
         $role->delete();
 
@@ -160,13 +150,19 @@ class RoleController extends Controller
      */
     public function dataTable(): Builder
     {
-        return $this->htmlBuilder
+        $builder = $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'users_count', 'name' => 'users_count', 'title' => __('User count'), 'searchable' => false])
             ->addColumn(['data' => 'permissions_count', 'name' => 'users_count', 'title' => __('Permissions count'), 'searchable' => false])
             ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('Updated at'), 'searchable' => false])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
+
+        if (!$this->can(self::WRITE_PERMISSIONS)) {
+            $builder->removeColumn('actions');
+        }
+
+        return $builder;
     }
 
     /**
@@ -180,16 +176,14 @@ class RoleController extends Controller
         return datatables($query)
             ->addColumn('actions', function (Role $role) {
                 return Blade::render('
-                        @can("admin.roles.write")
-                            <a title="{{\'Edit\'}}" href="{{route("admin.roles.edit", $role)}}" class="btn btn-sm btn-info"><i
+                            <a title="{{__(\'Edit\')}}" href="{{route("admin.roles.edit", $role)}}" class="btn btn-sm btn-info"><i
                                     class="fa fas fa-edit"></i></a>
                             <form class="d-inline" method="post" action="{{route("admin.roles.destroy", $role)}}">
                                 @csrf
                                 @method("DELETE")
-                                <button title="{{\'Delete\'}}" type="submit" class="btn btn-sm btn-danger confirm"><i
+                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm"><i
                                         class="fa fas fa-trash"></i></button>
-                            </form>
-                        @endcan'
+                            </form>'
                     , compact('role'));
             })
             ->editColumn('name', function (Role $role) {

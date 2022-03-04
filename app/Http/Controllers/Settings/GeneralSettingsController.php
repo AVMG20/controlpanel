@@ -21,7 +21,7 @@ class GeneralSettingsController extends Controller
      */
     public function index(GeneralSettings $settings, Request $request)
     {
-        $this->can('settings.general.read');
+        $this->checkPermission('settings.general.read');
 
         return view('settings.general', compact('settings'));
     }
@@ -33,7 +33,7 @@ class GeneralSettingsController extends Controller
      */
     public function update(GeneralSettings $settings, Request $request): RedirectResponse
     {
-        $this->can('settings.general.write');
+        $this->checkPermission('settings.general.write');
 
         $request->validate([
             'credits_display_name' => 'required|string|max:191'

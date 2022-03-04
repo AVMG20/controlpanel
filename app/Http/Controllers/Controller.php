@@ -24,17 +24,32 @@ class Controller extends BaseController
 
     /**
      * Check if user has permissions
+     * Abort 403 if the user doesn't have the required permission
+     *
      * @param string $permission
-     * @param string $guardName
      * @return void
      */
-    public function can(string $permission, string $guardName = 'web')
+    public function checkPermission(string $permission)
     {
         /** @var User $user */
         $user = Auth::user();
 
-        if (!$user->hasPermissionTo($permission, $guardName)) {
+        if (!$user->can($permission)) {
             abort(403, __('User does not have the right permissions.'));
         }
+    }
+
+    /**
+     * Check if user has permissions
+     *
+     * @param string $permission
+     * @return bool
+     */
+    public function can(string $permission): bool
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        return $user->can($permission);
     }
 }

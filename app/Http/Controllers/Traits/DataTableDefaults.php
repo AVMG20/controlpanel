@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Support\Facades\Blade;
-use JetBrains\PhpStorm\ArrayShape;
 
 trait DataTableDefaults
 {
@@ -34,12 +33,13 @@ trait DataTableDefaults
         );
     }
 
-    #[ArrayShape(['fnDrawCallback' => "string", 'stateSave' => "bool", 'order' => "array[]"])]
     public function dataTableDefaultParameters(): array
     {
         return [
             'fnDrawCallback' => $this->dataTableDefaultDrawCallBack(),
             'stateSave' => true,
+            'paging' => true,
+            "lengthMenu" => [[10, 50, 100, 500], [10, 50, 100, 500]],
             'order' => [[0, "desc"]],
         ];
     }

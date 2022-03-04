@@ -21,7 +21,7 @@ class PterodactylSettingsController extends Controller
      */
     public function index(PterodactylSettings $settings, Request $request)
     {
-        $this->can('settings.pterodactyl.read');
+        $this->checkPermission('settings.pterodactyl.read');
 
         return view('settings.pterodactyl', compact('settings'));
     }
@@ -33,7 +33,7 @@ class PterodactylSettingsController extends Controller
      */
     public function update(PterodactylSettings $settings, Request $request): RedirectResponse
     {
-        $this->can('settings.pterodactyl.write');
+        $this->checkPermission('settings.pterodactyl.write');
 
         $request->validate([
             'url' => 'required|string|url|max:191',

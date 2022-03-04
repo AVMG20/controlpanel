@@ -20,9 +20,11 @@
                                   value="{{$settings->api_key}}"
                                   tooltip="{{(__('Enter the API key obtained from your Pterodactyl panel'))}}"/>
 
-                    <div class="form-group d-flex justify-content-end mt-3">
-                        <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
-                    </div>
+                    @can('settings.pterodactyl.write')
+                        <div class="form-group d-flex justify-content-end mt-3">
+                            <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
+                        </div>
+                    @endcan
 
                 </div>
             </div>

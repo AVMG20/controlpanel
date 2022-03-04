@@ -23,7 +23,7 @@ class PterodactylClient
 
     public function __construct(PterodactylSettings $settings)
     {
-       $this->client = $this->createClient($settings);
+        $this->client = $this->createClient($settings);
     }
 
     /**
@@ -40,7 +40,7 @@ class PterodactylClient
             'Authorization' => 'Bearer ' . $settings->api_key,
             'Content-type' => 'application/json',
             'Accept' => 'Application/vnd.pterodactyl.v1+json',
-        ])->baseUrl($settings->url .'api' . '/');
+        ])->baseUrl($settings->url . 'api' . '/');
     }
 
     /**

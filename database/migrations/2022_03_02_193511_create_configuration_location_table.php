@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('egg_configuration', function (Blueprint $table) {
-            $table->foreignId('egg_id')->constrained();
+        Schema::create('configuration_location', function (Blueprint $table) {
+            $table->foreignId('location_id')->constrained();
             $table->foreignId('configuration_id')->constrained();
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('egg_configuration');
+        Schema::dropIfExists('configuration_location');
     }
 };

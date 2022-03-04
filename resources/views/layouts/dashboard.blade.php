@@ -13,8 +13,14 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Datatables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.js"></script>
+
+    <style>
+        .w-100px{
+            width: 100px !important;
+        }
+    </style>
 
     <title>{{ config('app.name', 'Laravel') }} </title>
 </head>

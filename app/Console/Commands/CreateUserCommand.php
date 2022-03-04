@@ -48,13 +48,13 @@ class CreateUserCommand extends Command
 
         //create user
         /** @var User $user */
-        $user = User::query()->create(compact('name', 'email' , 'password'));
+        $user = User::query()->create(compact('name', 'email', 'password'));
 
         //give user admin role
         try {
             $adminRole = Role::findByName('Admin');
             $user->assignRole($adminRole);
-        } catch (RoleDoesNotExist $exception){
+        } catch (RoleDoesNotExist $exception) {
             $this->error(__("Unable to find role with name ':name'", ['name' => 'Admin']));
         }
 

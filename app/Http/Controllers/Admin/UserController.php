@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\UserUpdateRequest;
 use App\Models\User;
 use App\Settings\GeneralSettings;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,15 +17,18 @@ use Yajra\DataTables\Html\Builder;
 
 class UserController extends Controller
 {
+    const READ_PERMISSIONS = 'admin.users.read';
+    const WRITE_PERMISSIONS = 'admin.users.write';
+
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
-     * @throws Exception
+     * @param Request $request
+     * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $request): mixed
     {
-        $this->can('admin.users.read');
+        $this->checkPermission(self::READ_PERMISSIONS);
 
         //datatables
         if ($request->ajax()) {
@@ -77,7 +79,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        $this->can('admin.users.write');
+        $this->checkPermission(self::WRITE_PERMISSIONS);
 
         $roles = Role::all();
 
@@ -87,22 +89,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UserUpdateRequest $request
      * @param User $user
      * @return RedirectResponse
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        $this->can('admin.users.write');
-
-        $request->validate([
-            'name' => 'sometimes|string|min:4|max:30',
-            'email' => 'sometimes|string|email',
-            'credits' => 'sometimes|numeric|between:0,99999999999.999999',
-            'server_limit' => 'sometimes|numeric|max:2147483647|min:0',
-            'roles' => 'nullable|array',
-        ]);
-
         //update roles
         if ($request->roles) {
             $user->syncRoles($request->roles);
@@ -139,7 +131,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->can('admin.users.write');
+        $this->checkPermission(self::WRITE_PERMISSIONS);
 
         dd($user);
     }
@@ -154,13 +146,19 @@ class UserController extends Controller
         /** @var GeneralSettings $settings */
         $settings = app(GeneralSettings::class);
 
-        return $this->htmlBuilder
+        $builder = $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => __('Email')])
             ->addColumn(['data' => 'roles', 'name' => 'roles', 'title' => __('Roles'), 'searchable' => false])
             ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => $settings->credits_display_name])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
+
+        if (!$this->can(self::WRITE_PERMISSIONS)) {
+            $builder->removeColumn('actions');
+        }
+
+        return $builder;
     }
 
     /**
@@ -174,16 +172,16 @@ class UserController extends Controller
         return datatables($query)
             ->addColumn('actions', function (User $user) {
                 return Blade::render('
-                        @can("admin.roles.write")
-                            <a title="{{\'Edit\'}}" href="{{route("admin.users.edit", $user)}}" class="btn btn-sm btn-info"><i
-                                    class="fa fas fa-edit"></i></a>
+                            <a title="{{__(\'Edit\')}}" href="{{route("admin.users.edit", $user)}}" class="btn btn-sm btn-info">
+                                <i class="fa fas fa-edit"></i>
+                            </a>
+
                             <form class="d-inline" method="post" action="{{route("admin.users.destroy", $user)}}">
                                 @csrf
                                 @method("DELETE")
-                                <button title="{{\'Delete\'}}" type="submit" class="btn btn-sm btn-danger confirm"><i
+                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm"><i
                                         class="fa fas fa-trash"></i></button>
-                            </form>
-                        @endcan'
+                            </form>'
                     , compact('user'));
             })
             ->addColumn('roles', function (User $user) {
