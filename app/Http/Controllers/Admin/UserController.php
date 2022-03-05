@@ -77,13 +77,13 @@ class UserController extends Controller
      * @param User $user
      * @return View
      */
-    public function edit(User $user): View
+    public function edit(User $user, GeneralSettings $settings): View
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
         $roles = Role::all();
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles', 'settings'));
     }
 
     /**
