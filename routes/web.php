@@ -54,7 +54,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('api', ApplicationApiController::class)->except(['show']);
+    Route::resource('servers', AdminServerController::class);
+    Route::resource('api', ApplicationApiController::class);
     Route::resource('configurations', ConfigurationController::class);
     Route::get('/configurations/{configuration}/clone', [ConfigurationController::class, 'clone'])->name('configurations.clone');
     Route::resource('notifications', NotificationTemplateController::class);
