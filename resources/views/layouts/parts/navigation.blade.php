@@ -36,6 +36,65 @@ use App\Models\Navigation;
     echo Navigation::getNavigation(NavigationLocation::sidebar);
     ?>
 
+<<<<<<< refs/remotes/AVMG/master:resources/views/layouts/parts/navigation.blade.php
+=======
+    <hr>
+
+    @can('admin.users.read')
+        <li class="nav-item {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                <span class="sidebar-icon me-3">
+                    <i class="fas fa-users fa-fw"></i>
+                </span>
+                <span class="sidebar-text">{{ __('Users') }}</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('admin.roles.read')
+        <li class="nav-item {{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.roles.index') }}" class="nav-link">
+                <span class="sidebar-icon me-3">
+                   <i class="fas fa-shield-alt fa-fw"></i>
+                </span>
+                <span class="sidebar-text">{{ __('Roles') }}</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('admin.configurations.read')
+        <li class="nav-item {{ request()->routeIs('admin.configurations.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.configurations.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+               <i class="fas fa-cog fa-fw"></i>
+            </span>
+                <span class="sidebar-text">{{ __('Configurations') }}</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('admin.api.read')
+        <li class="nav-item {{ request()->routeIs('admin.api.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.api.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+               <i class="fas fa-key fa-fw"></i>
+            </span>
+                <span class="sidebar-text">{{ __('API') }}</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('settings.general.read')
+        <li class="nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+            <a href="{{ route('settings.general.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+               <i class="fas fa-cogs fa-fw"></i>
+            </span>
+                <span class="sidebar-text">{{ __('Settings') }}</span>
+            </a>
+        </li>
+    @endcan
+>>>>>>> Add api tokens:resources/views/layouts/parts/app/navigation.blade.php
 
 {{--    <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}">--}}
 {{--        <a href="{{ route('about') }}" class="nav-link">--}}

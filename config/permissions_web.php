@@ -18,8 +18,13 @@ return [
     'admin.configurations.read',
     'admin.configurations.write',
 
+<<<<<<< refs/remotes/AVMG/master
     'admin.notifications.read',
     'admin.notifications.write',
+=======
+    'admin.api.read',
+    'admin.api.write',
+>>>>>>> Add api tokens
 
     /*
      * Permissions for settings
