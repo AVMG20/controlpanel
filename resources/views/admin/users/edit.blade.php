@@ -31,7 +31,7 @@
                                       name="email"
                                       value="{{ isset($user) ? $user->email : null}}"/>
 
-                        <x-input.number label="{{(__('Credits'))}}"
+                        <x-input.number label="{{ $settings->credits_display_name }}"
                                         name="credits"
                                         min="0"
                                         max="9999999999999"
