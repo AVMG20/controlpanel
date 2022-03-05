@@ -73,17 +73,6 @@ class ApplicationApiController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ApplicationApi  $applicationApi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ApplicationApi $applicationApi)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\ApplicationApi $api
