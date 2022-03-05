@@ -29,12 +29,16 @@ class PterodactylClient
     /**
      * @param PterodactylSettings $settings
      * @return PendingRequest
+     * @throws \Exception
      */
     public function createClient(PterodactylSettings $settings): PendingRequest
     {
         if (!str_ends_with($settings->url, '/')) {
             $settings->url .= '/';
         }
+
+        if (empty($settings->url)) throw new \Exception('No Pterodactyl url specified! Save your pterodactyl url before making this request.');
+        if (empty($settings->api_key)) throw new \Exception('No pterodactyl api key provided! Save your pterodactyl api key before making this request.');
 
         return Http::withHeaders([
             'Authorization' => 'Bearer ' . $settings->api_key,
@@ -79,13 +83,40 @@ class PterodactylClient
         return $this->handleResponse($response);
     }
 
+    /**
+     * Get user from Pterodactyl using Pterodactyl id
+     *
+     * @param int $pterodactylId
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
+     */
+    public function getUser(int $pterodactylId): PromiseInterface|Response
+    {
+        $response = $this->client->get("application/users/$pterodactylId");
+        return $this->handleResponse($response);
+    }
 
     /**
-     * @param array $data
-     * @return void
+     * Get user from Pterodactyl using email
+     *
+     * @param string $email
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
      */
-    public function createUser(array $data)
+    public function getUserByEmail(string $email): PromiseInterface|Response
     {
+        $response = $this->client->get("application/users?filter[email]=$email");
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * @param array $data Array containing the necessary params.
+     * @throws PterodactylRequestException
+     */
+    public function createUser(array $data): PromiseInterface|Response
+    {
+        $response = $this->client->post("application/users", $data);
+        return $this->handleResponse($response);
     }
 
     /**

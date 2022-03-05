@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\Pterodactyl\PterodactylClient;
+use App\Exceptions\PterodactylRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Settings\GeneralSettings;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
@@ -37,20 +42,20 @@ class RegisterController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * @var GeneralSettings
-     */
-    protected GeneralSettings $generalSettings;
+    protected GeneralSettings $settings;
+
+    protected PterodactylClient $client;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(GeneralSettings $generalSettings)
+    public function __construct(GeneralSettings $settings, PterodactylClient $client)
     {
         $this->middleware('guest');
-        $this->generalSettings = $generalSettings;
+        $this->settings = $settings;
+        $this->client = $client;
     }
 
 
@@ -75,12 +80,26 @@ class RegisterController extends Controller
      * @param Request $request
      * @return RedirectResponse|JsonResponse
      * @throws ValidationException
+     * @throws PterodactylRequestException
      */
     public function register(Request $request)
     {
+        //normal validation
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->createControlpanelUser($request->all())));
+        //check if user already exists in ptero
+        $this->validatePterodactylUser($request->email);
+
+        //create user
+        event(new Registered($user = $this->createUser($request->all())));
+
+        //create pterodactyl user
+        $data = $this->createPterodactylUser($request, $user);
+
+        //update user with pterodactyl_id
+        $user->update([
+            'pterodactyl_id' => $data['attributes']['id']
+        ]);
 
         $this->guard()->login($user);
 
@@ -93,10 +112,57 @@ class RegisterController extends Controller
             : redirect($this->redirectPath());
     }
 
-    protected function createPterodactylUser()
+
+    /**
+     * Check if there is already a user with the given email in Pterodactyl
+     *
+     * @param string $email
+     * @return void
+     * @throws PterodactylRequestException
+     * @throws ValidationException
+     */
+    protected function validatePterodactylUser(string $email)
     {
+        $response = $this->client->getUserByEmail(trim($email));
+        $data = $response->json();
 
+        if (!empty($data['data'])) {
+            #Feature, email the user, to verify he owns the email. so we can link the accounts instead of trowing an error
+            throw ValidationException::withMessages([
+                'pterodactyl_error' => __('User with given email already exists in pterodactyl!')
+            ]);
+        }
+    }
 
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return array
+     * @throws ValidationException
+     */
+    protected function createPterodactylUser(Request $request, User $user): array
+    {
+        try {
+            $response = $this->client->createUser([
+                "external_id" => App::environment('local') ? Str::random() : strval($user->id),
+                "username" => strval($user->name),
+                "email" => strval($user->email),
+                "first_name" => strval($user->name),
+                "last_name" => strval($user->name),
+                "password" => $request->password,
+                "root_admin" => false,
+                "language" => config('app.locale')
+            ]);
+        } catch (Exception $exception) {
+            $user->delete();
+            logger('Creating user in pterodactyl failed', ['exception' => $exception]);
+
+            throw ValidationException::withMessages([
+                'pterodactyl_error' => __('Creating pterodactyl account failed! Please contact an administrator.')
+            ]);
+        }
+
+        return $response->json();
     }
 
     /**
@@ -105,14 +171,15 @@ class RegisterController extends Controller
      * @param array $data
      * @return User
      */
-    protected function createControlpanelUser(array $data)
+    protected function createUser(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'credits' => $this->generalSettings->initial_user_credits,
-            'server_limit' => $this->generalSettings->initial_server_limit,
+            'credits' => $this->settings->initial_user_credits,
+            'server_limit' => $this->settings->initial_server_limit,
             'password' => Hash::make($data['password']),
         ]);
     }
+
 }

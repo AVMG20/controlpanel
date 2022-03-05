@@ -11,6 +11,10 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+                        @error('pterodactyl_error')
+                            <div class="invalid-feedback"> {{ $message }} </div>
+                        @enderror
+
                         <!-- Form -->
                         <div class="form-group mt-4 mb-4">
                             <label for="name">{{ __('Your Name') }}</label>
