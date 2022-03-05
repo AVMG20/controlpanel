@@ -2,18 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Configuration;
 use App\Settings\GeneralSettings;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Request;
 
 class CheckoutController extends Controller
 {
-    public function index(GeneralSettings $generalSettings)
+    /**
+     * @param GeneralSettings $generalSettings
+     * @return Factory|View|Application
+     */
+    public function index(GeneralSettings $generalSettings): Factory|View|Application
     {
-        $configurations = Configuration::query()->with(['eggs' , 'locations'])->get();
-
         return view('checkout', [
-            'configurations' => $configurations,
             'credits_display_name' => $generalSettings->credits_display_name
         ]);
+    }
+
+    /**
+     * Create a server on Pterodactyl
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function createServer(Request $request)
+    {
+        dd($request->all());
     }
 }

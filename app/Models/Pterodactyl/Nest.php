@@ -2,7 +2,7 @@
 
 namespace App\Models\Pterodactyl;
 
-use App\Classes\PterodactylClient;
+use App\Classes\Pterodactyl\PterodactylClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +22,7 @@ class Nest extends Model
 
     public static function syncNests()
     {
-        /** @var PterodactylClient $client */
+        /** @var \App\Classes\Pterodactyl\PterodactylClient $client */
         $client = app(PterodactylClient::class);
         $nests = $client->getNests()->json()['data'];
 

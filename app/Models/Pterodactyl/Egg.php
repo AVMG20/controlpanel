@@ -2,7 +2,7 @@
 
 namespace App\Models\Pterodactyl;
 
-use App\Classes\PterodactylClient;
+use App\Classes\Pterodactyl\PterodactylClient;
 use App\Models\Configuration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

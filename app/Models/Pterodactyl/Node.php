@@ -2,7 +2,7 @@
 
 namespace App\Models\Pterodactyl;
 
-use App\Classes\PterodactylClient;
+use App\Classes\Pterodactyl\PterodactylClient;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +21,7 @@ class Node extends Model
      */
     public static function syncNodes()
     {
-        /** @var PterodactylClient $client */
+        /** @var \App\Classes\Pterodactyl\PterodactylClient $client */
         $client = app(PterodactylClient::class);
         $nodes = $client->getNodes()->json()['data'];
 

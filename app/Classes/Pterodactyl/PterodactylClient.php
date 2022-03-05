@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\Pterodactyl;
 
 use App\Exceptions\PterodactylRequestException;
 use App\Settings\PterodactylSettings;
@@ -77,6 +77,15 @@ class PterodactylClient
     {
         $response = $this->client->get('application/nodes?per_page=' . self::PER_PAGE);
         return $this->handleResponse($response);
+    }
+
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function createUser(array $data)
+    {
     }
 
     /**

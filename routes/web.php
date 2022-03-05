@@ -35,7 +35,16 @@ Route::get('/main', function (GeneralSettings $settings) {
 //auth routes
 Auth::routes();
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//client area
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
 
 //admin
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -54,10 +63,4 @@ Route::prefix('settings')->name('settings.')->middleware('auth')->group(function
     Route::patch('pterodactyl', [PterodactylSettingsController::class, 'update'])->name('pterodactyl.update');
 });
 
-//client area
-Route::middleware('auth')->group(function () {
-    Route::view('about', 'about')->name('about');
 
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
-});

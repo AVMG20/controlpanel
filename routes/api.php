@@ -20,10 +20,9 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::prefix('/checkout')->group(function (){
-    Route::get('/locations', [CheckoutController::class, 'locations']);
-    Route::get('/configurations/{location}', [CheckoutController::class, 'configurations']);
-    Route::get('/eggs/{configuration}', [CheckoutController::class, 'eggs']);
     Route::get('/nests', [CheckoutController::class, 'nests']);
+    Route::get('/locations/{egg}', [CheckoutController::class, 'locations']);
+    Route::get('/configurations/{egg}/{location}', [CheckoutController::class, 'configurations']);
 });
 
 

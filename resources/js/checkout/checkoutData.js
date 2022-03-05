@@ -3,35 +3,79 @@ export function checkoutData() {
         name: '',
         locations: [],
         configurations: [],
+        nests: [],
         eggs: [],
 
         //readonly, used for displaying information
+        //Alpine likes wants to watch props, not functions
         selected_location: {},
         selected_configuration: {},
         selected_egg: {},
 
+        //check whether the form is completely filled in
         form_complete: false,
 
         /**
          * Init request chain
-         * Using provided query params, we fetch the required data to populate the form
-         *
          */
         async init() {
-            await this.fetchLocations();
+            await this.fetchNests();
+        },
 
-            let selectedLocation = this.getSelectedLocation();
-            if (selectedLocation) {
-                await this.fetchConfigurations(selectedLocation.id);
-            }
+        /**
+         * Get available nests with eggs
+         * @step 1
+         * @return {void}
+         */
+        async fetchNests() {
+            let response = await axios.get('/api/checkout/nests')
+            this.nests = response.data.map(nest => {
+                nest.eggs.map(egg => {
+                    egg.selected = this.getQueryParams().egg == egg.id;
+                    return egg
+                })
+                return nest;
+            });
+
+            //set eggs
+            this.eggs = [];
+            this.nests.forEach(nest => {
+                this.eggs.push(...nest.eggs)
+            })
+
+            setTimeout(() => {
+                this.updateSelectedEgg()
+            }, 0)
+        },
+
+        /**
+         * Update selected configuration
+         * @step 1
+         * @return {void}
+         */
+        updateSelectedEgg() {
+            let selected = document.querySelector('#egg').value
+
+            this.eggs = this.eggs.map(egg => {
+                egg.selected = egg.id == selected
+                return egg;
+            })
+
+            this.setSelectedEgg()
+
+            //clear next step
+            this.fetchLocations(selected);
         },
 
         /**
          * Get available locations
+         * @step 2
+         * @param eggId
          * @return {void}
          */
-        async fetchLocations() {
-            let response = await axios.get('/api/checkout/locations')
+        async fetchLocations(eggId) {
+            if (isNaN(eggId)) return;
+            let response = await axios.get('/api/checkout/locations/' + eggId)
             this.locations = response.data.map(location => {
                 location.selected = this.getQueryParams().location == location.id;
                 return location;
@@ -44,7 +88,7 @@ export function checkoutData() {
 
         /**
          * Update selected location
-         * @note step 1
+         * @step 2
          * @return {void}
          */
         updateSelectedLocation() {
@@ -57,22 +101,21 @@ export function checkoutData() {
 
             this.setSelectedLocation()
 
-            //reset next steps
+            //reset next step
             this.fetchConfigurations(selected);
-            this.eggs = []
-            this.updateSelectedEgg();
         },
-
 
         /**
          * Get available configurations
+         * @step 3
          * @param locationId
          * @return {void}
          */
         async fetchConfigurations(locationId) {
             if (isNaN(locationId)) return;
+            let egg = this.getSelectedEgg();
 
-            let response = await axios.get('/api/checkout/configurations/' + locationId)
+            let response = await axios.get(`/api/checkout/configurations/${egg.id}/${locationId}`)
             this.configurations = response.data.map(configuration => {
                 configuration.selected = this.getQueryParams().configuration == configuration.id;
                 return configuration;
@@ -85,7 +128,7 @@ export function checkoutData() {
 
         /**
          * Update selected configuration
-         * @step 2
+         * @step 3
          * @return {void}
          */
         updateSelectedConfiguration() {
@@ -97,50 +140,11 @@ export function checkoutData() {
             })
 
             this.setSelectedConfiguration()
-
-            //reset next step
-            this.fetchEggs(selected)
-        },
-
-
-        /**
-         * Get available locations
-         * @param configurationId
-         * @return {void}
-         */
-        async fetchEggs(configurationId) {
-            if (isNaN(configurationId)) return;
-
-            let response = await axios.get('/api/checkout/eggs/' + configurationId)
-            this.eggs = response.data.map(egg => {
-                egg.selected = this.getQueryParams().egg == egg.id;
-                return egg;
-            });
-
-            setTimeout(() => {
-                this.updateSelectedEgg()
-            }, 0)
-        },
-
-        /**
-         * Update selected configuration
-         * @step 3
-         * @return {void}
-         */
-        updateSelectedEgg() {
-            let selected = document.querySelector('#egg').value
-
-            this.eggs = this.eggs.map(egg => {
-                egg.selected = egg.id == selected
-                return egg;
-            })
-
-            this.setSelectedEgg()
-            this.checkFormComplete();
         },
 
         /**
          * Check whether the form is complete or not
+         * This validates the continue button
          */
         checkFormComplete() {
             if (!this.getSelectedLocation() || !this.getSelectedConfiguration() || !this.getSelectedEgg() || !this.name) {

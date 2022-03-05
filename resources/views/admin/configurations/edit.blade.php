@@ -132,7 +132,7 @@
                                         max="9999999999999"
                                         step=".000001"
                                         tooltip="{{__('Charge an initial fee for creating the server.')}}"
-                                        value="{{ isset($configuration) ? $configuration->setup_price : null}}"/>
+                                        value="{{ isset($configuration) ? $configuration->setup_price : 0}}"/>
 
                         <x-input.number
                             label="{{(__('Minimum required :credits_display_name' ,['credits_display_name' => $settings->credits_display_name]))}}"
@@ -141,7 +141,7 @@
                             max="9999999999999"
                             step=".000001"
                             tooltip="{{__('The minimum amount of :credits_display_name required for this configuration',['credits_display_name' => $settings->credits_display_name])}}"
-                            value="{{ isset($configuration) ? $configuration->minimum_required_credits : null}}"/>
+                            value="{{ isset($configuration) ? $configuration->minimum_required_credits : 0}}"/>
 
 
                         <p class="mt-4 text-muted">{{__('Applicable locations and eggs')}}</p>

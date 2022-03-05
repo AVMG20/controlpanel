@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuration;
+use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
 use App\Models\Pterodactyl\Nest;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,28 +20,36 @@ class CheckoutController extends Controller
     /**
      * Get all available locations (locations with a configuration that has eggs)
      *
+     * @param Egg $egg
      * @return Collection
      */
-    public function locations(): Collection
+    public function locations(Egg $egg): Collection
     {
-        return Location::query()->whereHas('configurations', function (Builder $builder) {
-            $builder->whereHas('eggs')
-                ->where('disabled', '=', false);
+        return Location::query()->whereHas('configurations', function (Builder $builder) use ($egg) {
+            $builder->whereHas('eggs', function (Builder $builder) use ($egg) {
+                $builder->where('id', '=', $egg->id);
+            })->where('disabled', '=', false);
         })->get();
     }
 
     /**
      * Get all configurations using the selected location
      *
+     * @param Egg $egg
      * @param Location $location
      * @return Collection
      */
-    public function configurations(Location $location): Collection
+    public function configurations(Egg $egg, Location $location): Collection
     {
-        return Configuration::query()->whereHas('locations', function (Builder $builder) use ($location) {
-            $builder->where('id', '=', $location->id)
-                ->where('disabled', '=', false);
-        })->orderBy('price')->get();
+        return Configuration::query()
+            ->whereHas('locations', function (Builder $builder) use ($location) {
+                $builder->where('id', '=', $location->id);
+            })
+            ->whereHas('eggs', function (Builder $builder) use ($egg) {
+                $builder->where('id', '=', $egg->id);
+            })
+            ->orderBy('price')
+            ->get();
     }
 
     /**

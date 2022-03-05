@@ -27,4 +27,7 @@ return [
 
     'settings.general.read',
     'settings.general.write',
+
+    'settings.server.read',
+    'settings.server.write',
 ];

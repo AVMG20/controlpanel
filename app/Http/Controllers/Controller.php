@@ -15,9 +15,9 @@ class Controller extends BaseController
 {
     public Builder $htmlBuilder;
 
-    public function __construct(Builder $htmlBuilder)
+    public function __construct()
     {
-        $this->htmlBuilder = $htmlBuilder;
+        $this->htmlBuilder = app(Builder::class);
     }
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, DataTableDefaults;
