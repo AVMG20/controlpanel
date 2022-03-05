@@ -25,6 +25,9 @@ class PermissionsSeeder extends Seeder
         foreach (config('permissions_web') as $name) {
             Permission::findOrCreate($name);
         }
+        foreach (config('permissions_api') as $name) {
+            Permission::findOrCreate($name, 'api');
+        }
     }
 
     //TODO run only once

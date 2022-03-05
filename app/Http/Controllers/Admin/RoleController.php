@@ -51,7 +51,7 @@ class RoleController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        $permissions = Permission::all();
+        $permissions = Permission::where('guard_name', '=', 'web')->get();
 
         return view('admin.roles.edit', compact('permissions'));
     }
@@ -99,7 +99,7 @@ class RoleController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        $permissions = Permission::all();
+        $permissions = Permission::where('guard_name', '=', 'web')->get();
 
         return view('admin.roles.edit', compact('role', 'permissions'));
     }
