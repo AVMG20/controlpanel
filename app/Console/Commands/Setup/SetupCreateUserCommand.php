@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Setup;
 
 use App\Classes\Pterodactyl\PterodactylClient;
 use App\Models\User;
@@ -12,8 +12,9 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use function __;
 
-class CreateUserCommand extends Command
+class SetupCreateUserCommand extends Command
 {
     protected PterodactylClient $client;
 
@@ -22,14 +23,14 @@ class CreateUserCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'user:create {--ptero_id=} {--password=}';
+    protected $signature = 's:user:create {--ptero_id=} {--password=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create an admin account using the console';
+    protected $description = 'Create the initial admin user';
     private GeneralSettings $settings;
 
 

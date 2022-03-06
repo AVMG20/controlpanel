@@ -6,6 +6,7 @@ use App\Enums\NavigationLocation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 
 class Navigation extends Model
 {
@@ -32,15 +33,18 @@ class Navigation extends Model
     {
         $blade = '';
 
-        $navigationOptions = self::query()
-            ->where('location', '=', $location->name)
-            ->orderBy('sort_order')
-            ->get();
+        $navigationOptions = Cache::rememberForever('navigation:' . $location->name, function () use ($location) {
+            return self::query()
+                ->where('location', '=', $location->name)
+                ->orderBy('sort_order')
+                ->get();
+        });
 
         foreach ($navigationOptions as $option) {
             $blade .= $option->blade;
         }
 
         return Blade::render($blade);
+
     }
 }

@@ -30,7 +30,7 @@ use App\Models\Navigation;
      * Navigation can be found at:
      * @see /resources/views/layouts/parts/sidebar
      *
-     * @note if you modify any of the navigation options run `php artisan db:seed`
+     * @note if you modify any of the navigation options run `php artisan db:seed && php artisan cache:clear`
      * to update the navigation options
      */
     echo Navigation::getNavigation(NavigationLocation::sidebar);

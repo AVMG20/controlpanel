@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Setup;
 
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
@@ -9,14 +9,14 @@ use App\Models\Pterodactyl\Node;
 use Exception;
 use Illuminate\Console\Command;
 
-class SyncPteroCommand extends Command
+class SetupSyncPteroCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'ptero:sync';
+    protected $signature = 's:pterodactyl:sync';
 
     /**
      * The console command description.
