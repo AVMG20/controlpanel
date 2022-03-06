@@ -3,5 +3,24 @@
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
-    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute."
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
+
+    "USES_LIMIT_REACHED": "USES_LIMIT_REACHED",
+    "EXPIRED": "EXPIRED",
+    "VALID": "VALID",
+    "Edit voucher": "Edit voucher",
+    "Create voucher": "Create voucher",
+    "Memo": "Memo",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Credits": "Credits",
+    "Only admins can see this, used for identifying vouchers": "Only admins can see this, used for identifying vouchers",
+    "Code": "Code",
+    "The code used to redeem vouchers": "The code used to redeem vouchers",
+    "A voucher can only be used 1 time per user. Uses specifies the amount of different users that can use this voucher": "A voucher can only be used 1 time per user. Uses specifies the amount of different users that can use this voucher",
+    "Uses": "Uses",
+    "A voucher is expired at and after this date": "A voucher is expired at and after this date",
+    "Voucher saved": "Voucher saved",
+    "Voucher removed": "Voucher removed",
+    "Used / Uses": "Used / Uses"
 }

@@ -47,7 +47,7 @@ class RoleController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
@@ -80,13 +80,10 @@ class RoleController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
      */
-    public function show($id)
+    public function show()
     {
-        $this->checkPermission(self::READ_PERMISSIONS);
+        abort(404);
     }
 
     /**
