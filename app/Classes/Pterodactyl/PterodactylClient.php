@@ -4,6 +4,7 @@ namespace App\Classes\Pterodactyl;
 
 use App\Exceptions\PterodactylRequestException;
 use App\Settings\PterodactylSettings;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -29,16 +30,12 @@ class PterodactylClient
     /**
      * @param PterodactylSettings $settings
      * @return PendingRequest
-     * @throws \Exception
      */
     public function createClient(PterodactylSettings $settings): PendingRequest
     {
         if (!str_ends_with($settings->url, '/')) {
             $settings->url .= '/';
         }
-
-        if (empty($settings->url)) throw new \Exception('No Pterodactyl url specified! Save your pterodactyl url before making this request.');
-        if (empty($settings->api_key)) throw new \Exception('No pterodactyl api key provided! Save your pterodactyl api key before making this request.');
 
         return Http::withHeaders([
             'Authorization' => 'Bearer ' . $settings->api_key,

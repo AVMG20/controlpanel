@@ -6,8 +6,6 @@ return [
     /*
     * Permissions for admin
     */
-    'admin.*',
-
     'admin.roles.read',
     'admin.roles.write',
 
@@ -20,8 +18,6 @@ return [
     /*
      * Permissions for settings
      */
-    'settings.*',
-
     'settings.pterodactyl.read',
     'settings.pterodactyl.write',
 
