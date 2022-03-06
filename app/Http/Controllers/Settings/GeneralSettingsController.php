@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Enums\NavigationLocation;
 use App\Http\Controllers\Controller;
+use App\Models\Navigation;
 use App\Settings\GeneralSettings;
+use Controlpanel\Vouchers\Models\Voucher;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;

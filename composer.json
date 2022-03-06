@@ -4,6 +4,15 @@
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "repositories": {
+        "controlpanel-vouchers": {
+            "type": "path",
+            "url": "packages/controlpanel/vouchers",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
     "require": {
         "php": "^8.1",
         "fruitcake/laravel-cors": "^2.0.5",
@@ -16,7 +25,8 @@
         "spatie/laravel-query-builder": "^5.0",
         "spatie/laravel-settings": "^2.3",
         "yajra/laravel-datatables-html": "^4.41",
-        "yajra/laravel-datatables-oracle": "^9.19"
+        "yajra/laravel-datatables-oracle": "^9.19",
+        "controlpanel/vouchers": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

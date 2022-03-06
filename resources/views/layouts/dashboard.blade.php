@@ -28,20 +28,20 @@
         }
     </style>
 
-    <title>{{ config('app.name', 'Laravel') }} </title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
 <body>
-    @include('layouts.parts.app.nav')
-    @include('layouts.parts.app.sidenav')
+    @include('layouts.parts.nav')
+    @include('layouts.parts.sidenav')
     <main class="content">
         {{-- TopBar --}}
-        @include('layouts.parts.app.topbar')
+        @include('layouts.parts.topbar')
         @yield('content')
         {{-- Footer --}}
-        @include('layouts.parts.app.footer')
+        @include('layouts.parts.footer')
     </main>
 
-    @include('layouts.parts.app.scripts')
+    @include('layouts.parts.scripts')
     @yield('scripts')
 </body>
