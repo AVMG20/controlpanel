@@ -47,6 +47,11 @@ class User extends Authenticatable
         'server_limit' => 'int',
     ];
 
+    public function getCreditsFormatedAttribute()
+    {
+        return number_format($this->attributes['credits'], '2');
+    }
+
     /**
      * Gravatar's
      *

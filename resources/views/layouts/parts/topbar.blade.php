@@ -12,16 +12,20 @@
         <div class="d-flex justify-content-end w-100" id="navbarSupportedContent">
             <!-- Navbar links -->
             <ul class="navbar-nav align-items-center">
+                <li title="{{app(\App\Settings\GeneralSettings::class)->credits_display_name}}" class="nav-item mx-3">
+                    <span class="fw-bold"><i class="fa fa-coins me-2"></i>{{ auth()->user()->credits_formated }}</span>
+                </li>
+
                 <li class="nav-item dropdown ms-lg-3">
                     <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
-                            <img class="avatar rounded-circle"
-                                src="{{ Auth::user()->getAvatar() }}"
-                                alt="{{ Auth::user()->name }}">
-                            <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+                            <div class="media-body me-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="mb-0 font-small fw-bold text-gray-900">{{ auth()->user()->name }}</span>
                             </div>
+                            <img class="avatar rounded-circle"
+                                src="{{ auth()->user()->getAvatar() }}"
+                                alt="{{ auth()->user()->name }}">
                         </div>
                     </a>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
