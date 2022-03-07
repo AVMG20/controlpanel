@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\PterodactylServerHelper;
 use App\Http\Requests\Server\ServerStoreRequest;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\Foundation\Application;
@@ -25,10 +26,19 @@ class CheckoutController extends Controller
      * Create a server on Pterodactyl
      *
      * @param ServerStoreRequest $request
+     * @param PterodactylServerHelper $pterodactylServerHelper
      * @return void
      */
-    public function createServer(ServerStoreRequest $request)
+    public function createServer(ServerStoreRequest $request, PterodactylServerHelper $pterodactylServerHelper)
     {
-        dd($request->configuration);
+        $data = $pterodactylServerHelper->createServerData(
+            $request->name,
+            $request->user(),
+            $request->egg,
+            $request->location,
+            $request->configuration,
+        );
+
+        dd($data);
     }
 }
