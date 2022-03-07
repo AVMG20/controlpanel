@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Server;
 
 use App\Models\Configuration;
+use App\Models\Pterodactyl\Egg;
+use App\Models\Pterodactyl\Location;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -52,6 +54,10 @@ class ServerStoreRequest extends FormRequest
             ->where('id', '=', $this->request->get('configuration'))
             ->firstOrFail();
 
-        $this->request->add(compact('configuration'));
+        $egg = Egg::find( $this->request->get('egg'));
+
+        $location = Location::find( $this->request->get('location'));
+
+        $this->request->add(compact('configuration', 'egg', 'location'));
     }
 }
