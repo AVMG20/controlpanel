@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Server\ServerStoreRequest;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Request;
 
 class CheckoutController extends Controller
 {
@@ -24,11 +24,11 @@ class CheckoutController extends Controller
     /**
      * Create a server on Pterodactyl
      *
-     * @param Request $request
+     * @param ServerStoreRequest $request
      * @return void
      */
-    public function createServer(Request $request)
+    public function createServer(ServerStoreRequest $request)
     {
-        dd($request->all());
+        dd($request->configuration);
     }
 }

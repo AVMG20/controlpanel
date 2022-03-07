@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a00a4aed47c50d0dda0a3f583918b8ec",
+    "content-hash": "8ec9fb34654a67d5d05b7107c9d719ff",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -125,18 +125,11 @@
         {
             "name": "controlpanel/vouchers",
             "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/AVMG20/controlpanel-vouchers.git",
+            "dist": {
+                "type": "path",
+                "url": "packages/controlpanel/vouchers",
                 "reference": "391d08b55fc98db0676a37517f97d7a55fac4a96"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/AVMG20/controlpanel-vouchers/zipball/391d08b55fc98db0676a37517f97d7a55fac4a96",
-                "reference": "391d08b55fc98db0676a37517f97d7a55fac4a96",
-                "shasum": ""
-            },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -150,7 +143,6 @@
                     "Controlpanel\\Vouchers\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -161,11 +153,10 @@
                 }
             ],
             "description": "Vouchers module for controlpanel",
-            "support": {
-                "issues": "https://github.com/AVMG20/controlpanel-vouchers/issues",
-                "source": "https://github.com/AVMG20/controlpanel-vouchers/tree/main"
-            },
-            "time": "2022-03-06T17:33:12+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "dflydev/dot-access-data",

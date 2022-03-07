@@ -24,7 +24,8 @@ use Illuminate\Support\Facades\Route;
 */
 //public
 Route::redirect('/', '/dashboard')->name('home');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'createServer'])->name('checkout.store');
 
 //redirect to mainsite
 Route::get('/main', function (GeneralSettings $settings) {
@@ -38,7 +39,7 @@ Auth::routes();
 
 //client area
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');

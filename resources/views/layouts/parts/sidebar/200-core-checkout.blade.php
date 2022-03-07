@@ -1,5 +1,5 @@
-<li class="nav-item {{ request()->routeIs('checkout') ? 'active' : '' }}">
-    <a href="{{ route('checkout') }}" class="nav-link">
+<li class="nav-item {{ request()->routeIs('checkout.index') ? 'active' : '' }}">
+    <a href="{{ route('checkout.index') }}" class="nav-link">
            <span class="sidebar-icon me-3">
                 <i class="fas fa-server fa-fw"></i>
             </span>
