@@ -38,7 +38,7 @@ class ConfigurationRequest extends FormRequest
             'cpu' => 'required|integer|max:1000000|min:0',
             'swap' => 'required|integer|max:1000000|min:0',
             'disk' => 'required|integer|max:1000000|min:0',
-            'io' => 'required|integer|max:1000000|min:0',
+            'io' => 'required|integer|max:1000|min:10',
             'databases' => 'required|integer|max:1000000|min:0',
             'backups' => 'required|integer|max:1000000|min:0',
             'allocations' => 'required|integer|max:1000000|min:0',

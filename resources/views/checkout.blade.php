@@ -13,6 +13,9 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <!-- Sweet alert 2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -288,6 +291,22 @@
                             </div>
                         </li>
                     </template>
+
+{{--                    <template x-if="selected_configuration?.name">--}}
+{{--                        <li class="list-group-item rounded d-flex flex-column ">--}}
+{{--                            <div class="d-flex justify-content-between align-items-center">--}}
+{{--                                <span>{{__('Hourly rate')}} ({{$credits_display_name}})</span>--}}
+
+{{--                                <span><i class="fas fa-coins pe-4"></i>--}}
+{{--                            <span class="fw-bold"--}}
+{{--                                  x-text="Number((selected_configuration.price + selected_configuration.setup_price ) / 30 / 24).toFixed(2)"></span>--}}
+{{--                        </span>--}}
+{{--                            </div>--}}
+{{--                            <div>--}}
+{{--                                <small class="text-muted">{{__(':credits are charged hourly', ['credits' => $credits_display_name])}}</small>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                    </template>--}}
                 </ul>
 
                 <template x-if="selected_egg?.name">
@@ -304,6 +323,17 @@
         </div>
     </form>
 </div>
+
+
+@if (Session::has('error'))
+  <script defer>
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: '{{ Session::get('error') }}',
+      })
+  </script>
+@endif
 
 </body>
 </html>
