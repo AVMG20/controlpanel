@@ -124,7 +124,7 @@ class PterodactylClient
      */
     public function createServer(array $data): PromiseInterface|Response
     {
-        $response = $this->client->post("application/users", $data);
+        $response = $this->client->post("application/servers", $data);
         return $this->handleResponse($response);
     }
 
@@ -140,7 +140,9 @@ class PterodactylClient
             'body' => $response->body()
         ]);
 
-        if ($response->failed()) throw new PterodactylRequestException($message);
+        if ($response->failed()) {
+            throw new PterodactylRequestException($message, $response->status(), null, $response->body());
+        }
 
         return $response;
     }

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ServerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 */
 //public
 Route::redirect('/', '/dashboard')->name('home');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'createServer'])->name('checkout.store');
+Route::get('/checkout', [ServerController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [ServerController::class, 'createServer'])->name('checkout.store');
 
 //redirect to mainsite
 Route::get('/main', function (GeneralSettings $settings) {
