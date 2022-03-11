@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             NavigationSeeder::class,
+            NotificationSeeder::class,
             PermissionsSeeder::class
         ]);
     }

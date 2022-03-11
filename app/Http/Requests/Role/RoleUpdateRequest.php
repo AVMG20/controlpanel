@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\NotificationTemplate\Role;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;

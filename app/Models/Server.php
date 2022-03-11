@@ -138,11 +138,7 @@ class Server extends Model
             /** @var PterodactylSettings $settings */
             $settings = app(PterodactylSettings::class);
 
-            if (!str_ends_with($settings->url, '/')) {
-                $settings->url .= '/';
-            }
-
-            return $settings->url . 'server/' . $this->identifier;
+            return $settings->getUrl() . 'server/' . $this->identifier;
         });
     }
 
@@ -157,11 +153,7 @@ class Server extends Model
             /** @var PterodactylSettings $settings */
             $settings = app(PterodactylSettings::class);
 
-            if (!str_ends_with($settings->url, '/')) {
-                $settings->url .= '/';
-            }
-
-            return $settings->url . '/admin/servers/view/' . $this->pterodactyl_id;
+            return $settings->getUrl() . '/admin/servers/view/' . $this->pterodactyl_id;
         });
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Configuration\ConfigurationRequest;
+use App\Http\Requests\NotificationTemplate\Configuration\ConfigurationRequest;
 use App\Models\Configuration;
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;

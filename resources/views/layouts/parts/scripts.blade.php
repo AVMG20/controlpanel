@@ -20,6 +20,16 @@
     </script>
 @endif
 
+@if (Session::has('error'))
+    <script defer>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: '{{ Session::get('error') }}',
+        })
+    </script>
+@endif
+
 <script>
     //delete confirm
     {{--console.log(1)--}}

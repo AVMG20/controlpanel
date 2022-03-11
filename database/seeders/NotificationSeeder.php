@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\NotificationTemplate;
+use Illuminate\Database\Seeder;
+
+class NotificationSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        NotificationTemplate::query()->firstOrCreate([
+            'name' => 'Welcome message'
+        ],[
+            'name' => 'Welcome message',
+            'title' => "Getting started",
+            'content' => "
+               <p>Hello <strong>{{\$user->name}}</strong>, Welcome to our dashboard!</p>
+                <h5>Information</h5>
+                <p>This dashboard can be used to create and delete servers.<br /> These servers can be used and managed on our pterodactyl panel.<br /> If you have any questions, please join our Discord server and #create-a-ticket.</p>
+                <p>We hope you can enjoy this hosting experience and if you have any suggestions please let us know!</p>
+                <p>Regards,<br />Controlpanel</p>",
+            'channels' => json_encode(['mail'])
+        ]);
+    }
+}

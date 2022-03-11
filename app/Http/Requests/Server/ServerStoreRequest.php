@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Server;
+namespace App\Http\Requests\NotificationTemplate\Server;
 
 use App\Models\Configuration;
 use App\Models\Pterodactyl\Egg;

@@ -34,7 +34,7 @@ class ServerController extends Controller
         }
 
         $html = $this->dataTable();
-        return view('admin.users.index', compact('html'));
+        return view('admin.servers.index', compact('html'));
     }
 
     /**
@@ -128,7 +128,6 @@ class ServerController extends Controller
             ->addColumn(['data' => 'disk', 'name' => 'disk', 'title' => __('Disk')])
             ->addColumn(['data' => 'databases', 'name' => 'databases', 'title' => __('Databases')])
             ->addColumn(['data' => 'egg.name', 'name' => 'egg.name', 'title' => __('Egg')])
-            ->addColumn(['data' => 'node.name', 'name' => 'node.name', 'title' => __('Node')])
             ->addColumn(['data' => 'suspended', 'name' => 'suspended', 'title' => __('Suspended')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
@@ -146,7 +145,7 @@ class ServerController extends Controller
      */
     public function dataTableQuery(): mixed
     {
-        $query = Server::query()->with(['user','egg','node']);
+        $query = Server::query()->with(['user','egg']);
 
         return datatables($query)
             ->addColumn('actions', function (Server $server) {

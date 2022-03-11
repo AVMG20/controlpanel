@@ -18,6 +18,9 @@ return [
     'admin.configurations.read',
     'admin.configurations.write',
 
+    'admin.notifications.read',
+    'admin.notifications.write',
+
     /*
      * Permissions for settings
      */
