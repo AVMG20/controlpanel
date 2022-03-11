@@ -16,7 +16,7 @@ class NavigationHelper
      * @note THIS DOES AUTOMATICALLY UPDATE NAVIGATIONS
      *
      * Filename convention, sort_order - name .blade.php
-     * Example: 100-core-home.blade.php
+     * Example: 100-core-dashboard.blade.php
      *
      * 100          = the sort order
      * core-home    = the name of the navigation option

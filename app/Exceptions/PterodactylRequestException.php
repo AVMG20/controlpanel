@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Exception;
-use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 
 class PterodactylRequestException extends Exception
 {

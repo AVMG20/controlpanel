@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ApplicationApiController;
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\DashboardController;

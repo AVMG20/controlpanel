@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Classes\Pterodactyl\PterodactylClient;
+use App\Exceptions\PterodactylRequestException;
+use App\Models\Pterodactyl\Egg;
+use App\Models\Pterodactyl\Node;
 use App\Settings\PterodactylSettings;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,6 +69,24 @@ class Server extends Model
         'price_per_hour',
         'price_per_day',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        //delete server on pterodactyl
+        static::deleting(function (Server $server) {
+            /** @var PterodactylClient $client */
+            $client = app(PterodactylClient::class);
+
+            try {
+                $client->deleteServer($server->pterodactyl_id);
+            } catch (PterodactylRequestException $exception) {
+                //throw exception if it's not a 404 error
+                if ($exception->getCode() !== 404) throw $exception;
+            }
+        });
+    }
 
     /**
      * Create server object using Pterodactyl response
@@ -171,5 +193,25 @@ class Server extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get egg object
+     *
+     * @return BelongsTo
+     */
+    public function egg(): BelongsTo
+    {
+        return $this->belongsTo(Egg::class, 'egg');
+    }
+
+    /**
+     * Get node object
+     *
+     * @return BelongsTo
+     */
+    public function node(): BelongsTo
+    {
+        return $this->belongsTo(Node::class, 'node');
     }
 }
