@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\NotificationTemplate\Role;
+namespace App\Http\Requests\NotificationTemplate;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RoleStoreRequest extends FormRequest
+class StoreNotificationTemplateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,7 +18,7 @@ class RoleStoreRequest extends FormRequest
         /** @var User $user */
         $user = Auth::user();
 
-        return $user->hasPermissionTo('admin.roles.write');
+        return $user->hasPermissionTo('admin.notifications.write');
     }
 
     /**
@@ -29,10 +29,7 @@ class RoleStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ["required", "string", "max:60", "unique:roles"],
-            'color' => "required|string|max:60",
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'required|exists:permissions,id',
+            'title' => 'required|string|max:191',
         ];
     }
 }

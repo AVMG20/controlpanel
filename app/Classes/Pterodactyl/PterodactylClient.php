@@ -33,15 +33,11 @@ class PterodactylClient
      */
     public function createClient(PterodactylSettings $settings): PendingRequest
     {
-        if (!str_ends_with($settings->url, '/')) {
-            $settings->url .= '/';
-        }
-
         return Http::withHeaders([
             'Authorization' => 'Bearer ' . $settings->api_key,
             'Content-type' => 'application/json',
             'Accept' => 'Application/vnd.pterodactyl.v1+json',
-        ])->baseUrl($settings->url . 'api' . '/');
+        ])->baseUrl($settings->getUrl() . 'api' . '/');
     }
 
     /**

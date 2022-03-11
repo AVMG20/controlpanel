@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\Http\Requests\NotificationTemplate\Profile\ProfileUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller

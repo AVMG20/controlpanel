@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Pterodactyl\PterodactylClient;
 use App\Exceptions\PterodactylRequestException;
 use App\Helper\PterodactylServerHelper;
-use App\Http\Requests\Server\ServerStoreRequest;
+use App\Http\Requests\NotificationTemplate\Server\ServerStoreRequest;
 use App\Models\Server;
 use App\Settings\GeneralSettings;
 use Exception;

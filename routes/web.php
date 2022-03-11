@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ApplicationApiController;
 use App\Http\Controllers\Admin\ConfigurationController;
+use App\Http\Controllers\Admin\NotificationTemplateController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
@@ -56,6 +57,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('api', ApplicationApiController::class)->except(['show']);
     Route::resource('configurations', ConfigurationController::class);
     Route::get('/configurations/{configuration}/clone', [ConfigurationController::class, 'clone'])->name('configurations.clone');
+    Route::resource('notifications', NotificationTemplateController::class);
+    Route::post('/notifications/send/{notification}', [NotificationTemplateController::class, 'sendTestNotification'])->name('notifications.test');
+    Route::post('/notifications/preview/{notification}', [NotificationTemplateController::class, 'previewNotification'])->name('notifications.preview');
 });
 
 //settings

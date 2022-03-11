@@ -16,4 +16,14 @@ class PterodactylSettings extends Settings
     {
         return 'pterodactyl';
     }
+
+    /**
+     * Get url with ensured ending backslash
+     *
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return str_ends_with($this->url, '/') ? $this->url : $this->url . '/';
+    }
 }

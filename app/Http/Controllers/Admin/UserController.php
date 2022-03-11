@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\UserUpdateRequest;
+use App\Http\Requests\NotificationTemplate\Role\UserUpdateRequest;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\View\View;

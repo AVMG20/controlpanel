@@ -18,8 +18,8 @@ return [
     'admin.configurations.read',
     'admin.configurations.write',
 
-    'admin.api.read',
-    'admin.api.write',
+    'admin.notifications.read',
+    'admin.notifications.write',
 
     /*
      * Permissions for settings
