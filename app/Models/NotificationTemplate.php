@@ -56,6 +56,7 @@ class NotificationTemplate extends Model
     {
         return (new MailMessage)
             ->subject($this->title)
+            ->salutation((new HtmlString('<span></span>')))
             ->line($this->getContentHtml($variables));
     }
 
