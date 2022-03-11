@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\DashboardController;
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('servers', AdminServerController::class);
     Route::resource('configurations', ConfigurationController::class);
     Route::get('/configurations/{configuration}/clone', [ConfigurationController::class, 'clone'])->name('configurations.clone');
 });

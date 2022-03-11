@@ -12,6 +12,9 @@ return [
     'admin.users.read',
     'admin.users.write',
 
+    'admin.servers.read',
+    'admin.servers.write',
+
     'admin.configurations.read',
     'admin.configurations.write',
 

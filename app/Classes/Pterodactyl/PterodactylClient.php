@@ -129,6 +129,18 @@ class PterodactylClient
     }
 
     /**
+     * Delete server
+     *
+     * @param int $pterodactyl_id
+     * @throws PterodactylRequestException
+     */
+    public function deleteServer(mixed $pterodactyl_id): PromiseInterface|Response
+    {
+        $response = $this->client->delete("application/servers/$pterodactyl_id");
+        return $this->handleResponse($response);
+    }
+
+    /**
      * @param PromiseInterface|Response $response
      * @return PromiseInterface|Response
      * @throws PterodactylRequestException
