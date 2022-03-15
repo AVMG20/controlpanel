@@ -23,13 +23,13 @@ class NotificationTemplate extends Model
     ];
 
     protected $casts = [
-        'disabled' => 'bool'
+        'disabled' => 'bool',
     ];
 
     public function channels() : Attribute
     {
         return Attribute::get(function ($value) {
-            return json_decode(json_decode($value), true);
+            return json_decode($value, true);
         });
     }
 

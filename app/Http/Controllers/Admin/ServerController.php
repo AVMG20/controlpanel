@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Classes\Pterodactyl\PterodactylClient;
+use App\Exceptions\PterodactylRequestException;
+use App\Helper\PterodactylServerHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerUpdateRequest;
 use App\Models\Server;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -73,23 +80,42 @@ class ServerController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Server $server
-     * @return Response
+     * @return Application|Factory|View
      */
-    public function edit(Server $server)
+    public function edit(Server $server): View|Factory|Application
     {
-        //
+        $this->can(self::WRITE_PERMISSIONS);
+
+        return view('admin.servers.edit' , compact('server'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param ServerUpdateRequest $request
      * @param Server $server
-     * @return Response
+     * @param PterodactylServerHelper $helper
+     * @param PterodactylClient $client
+     * @return RedirectResponse
+     * @throws PterodactylRequestException
      */
-    public function update(Request $request, Server $server)
+    public function update(ServerUpdateRequest $request, Server $server, PterodactylServerHelper $helper, PterodactylClient $client)
     {
-        //
+        $serverBuildData = $helper->createUpdateBuildData($request);
+        $serverDetailData = $helper->createUpdateDetailsData($server->user_id, $request);
+
+        try {
+            $client->updateServerBuild($server->pterodactyl_id, $serverBuildData);
+            $client->updateServerDetails($server->pterodactyl_id, $serverDetailData);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+
+        $server->update($request->all());
+
+        return redirect()
+            ->route('admin.servers.index')
+            ->with('success', __('Server updated'));
     }
 
     /**

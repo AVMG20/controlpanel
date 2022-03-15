@@ -26,13 +26,12 @@
 
                 <x-input.text label="{{(__('Title'))}}"
                               name="title"
-                              value="{{ isset($notification) ? $notification->name : null}}"/>
+                              value="{{ isset($notification) ? $notification->title : null}}"/>
 
                 <x-input.textarea label="{{(__('Email content'))}}"
                                   name="content"
                                   ckeditor
                                   value="{!!isset($notification) ? $notification->content : null!!}"/>
-
 
                 <div class="form-group d-flex justify-content-end mt-3">
                     <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>

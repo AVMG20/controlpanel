@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class GeneralSettingsController extends Controller
 {
@@ -26,7 +27,9 @@ class GeneralSettingsController extends Controller
     {
         $this->checkPermission('settings.general.read');
 
-        return view('settings.general', compact('settings'));
+        $roles = Role::all();
+
+        return view('settings.general', compact('settings', 'roles'));
     }
 
     /**
@@ -51,6 +54,7 @@ class GeneralSettingsController extends Controller
             'register_ip_check' => 'required|boolean',
             'initial_user_credits' => 'required|numeric|min:0|max:99999999999',
             'initial_server_limit' => 'required|numeric|min:0|max:99999999999',
+            'initial_user_role' => 'required|exists:roles,id',
         ]);
 
         $settings->credits_display_name = $request->credits_display_name;
@@ -58,6 +62,7 @@ class GeneralSettingsController extends Controller
         $settings->register_ip_check = $request->register_ip_check;
         $settings->initial_user_credits = $request->initial_user_credits;
         $settings->initial_server_limit = $request->initial_server_limit;
+        $settings->initial_user_role = $request->initial_user_role;
 
         $settings->save();
 

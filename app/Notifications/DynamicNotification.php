@@ -7,12 +7,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DynamicNotification extends Notification
+class DynamicNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private array $channels;
-    private MailMessage $mailMessage;
+    protected array $channels;
+    protected MailMessage $mailMessage;
 
     /**
      * Create a new notification instance.

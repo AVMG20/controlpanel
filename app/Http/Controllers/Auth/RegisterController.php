@@ -101,6 +101,9 @@ class RegisterController extends Controller
             'pterodactyl_id' => $data['attributes']['id']
         ]);
 
+        //link user to initial role
+        $user->assignRole($this->settings->initial_user_role);
+
         $this->guard()->login($user);
 
         if ($response = $this->registered($request, $user)) {

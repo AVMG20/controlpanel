@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationTemplate\UpdateNotificationTemplateRequest;
 use App\Http\Requests\NotificationTemplate\StoreNotificationTemplateRequest;
 use App\Models\NotificationTemplate;
+use App\Models\User;
 use App\Notifications\DynamicNotification;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -144,9 +145,10 @@ class NotificationTemplateController extends Controller
     public function sendTestNotification(Request $request, NotificationTemplate $notification): RedirectResponse
     {
         try {
+            /** @var User $user */
             $user = $request->user();
 
-            Notification::send($request->user(), $notification->getDynamicNotification(compact('user')));
+            $user->notify($notification->getDynamicNotification(compact('user')));
         } catch (Exception $exception) {
             logger('Sending test notification failed', ['exception' => $exception]);
 

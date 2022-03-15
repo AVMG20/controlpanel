@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('notification_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Name of the notification');
+            $table->string('name')->unique()->comment('Name of the notification');
             $table->string('title');
             $table->text('content');
             $table->text('channels')->comment('Stored as json array');

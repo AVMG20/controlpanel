@@ -15,9 +15,9 @@ class NotificationSeeder extends Seeder
     public function run()
     {
         NotificationTemplate::query()->firstOrCreate([
-            'name' => 'Welcome message'
+            'name' => 'welcome-message'
         ],[
-            'name' => 'Welcome message',
+            'name' => 'welcome-message',
             'title' => "Getting started",
             'content' => "
                <p>Hello <strong>{{\$user->name}}</strong>, Welcome to our dashboard!</p>

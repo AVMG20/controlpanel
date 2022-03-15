@@ -19,6 +19,8 @@ class GeneralSettings extends Settings
     public float $initial_user_credits;
     //the initial amount of credits given to the user on register
     public float $initial_server_limit;
+    //the initial role given to the user on register
+    public int $initial_user_role;
 
     //url location of the icon
     public string $panel_icon_url;

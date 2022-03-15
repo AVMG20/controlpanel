@@ -125,6 +125,34 @@ class PterodactylClient
     }
 
     /**
+     * Updates the server build information
+     *
+     * @param int $pterodactyl_id
+     * @param array $data
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
+     */
+    public function updateServerBuild(int $pterodactyl_id, array $data): PromiseInterface|Response
+    {
+        $response = $this->client->patch("application/servers/$pterodactyl_id/build", $data);
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Updates the server details
+     *
+     * @param int $pterodactyl_id
+     * @param array $data
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
+     */
+    public function updateServerDetails(int $pterodactyl_id, array $data): PromiseInterface|Response
+    {
+        $response = $this->client->patch("application/servers/$pterodactyl_id/details", $data);
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Delete server
      *
      * @param int $pterodactyl_id

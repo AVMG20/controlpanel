@@ -28,6 +28,16 @@
                                   tooltip="{{(__('Prevent users from making multiple accounts using the same IP'))}}"
                                   value="{{$settings->register_ip_check}}"/>
 
+                <x-input.select
+                    label="{{(__('Initial user role'))}}"
+                    name="initial_user_role">
+                    @foreach($roles as $role)
+                        <option style="color: {{$role->color}}"
+                                @if($role->id == $settings->initial_user_role) selected
+                                @endif value="{{$role->id}}">{{$role->name}}</option>
+                    @endforeach
+                </x-input.select>
+
                 <x-input.number
                     label="{{(__('Initial amount of :credits', ['credits' => $settings->credits_display_name ?? 'Credits']))}}"
                     name="initial_user_credits"
