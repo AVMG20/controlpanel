@@ -101,7 +101,7 @@ class ServerController extends Controller
      */
     public function update(ServerUpdateRequest $request, Server $server, PterodactylServerHelper $helper, PterodactylClient $client)
     {
-        $serverBuildData = $helper->createUpdateBuildData($request);
+        $serverBuildData = $helper->createUpdateBuildData($server->allocation, $request);
         $serverDetailData = $helper->createUpdateDetailsData($server->user_id, $request);
 
         try {
@@ -122,9 +122,10 @@ class ServerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Server $server
+     * @param PterodactylClient $client
      * @return RedirectResponse
      */
-    public function destroy(Server $server)
+    public function destroy(Server $server, PterodactylClient $client)
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 

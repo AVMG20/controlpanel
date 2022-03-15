@@ -57,10 +57,11 @@ class PterodactylServerHelper
     /**
      * Create $data for Updating the server build information
      *
+     * @param int $allocation
      * @param Request $request
      * @return array
      */
-    public function createUpdateBuildData(Request $request): array
+    public function createUpdateBuildData(int $allocation, Request $request): array
     {
         $data = [
             'memory' => $request->input('memory'),
@@ -69,6 +70,8 @@ class PterodactylServerHelper
             'io' => $request->input('io'),
             'cpu' => $request->input('cpu'),
         ];
+
+        $data['allocation'] = $allocation;
 
         $data['feature_limits'] = [
             "databases" => $request->input('databases'),
