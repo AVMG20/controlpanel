@@ -58,4 +58,7 @@ class ServerController extends Controller
 
         return redirect()->route('dashboard')->with('success', __('Server created successfully!'));
     }
+
+
+
 }
