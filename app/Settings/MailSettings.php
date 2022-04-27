@@ -25,13 +25,17 @@ class MailSettings extends Settings
      */
     public function setConfig()
     {
-        //set mail configuration
-        config()->set('mail.mailers.smtp.host', $this->mail_host);
-        config()->set('mail.mailers.smtp.port', $this->mail_port);
-        config()->set('mail.mailers.smtp.encryption', $this->mail_encryption);
-        config()->set('mail.mailers.smtp.username', $this->mail_username);
-        config()->set('mail.mailers.smtp.password', $this->mail_password);
-        config()->set('mail.from.address', $this->mail_from_address);
-        config()->set('mail.from.name', $this->mail_from_name);
+        try {
+            //set mail configuration
+            config()->set('mail.mailers.smtp.host', $this->mail_host);
+            config()->set('mail.mailers.smtp.port', $this->mail_port);
+            config()->set('mail.mailers.smtp.encryption', $this->mail_encryption);
+            config()->set('mail.mailers.smtp.username', $this->mail_username);
+            config()->set('mail.mailers.smtp.password', $this->mail_password);
+            config()->set('mail.from.address', $this->mail_from_address);
+            config()->set('mail.from.name', $this->mail_from_name);
+        } catch (\Exception $e) {
+            //do nothing
+        }
     }
 }
