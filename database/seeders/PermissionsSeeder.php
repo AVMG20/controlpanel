@@ -20,7 +20,6 @@ class PermissionsSeeder extends Seeder
         $this->createRoles();
     }
 
-    //TODO run on each seed
     public function createPermissions(){
         foreach (config('permissions_web') as $name) {
             Permission::findOrCreate($name);

@@ -26,6 +26,11 @@ class NotificationTemplate extends Model
         'disabled' => 'bool',
     ];
 
+    public static function getNotificationByName(string $string)
+    {
+        return static::where('name', $string)->first();
+    }
+
     public function channels() : Attribute
     {
         return Attribute::get(function ($value) {

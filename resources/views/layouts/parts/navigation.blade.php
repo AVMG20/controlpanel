@@ -1,16 +1,3 @@
-<?php
-/**
- * Navigations are loaded into the database!
- * @see /resources/views/layouts/parts/sidebar
- *
- * @note if you modify any of the navigation options run `php artisan db:seed`
- * to update the navigation options
- */
-use App\Enums\NavigationLocation;
-use App\Models\Navigation;
-?>
-
-
 <ul class="nav flex-column pt-3 pt-md-0">
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
@@ -23,18 +10,7 @@ use App\Models\Navigation;
         </a>
     </li>
 
-    <?php
-    /**
-     * Navigations are loaded from the database
-     *
-     * Navigation can be found at:
-     * @see /resources/views/layouts/parts/sidebar
-     *
-     * @note if you modify any of the navigation options run `php artisan db:seed && php artisan cache:clear`
-     * to update the navigation options
-     */
-    echo Navigation::getNavigation(NavigationLocation::sidebar);
-    ?>
+    {!! $navigationManager->render(\App\Enums\NavigationLocation::sidebar) !!}
 
 
 {{--    <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}">--}}

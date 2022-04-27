@@ -27,5 +27,16 @@ class NotificationSeeder extends Seeder
                 <p>Regards,<br />Controlpanel</p>",
             'channels' => json_encode(['mail'])
         ]);
+
+        NotificationTemplate::query()->firstOrCreate([
+            'name' => 'test-notification'
+        ],[
+            'name' => 'test-notification',
+            'title' => "Testing",
+            'content' => "
+               <p>Hello <strong>{{\$user->name}}</strong>, Your Mail settings are configured correctly!</p>
+               <p>Regards,<br />Controlpanel</p>",
+            'channels' => json_encode(['mail'])
+        ]);
     }
 }

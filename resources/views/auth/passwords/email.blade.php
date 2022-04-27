@@ -53,9 +53,14 @@
                         <div class="d-grid">
                             <button type="submit" class="btn btn-gray-800">{{ __('Recover password') }}</button>
                         </div>
+
+                            <div id="public_captcha"></div>
+                            {!!  GoogleReCaptchaV3::renderField('public_captcha','public') !!}
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    {!!  GoogleReCaptchaV3::renderOne('public_captcha','public') !!}
 @endsection

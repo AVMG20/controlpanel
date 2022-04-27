@@ -18,6 +18,7 @@
             @yield('content')
         </section>
     </main>
-</body>
 
+    {!!  GoogleReCaptchaV3::init() !!}
+</body>
 </html>

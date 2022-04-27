@@ -32,4 +32,7 @@ return [
 
     'settings.server.read',
     'settings.server.write',
+
+    'settings.smtp.read',
+    'settings.smtp.write',
 ];

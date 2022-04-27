@@ -3,7 +3,14 @@
 
     <div class="main py-4">
 
-        @include('settings.parts.navigation')
+        <div class="bg-white rounded shadow p-4 my-4">
+            <ul class="list-inline list-group-flush list-group-borderless mb-0">
+
+                {!! $navigationManager->render(\App\Enums\NavigationLocation::settings) !!}
+
+            </ul>
+        </div>
+
 
         <div class="card card-body border-0 shadow table-wrapper table-responsive">
             @yield('settings_content')

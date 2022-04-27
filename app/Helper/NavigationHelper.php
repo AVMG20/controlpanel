@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Classes\Navigation\NavigationOption;
 use App\Enums\NavigationLocation;
 use App\Models\Navigation;
 use DirectoryIterator;
@@ -9,47 +10,48 @@ use Exception;
 
 class NavigationHelper
 {
+    static array $loadedOptions = [];
+
+
     /**
-     * Automatically import navigation options from a folder
-     * Store your navigation option inside a file within the folder
+     * Automaitcally convert blade navigation files to NavigationOption objects
+     * Store your navigation files in a folder
      *
-     * @note THIS DOES AUTOMATICALLY UPDATE NAVIGATIONS
      *
-     * Filename convention, sort_order - name .blade.php
+     * Filename convention, sort_order - navigation_name .blade.php
      * Example: 100-core-dashboard.blade.php
      *
-     * 100          = the sort order
-     * core-home    = the name of the navigation option
-     *
+     * navigation_name = the name this file identifies as
+     * sort_order = the order this file will be displayed in
+     * @example 100-example.blade.php
      *
      * @param NavigationLocation $location location prop
      * @param string $path folder with navigation options
-     * @return void
+     * @return array
      * @throws Exception
      */
-    public function importNavigationOptionsFromFolder(NavigationLocation $location, string $path)
+    public function loadNavigationOptionsFromFolder(NavigationLocation $location, string $path): array
     {
+        //prevent double loading
+        if (array_key_exists($path, self::$loadedOptions,) && !empty(self::$loadedOptions[$path])) return self::$loadedOptions[$path];
+
         $this->validatePath($path);
+        $navigationOptions = [];
 
         $dir = new DirectoryIterator($path);
         foreach ($dir as $fileinfo) {
             if (!$fileinfo->isDot()) {
-
                 //get values
                 $name = $this->getNameFromFile($fileinfo);
                 $sortOrder = $this->getSortOrderFromFile($fileinfo);
                 $blade = file_get_contents($fileinfo->getRealPath());
 
-                //import navigation options
-                Navigation::query()->updateOrCreate([
-                    'name' => $name
-                ], [
-                    'location' => $location->name,
-                    'sort_order' => $sortOrder,
-                    'blade' => $blade,
-                ]);
+                $navigationOptions[] = new NavigationOption($name, $location, $blade, $sortOrder);
             }
         }
+
+        self::$loadedOptions[$path] = $navigationOptions;
+        return $navigationOptions;
     }
 
 
@@ -58,6 +60,7 @@ class NavigationHelper
      * Can mainly be used for the installation of a package
      *
      * @throws Exception
+     * @deprecated use importNavigationOptionsFromFolder instead
      */
     public function removeNavigationOptionsFromFolder(string $path)
     {
@@ -85,7 +88,7 @@ class NavigationHelper
     {
         $name = $fileinfo->getFileName();
 
-        $exploded = explode('-' , $name);
+        $exploded = explode('-', $name);
         array_shift($exploded);
 
         $name_without_sort_order = implode('-', $exploded);

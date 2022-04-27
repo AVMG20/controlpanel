@@ -71,6 +71,10 @@
                         <div class="d-grid">
                             <button type="submit" class="btn btn-gray-800">{{ __('Sign in') }}</button>
                         </div>
+
+                            <div id="public_captcha"></div>
+                            {!!  GoogleReCaptchaV3::renderField('public_captcha','public') !!}
+
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
                         <span class="fw-normal">
@@ -82,4 +86,6 @@
             </div>
         </div>
     </div>
+
+    {!!  GoogleReCaptchaV3::renderOne('public_captcha','public') !!}
 @endsection

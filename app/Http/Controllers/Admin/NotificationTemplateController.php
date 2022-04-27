@@ -16,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\HtmlString;
@@ -102,6 +103,9 @@ class NotificationTemplateController extends Controller
     public function update(UpdateNotificationTemplateRequest $request, NotificationTemplate $notification): RedirectResponse
     {
         $notification->update($request->all());
+
+        Artisan::call('cache:clear');
+        Artisan::call('queue:restart');
 
         return redirect()
             ->route('admin.notifications.index')

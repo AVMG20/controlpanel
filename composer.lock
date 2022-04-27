@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ec9fb34654a67d5d05b7107c9d719ff",
+    "content-hash": "62c1a55619fca6200a0fa9272567035e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -128,7 +128,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/controlpanel/vouchers",
-                "reference": "391d08b55fc98db0676a37517f97d7a55fac4a96"
+                "reference": "0b82c49895bb2f8b8e40e6e249fcb4c1d2a70875"
             },
             "type": "library",
             "extra": {
@@ -6089,6 +6089,79 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.4"
             },
             "time": "2021-12-08T09:12:39+00:00"
+        },
+        {
+            "name": "timehunter/laravel-google-recaptcha-v3",
+            "version": "v2.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RyanDaDeng/laravel-google-recaptcha-v3.git",
+                "reference": "e02853bae81fc26059ffae4a2cb6691109d9a1ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RyanDaDeng/laravel-google-recaptcha-v3/zipball/e02853bae81fc26059ffae4a2cb6691109d9a1ed",
+                "reference": "e02853bae81fc26059ffae4a2cb6691109d9a1ed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TimeHunter\\LaravelGoogleReCaptchaV3\\Providers\\GoogleReCaptchaV3ServiceProvider"
+                    ],
+                    "aliases": {
+                        "GoogleReCaptchaV3": "TimeHunter\\LaravelGoogleReCaptchaV3\\Facades\\GoogleReCaptchaV3"
+                    }
+                },
+                "branch-alias": {
+                    "dev-master": "3.0.*-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TimeHunter\\LaravelGoogleReCaptchaV3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Deng",
+                    "email": "ryandadeng@gmail.com",
+                    "homepage": "https://ryandeng.com"
+                }
+            ],
+            "description": "Laravel Package for google reCAPTCHA v3",
+            "homepage": "https://github.com/RyanDaDeng/laravel-google-recaptcha-v3",
+            "keywords": [
+                "Google ReCaptcha",
+                "GoogleReCaptcha",
+                "Laravel reCAPTCHA",
+                "google recaptcha v3",
+                "laravel",
+                "laravel google recaptcha",
+                "laravel google recaptcha v3",
+                "laravel recaptcha v3",
+                "recaptcha",
+                "recaptcha v3",
+                "recaptcha v3 laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/RyanDaDeng/laravel-google-recaptcha-v3/issues",
+                "source": "https://github.com/RyanDaDeng/laravel-google-recaptcha-v3/tree/v2.5.2"
+            },
+            "time": "2021-10-31T09:54:26+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

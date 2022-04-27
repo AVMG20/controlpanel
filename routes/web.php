@@ -9,6 +9,7 @@ use App\Http\Controllers\ServerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
+use App\Http\Controllers\Settings\SmtpSettingsController;
 use App\Http\Controllers\Settings\PterodactylSettingsController;
 use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Route;
@@ -68,6 +69,9 @@ Route::prefix('settings')->name('settings.')->middleware('auth')->group(function
 
     Route::get('pterodactyl', [PterodactylSettingsController::class, 'index'])->name('pterodactyl.index');
     Route::patch('pterodactyl', [PterodactylSettingsController::class, 'update'])->name('pterodactyl.update');
+
+    Route::get('smtp', [SmtpSettingsController::class, 'index'])->name('smtp.index');
+    Route::patch('smtp', [SmtpSettingsController::class, 'update'])->name('smtp.update');
 });
 
 
