@@ -6,6 +6,7 @@ use App\Models\Configuration;
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 
 class PterodactylServerHelper
@@ -14,13 +15,13 @@ class PterodactylServerHelper
      * Data used for the Pterodactyl create server endpoint
      *
      * @param string $name
-     * @param User $user
+     * @param Authenticatable $user
      * @param Egg $egg
      * @param Location $location
      * @param Configuration $configuration
      * @return array
      */
-    public function createServerData(string $name, User $user, Egg $egg, Location $location, Configuration $configuration): array
+    public function createServerData(string $name, Authenticatable $user, Egg $egg, Location $location, Configuration $configuration): array
     {
         return [
             "name" => $name,

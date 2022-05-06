@@ -54,19 +54,18 @@ class Configuration extends Model
         'allocations' => 'int',
     ];
 
-    protected function hourly_price()
+
+    public function getHourlyPriceAttribute()
     {
-        return Attribute::get(function () {
-            return ($this->price / 30) / 24;
-        });
+        return ($this->price / 30) / 24;
     }
 
-//    protected function daily_price()
+//    public function daily_price()
 //    {
 //        return ($this->price / 30);
 //    }
 //
-//    protected function getWeeklyPrice()
+//    public function getWeeklyPrice()
 //    {
 //        return ($this->price / 4);
 //    }

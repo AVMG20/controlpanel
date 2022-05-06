@@ -140,7 +140,7 @@
                             min="0"
                             max="9999999999999"
                             step=".000001"
-                            tooltip="{{__('The minimum amount of :credits_display_name required for this configuration',['credits_display_name' => $settings->credits_display_name])}}"
+                            tooltip="{{__('The minimum amount of :credits_display_name required to order this configuration',['credits_display_name' => $settings->credits_display_name])}}"
                             value="{{ isset($configuration) ? $configuration->minimum_required_credits : 0}}"/>
 
 

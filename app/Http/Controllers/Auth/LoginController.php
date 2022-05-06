@@ -47,6 +47,22 @@ class LoginController extends Controller
         ]);
     }
 
+    public function showLoginForm()
+    {
+        session(['link' => url()->previous()]);
+        return view('auth.login');
+    }
+
+    public function authenticated()
+    {
+        $link = session('link');
+
+        if (str_ends_with($link, 'checkout'))
+            return redirect()->route('checkout.index');
+
+        return redirect()->route('home');
+    }
+
     /**
      * Create a new controller instance.
      *
