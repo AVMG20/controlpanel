@@ -24,26 +24,24 @@ class PterodactylClient
 
     public function __construct(PterodactylSettings $settings)
     {
+        try {
         $this->client = $this->createClient($settings);
+        } catch (Exception $exception) {
+            logger('Failed to construct Pterodactyl client, Settings table not available?', ['exception' => $exception]);
+        }
     }
 
     /**
      * @param PterodactylSettings $settings
-     * @return PendingRequest|null
+     * @return PendingRequest
      */
-    public function createClient(PterodactylSettings $settings): ?PendingRequest
+    public function createClient(PterodactylSettings $settings): PendingRequest
     {
-        try {
-            return Http::withHeaders([
-                'Authorization' => 'Bearer ' . $settings->api_key,
-                'Content-type' => 'application/json',
-                'Accept' => 'Application/vnd.pterodactyl.v1+json',
-            ])->baseUrl($settings->getUrl() . 'api' . '/');
-        } catch (Exception $exception) {
-            logger('Failed to construct Pterodactyl client, Settings table not available?', ['exception' => $exception]);
-        }
-
-        return null;
+        return Http::withHeaders([
+            'Authorization' => 'Bearer ' . $settings->api_key,
+            'Content-type' => 'application/json',
+            'Accept' => 'Application/vnd.pterodactyl.v1+json',
+        ])->baseUrl($settings->getUrl() . 'api' . '/');
     }
 
     /**
