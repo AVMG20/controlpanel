@@ -25,7 +25,7 @@ class PterodactylClient
     public function __construct(PterodactylSettings $settings)
     {
         try {
-        $this->client = $this->createClient($settings);
+            $this->client = $this->createClient($settings);
         } catch (Exception $exception) {
             logger('Failed to construct Pterodactyl client, Settings table not available?', ['exception' => $exception]);
         }
