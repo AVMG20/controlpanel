@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Classes\Navigation\NavigationManager;
-use App\Classes\Navigation\NavigationOption;
+use App\Classes\Navigation\NavigationItem;
 use App\Enums\NavigationLocation;
 use App\Helper\NavigationHelper;
 use Exception;
@@ -57,7 +57,7 @@ class NavigationServiceProvider extends ServiceProvider
         $navigation = $view->shared('navigation') ?? [];
 
         //push sidebar options into navigation
-        /** @var NavigationOption $item */
+        /** @var NavigationItem $item */
         foreach ($loadedNavigationOptions as $item) {
             $navigation[$item->getName()] = $item;
         }
@@ -71,6 +71,8 @@ class NavigationServiceProvider extends ServiceProvider
     }
 
     /**
+     * Load sidebar for core cp
+     *
      * @return array
      * @throws Exception
      */
@@ -83,6 +85,8 @@ class NavigationServiceProvider extends ServiceProvider
 
 
     /**
+     * Load settings for core cp
+     *
      * @return array
      * @throws Exception
      */

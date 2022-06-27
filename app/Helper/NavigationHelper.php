@@ -2,9 +2,8 @@
 
 namespace App\Helper;
 
-use App\Classes\Navigation\NavigationOption;
+use App\Classes\Navigation\NavigationItem;
 use App\Enums\NavigationLocation;
-use App\Models\Navigation;
 use DirectoryIterator;
 use Exception;
 
@@ -12,23 +11,21 @@ class NavigationHelper
 {
     static array $loadedOptions = [];
 
-
     /**
-     * Automaitcally convert blade navigation files to NavigationOption objects
+     * Automatically convert blade navigation files to NavigationOption objects
      * Store your navigation files in a folder
      *
      *
      * Filename convention, sort_order - navigation_name .blade.php
-     * Example: 100-core-dashboard.blade.php
+     * Starter: 100-core-dashboard.blade.php
      *
      * navigation_name = the name this file identifies as
      * sort_order = the order this file will be displayed in
-     * @example 100-example.blade.php
-     *
      * @param NavigationLocation $location location prop
      * @param string $path folder with navigation options
-     * @return array
+     * @return NavigationItem[]
      * @throws Exception
+     * @example 100-example.blade.php
      */
     public function loadNavigationOptionsFromFolder(NavigationLocation $location, string $path): array
     {
@@ -46,37 +43,13 @@ class NavigationHelper
                 $sortOrder = $this->getSortOrderFromFile($fileinfo);
                 $blade = file_get_contents($fileinfo->getRealPath());
 
-                $navigationOptions[] = new NavigationOption($name, $location, $blade, $sortOrder);
+                $navigationOptions[] = new NavigationItem($name, $location, $blade, $sortOrder);
             }
         }
 
         self::$loadedOptions[$path] = $navigationOptions;
         return $navigationOptions;
     }
-
-
-    /**
-     * Same as import, but instead of remove options
-     * Can mainly be used for the installation of a package
-     *
-     * @throws Exception
-     * @deprecated use importNavigationOptionsFromFolder instead
-     */
-    public function removeNavigationOptionsFromFolder(string $path)
-    {
-        $this->validatePath($path);
-
-        $dir = new DirectoryIterator($path);
-        foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDot()) {
-
-                //import navigation options
-                $name = $this->getNameFromFile($fileinfo);
-                Navigation::query()->where('name', '=', $name)->delete();
-            }
-        }
-    }
-
 
     /**
      * Get name from navigation file

@@ -4,7 +4,7 @@ namespace App\Classes\Navigation;
 
 use App\Enums\NavigationLocation;
 
-class NavigationOption
+class NavigationItem
 {
     public string $name;
     public NavigationLocation $location;

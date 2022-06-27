@@ -36,12 +36,12 @@ class NavigationManager
     public function getNavigationOptions(NavigationLocation $location): array
     {
         //filter navigationOptions by location property
-        $options = array_filter($this->navigationOptions, function (NavigationOption $option) use ($location) {
+        $options = array_filter($this->navigationOptions, function (NavigationItem $option) use ($location) {
             return $option->getLocation() === $location;
         });
 
         //sort navigationOptions by sort_order property
-        usort($options, function (NavigationOption $option1, NavigationOption $option2) {
+        usort($options, function (NavigationItem $option1, NavigationItem $option2) {
             return $option1->getSortOrder() <=> $option2->getSortOrder();
         });
 
@@ -60,7 +60,7 @@ class NavigationManager
 
         $blade = '';
 
-        /** @var NavigationOption $option */
+        /** @var NavigationItem $option */
         foreach ($options as $option) {
             $blade .= $option->getBlade();
         }
