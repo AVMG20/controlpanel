@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">Servers</span>
-                                <span class="h4 font-bold mb-0">2</span>
+                                <span class="h4 font-bold mb-0">{{$user->server_count}}</span>
                             </div>
                             <div class="col-auto">
                                 <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{$settings->credits_display_name}}</span>
-                                <span class="h4 font-bold mb-0">245.45</span>
+                                <span class="h4 font-bold mb-0">{{$user->credits_formatted}}</span>
                             </div>
                             <div class="col-auto">
                                 <div class="icon icon-shape bg-success text-white text-lg rounded-circle">
@@ -55,7 +55,7 @@
                                     <span><i data-bs-toggle="tooltip" data-bs-placement="top" title="{{__('Usage per month')}}" class="fas fa-info-circle"></i>
                                     </span>
                                 </span>
-                                <span class="h4 font-bold mb-0">82.56</span>
+                                <span class="h4 font-bold mb-0">{{$user->credit_usage}}</span>
                             </div>
                             <div class="col-auto">
                                 <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">

@@ -14,7 +14,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class ServerController extends Controller
+class CheckoutController extends Controller
 {
     /**
      * @param GeneralSettings $generalSettings

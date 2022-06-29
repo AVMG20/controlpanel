@@ -48,9 +48,38 @@ class User extends Authenticatable
         'server_limit' => 'int',
     ];
 
-    public function getCreditsFormatedAttribute()
+    /**
+     * Get credits formatted
+     *
+     * @return float
+     */
+    public function getCreditsFormattedAttribute(): float
     {
-        return number_format($this->attributes['credits'], '2');
+        return number_format($this->attributes['credits'], '2', '.', '');
+    }
+
+    /**
+     * get usage formatted
+     *
+     * @return float
+     */
+    public function getCreditUsageAttribute(): float
+    {
+        $usage = $this->servers()
+            ->where('suspended', '=', '0')
+            ->sum('price');
+
+        return number_format($usage, '2', '.', '');
+    }
+
+    /**
+     * get server count
+     *
+     * @return int
+     */
+    public function getServerCountAttribute(): int
+    {
+        return $this->servers()->count();
     }
 
     /**
@@ -70,4 +99,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Server::class);
     }
+
 }

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Server;
+use App\Models\User;
 use App\Settings\GeneralSettings;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
@@ -10,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Yajra\DataTables\Html\Builder;
 
-class DashboardController extends Controller
+class HomeController extends Controller
 {
     /**
      * Show the application dashboard.
@@ -20,13 +22,16 @@ class DashboardController extends Controller
      */
     public function index(Request $request, GeneralSettings $settings)
     {
+        /** @var User $user */
+        $user = $request->user();
+
         //datatables
         if ($request->ajax()) {
             return $this->dataTableQuery();
         }
 
         $html = $this->dataTable();
-        return view('dashboard', compact('html', 'settings'));
+        return view('home', compact('html', 'settings', 'user'));
     }
 
     /**
@@ -39,7 +44,7 @@ class DashboardController extends Controller
         /** @var GeneralSettings $settings */
         $settings = app(GeneralSettings::class);
 
-        $builder = $this->htmlBuilder
+        return $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'price', 'name' => 'price', 'title' => $settings->credits_display_name])
             ->addColumn(['data' => 'cpu', 'name' => 'cpu', 'title' => __('CPU')])
@@ -49,8 +54,6 @@ class DashboardController extends Controller
             ->addColumn(['data' => 'suspended', 'name' => 'suspended', 'title' => __('Suspended')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
-
-        return $builder;
     }
 
     /**

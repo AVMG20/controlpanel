@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationTemplate\Profile\ProfileUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 

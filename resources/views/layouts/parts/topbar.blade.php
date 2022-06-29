@@ -13,7 +13,7 @@
             <!-- Navbar links -->
             <ul class="navbar-nav align-items-center">
                 <li title="{{app(\App\Settings\GeneralSettings::class)->credits_display_name}}" class="nav-item mx-3">
-                    <span class="fw-bold"><i class="fa fa-coins me-2"></i>{{ auth()->user()->credits_formated }}</span>
+                    <span class="fw-bold"><i class="fa fa-coins me-2"></i>{{ auth()->user()->credits_formatted }}</span>
                 </li>
 
                 <li class="nav-item dropdown ms-lg-3">

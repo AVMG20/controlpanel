@@ -5,12 +5,12 @@ use App\Http\Controllers\Admin\NotificationTemplateController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\ServerController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
-use App\Http\Controllers\Settings\SmtpSettingsController;
 use App\Http\Controllers\Settings\PterodactylSettingsController;
+use App\Http\Controllers\Settings\SmtpSettingsController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\ProfileController;
 use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +27,8 @@ use Illuminate\Support\Facades\Route;
 */
 //public
 Route::redirect('/', '/dashboard')->name('home');
-Route::get('/checkout', [ServerController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [ServerController::class, 'createServer'])->name('checkout.store');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'createServer'])->name('checkout.store');
 
 //redirect to mainsite
 Route::get('/main', function (GeneralSettings $settings) {
@@ -43,7 +43,7 @@ Auth::routes();
 //client area
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
