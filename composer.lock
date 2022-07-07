@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a88a03b692733b86c843f0a95b0ade72",
+    "content-hash": "c207a059b1495f0c71cd26deb00fb9c0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -121,42 +121,6 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
-        },
-        {
-            "name": "controlpanel/vouchers",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "packages/controlpanel/vouchers",
-                "reference": "0b82c49895bb2f8b8e40e6e249fcb4c1d2a70875"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Controlpanel\\Vouchers\\VoucherServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Controlpanel\\Vouchers\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "AVMG20",
-                    "email": "rijstenpap1234@hotmail.com"
-                }
-            ],
-            "description": "Vouchers module for controlpanel",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         },
         {
             "name": "dflydev/dot-access-data",
@@ -9422,9 +9386,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "controlpanel/vouchers": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

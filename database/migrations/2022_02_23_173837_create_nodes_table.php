@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('location_id')->references('id')->on('locations')->cascadeOnDelete();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
