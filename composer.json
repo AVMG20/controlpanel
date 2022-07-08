@@ -7,7 +7,6 @@
 
     "require": {
         "php": "^8.1",
-        "controlpanel/vouchers": "dev-main",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.0",
@@ -31,15 +30,6 @@
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
-    },
-    "repositories": {
-        "controlpanel-vouchers": {
-            "type": "path",
-            "url": "packages/controlpanel/vouchers",
-            "options": {
-                "symlink": true
-            }
-        }
     },
     "autoload": {
         "psr-4": {
