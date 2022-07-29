@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\NotificationTemplate;
 use App\Models\User;
+use App\Settings\MailSettings;
 use Illuminate\Support\Facades\Notification;
 
 class UserObserver
@@ -22,7 +23,7 @@ class UserObserver
             ->where('name', '=' , 'welcome-message')
             ->firstOrFail();
 
-        if (!$notificationTemplate->disabled) {
+        if (!$notificationTemplate->disabled && app(MailSettings::class)->mail_password !== null) {
             $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
         }
     }
