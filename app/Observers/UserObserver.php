@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Settings\MailSettings;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class UserObserver
@@ -24,7 +25,12 @@ class UserObserver
             ->firstOrFail();
 
         if (!$notificationTemplate->disabled && app(MailSettings::class)->mail_password !== null) {
-            $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
+            try {
+                $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
+            } catch (\Exception $e) {
+                // log the error to laravel logs
+                Log::error($e->getMessage());
+            }
         }
     }
 
