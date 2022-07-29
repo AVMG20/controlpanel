@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Settings\MailSettings;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserObserver
 {
@@ -30,6 +31,12 @@ class UserObserver
             } catch (\Exception $e) {
                 // log the error to laravel logs
                 Log::error($e->getMessage());
+
+                if(app()->runningInConsole()) {
+                    $out = new ConsoleOutput();
+                    $out->writeln("<bg=red>An error occurred while sending welcome message to user {$user->email}. Please check the logs for more information.</>");
+                    return;
+                }
             }
         }
     }
