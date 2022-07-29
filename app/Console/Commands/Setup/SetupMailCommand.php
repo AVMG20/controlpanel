@@ -54,12 +54,12 @@ class SetupMailCommand extends Command
         $this->info('Setting up the email settings...');
 
         // get the email settings from the .env file
-        $email_host = env('MAIL_HOST');
-        $email_port = env('MAIL_PORT');
-        $email_username = env('MAIL_USERNAME');
-        $email_password = env('MAIL_PASSWORD');
-        $email_encryption = env('MAIL_ENCRYPTION');
-        $email_from_address = env('MAIL_FROM_ADDRESS');
+        $email_host = env('MAIL_HOST') ?? $this->ask('Please specify the email host.', 'smtp.gmail.com');
+        $email_port = env('MAIL_PORT') ?? $this->ask('Please specify the email port.' , 587);
+        $email_username = env('MAIL_USERNAME') ?? $this->ask('Please specify the email username.');
+        $email_password = env('MAIL_PASSWORD') ?? $this->ask('Please specify the email password.');
+        $email_encryption = env('MAIL_ENCRYPTION') ?? $this->ask('Please specify the email encryption.', 'tls');
+        $email_from_address = env('MAIL_FROM_ADDRESS') ?? $this->ask('Please specify the email from address.');
 
         $this->settings->mail_host = $email_host;
         $this->settings->mail_port = $email_port;
@@ -69,5 +69,13 @@ class SetupMailCommand extends Command
         $this->settings->mail_from_address = $email_from_address;
         $this->settings->save();
 
+        $this->table(['Setting', 'Value'], [
+            ['Host', $email_host],
+            ['Port', $email_port],
+            ['Username', $email_username],
+            ['Encryption', $email_encryption],
+            ['From Address', $email_from_address],
+        ]);
+        $this->info('Email settings saved. You can now send emails. Password has been hidden.');
     }
 }
