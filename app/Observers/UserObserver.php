@@ -11,6 +11,15 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserObserver
 {
+
+    /**
+     * @param MailSettings $settings
+     */
+    public function __construct(MailSettings $emailSettings)
+    {
+        $this->emailSettings = $emailSettings;
+    }
+
     /**
      * Handle the User "created" event.
      * Send welcome message to the user
@@ -25,19 +34,8 @@ class UserObserver
             ->where('name', '=' , 'welcome-message')
             ->firstOrFail();
 
-        if (!$notificationTemplate->disabled && app(MailSettings::class)->mail_password !== null) {
-            try {
-                $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
-            } catch (\Exception $e) {
-                // log the error to laravel logs
-                Log::error($e->getMessage());
-
-                if(app()->runningInConsole()) {
-                    $out = new ConsoleOutput();
-                    $out->writeln("<bg=red>An error occurred while sending welcome message to user {$user->email}. Please check the logs for more information.</>");
-                    return;
-                }
-            }
+        if (!$notificationTemplate->disabled && $this->emailSettings->mail_password !== null) {
+            $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
         }
     }
 
