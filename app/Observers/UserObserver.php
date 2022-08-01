@@ -31,7 +31,7 @@ class UserObserver
             ->where('name', '=' , 'welcome-message')
             ->firstOrFail();
 
-        if (!$notificationTemplate->disabled && $this->emailSettings->mail_password !== null) {
+        if (!$notificationTemplate->disabled && $this->emailSettings->mail_enabled) {
             $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
         }
     }

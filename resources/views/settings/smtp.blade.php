@@ -30,6 +30,7 @@
                               value="{{$settings->mail_username}}"/>
 
                 <x-input.text label="{{(__('Mail password'))}}"
+                              type="password"
                               name="mail_password"
                               value="{{$settings->mail_password}}"/>
 
@@ -42,6 +43,12 @@
                               name="mail_from_name"
                               value="{{$settings->mail_from_name}}"
                               tooltip="{{__('The name that emails should appear to come from.')}}"/>
+
+                <x-input.checkbox label="{{(__('Mail enabled'))}}"
+                                   name="mail_enabled"
+                                   value="0"
+                                   checked="{{$settings->mail_enabled}}"
+                                   tooltip="{{__('Enable or disable the mail system.')}}"/>
 
                 @can('settings.pterodactyl.write')
                     <div class="form-group d-flex justify-content-end mt-3">
