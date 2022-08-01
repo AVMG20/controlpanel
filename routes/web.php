@@ -56,6 +56,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('servers', AdminServerController::class);
     Route::resource('configurations', ConfigurationController::class);
+    Route::get('/configurations/sync', [ConfigurationController::class, 'syncPterodactyl'])->name('configurations.sync');
     Route::get('/configurations/{configuration}/clone', [ConfigurationController::class, 'clone'])->name('configurations.clone');
     Route::resource('notifications', NotificationTemplateController::class);
     Route::post('/notifications/send/{notification}', [NotificationTemplateController::class, 'sendTestNotification'])->name('notifications.test');
