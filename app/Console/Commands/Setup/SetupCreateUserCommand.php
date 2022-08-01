@@ -70,20 +70,6 @@ class SetupCreateUserCommand extends Command
             return 0;
         }
 
-        // Check if the user exists in the database
-        if(User::where('pterodactyl_id', $ptero_id)->exists()) {
-            if($this->confirm('This user already exists in the database. Execute this command again? This will delete the user.')) {
-                $this->error('Deleting this user...');
-                User::where('pterodactyl_id', $ptero_id)->delete();
-
-                return $this->handle();
-            } else {
-                $this->error('User already exists in the database. Aborting.');
-                return 0;
-            }
-
-        }
-
         //TODO: Do something with response (check for status code and give hints based upon that)
         $response = $this->client->getUser($ptero_id);
         $data = $response->json();
