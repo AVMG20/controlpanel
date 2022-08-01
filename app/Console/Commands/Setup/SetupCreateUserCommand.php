@@ -5,7 +5,6 @@ namespace App\Console\Commands\Setup;
 use App\Classes\Pterodactyl\PterodactylClient;
 use App\Models\User;
 use App\Settings\GeneralSettings;
-use App\Settings\PterodactylSettings;
 use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Console\Command;

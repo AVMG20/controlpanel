@@ -5,9 +5,6 @@ namespace App\Observers;
 use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Settings\MailSettings;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserObserver
 {
