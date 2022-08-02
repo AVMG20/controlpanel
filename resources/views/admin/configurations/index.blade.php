@@ -7,9 +7,6 @@
             <div class="d-flex justify-content-end my-3">
                 <a href="{{route('admin.configurations.create')}}" class="btn btn-primary mx-2"><i
                         class="fa fas fa-cog pe-2"></i>{{__('Create configuration')}}</a>
-
-                <a href="{{route('admin.configurations.sync')}}" class="btn btn-primary mx-2"><i
-                        class="fa fas fa-sync pe-2"></i>{{__('Sync Pterodactyl')}}</a>
             </div>
         @endcan
 

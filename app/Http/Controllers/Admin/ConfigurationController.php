@@ -171,7 +171,7 @@ class ConfigurationController extends Controller
         Egg::syncEggs();
 
         return redirect()
-            ->route('admin.configurations.index')
+            ->back()
             ->with('success', __('Ptero Synced'));
     }
 

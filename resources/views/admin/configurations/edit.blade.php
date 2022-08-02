@@ -168,6 +168,8 @@
                             @endforeach
                         </x-input.select>
 
+                       {{__(" No Eggs / Locations showing?")}} <a href="{{route('admin.configurations.sync')}}"><i style="color:blue;">{{__('Sync now')}}</i></a>
+
                     </div>
                 </div>
 
