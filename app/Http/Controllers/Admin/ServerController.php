@@ -122,10 +122,9 @@ class ServerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Server $server
-     * @param PterodactylClient $client
      * @return RedirectResponse
      */
-    public function destroy(Server $server, PterodactylClient $client)
+    public function destroy(Server $server)
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 

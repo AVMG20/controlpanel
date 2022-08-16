@@ -73,18 +73,27 @@
         <div class="row">
 
             <!-- Information -->
-            <div class="col-lg-12 col-xl-6">
-                <div class="card p-3">
-                    <h2>Welcome to controlpanel</h2>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores eaque enim ex facilis fuga harum, impedit ipsam magnam magni nihil nostrum reprehenderit vitae voluptatum! Asperiores aut ducimus error laboriosam laborum.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores eaque enim ex facilis fuga harum, impedit ipsam magnam magni nihil nostrum reprehenderit vitae voluptatum! Asperiores aut ducimus error laboriosam laborum.</p>
+            <div class="card card-body border-0 shadow table-wrapper table-responsive">
+                <div class="d-flex justify-content-between mb-3">
+                    <div>
+                        <h2 class="mb-4 h5">{{ __('Servers') }}</h2>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i> {{__('Create server')}}</button>
+                    </div>
                 </div>
+
+                {!! $html->table() !!}
+
             </div>
             <!-- /Information -->
 
         </div>
 
     </div>
+@endsection
+
+@section('scripts')
+    {!! $html->scripts() !!}
 @endsection
 

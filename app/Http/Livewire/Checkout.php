@@ -117,7 +117,7 @@ class Checkout extends Component
             return redirect()->back()->with('error', __('Unexpected error during server creation'));
         }
 
-        return redirect()->route('dashboard')->with('success', __('Server created successfully!'));
+        return redirect()->route('dashboard.index')->with('success', __('Server created successfully!'));
     }
 
     /**

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Client\Response;
 
 class Server extends Model
@@ -35,10 +36,10 @@ class Server extends Model
         'allocations',
         'threads',
         'oom_disabled',
-        'node',
-        'allocation',
-        'nest',
-        'egg',
+        'node_id',
+        'allocation_id',
+        'nest_id',
+        'egg_id',
         'price',
     ];
 
@@ -58,9 +59,10 @@ class Server extends Model
         'io' => 'int',
         'databases' => 'int',
         'backups' => 'int',
-        'allocations' => 'int',
-        'nest' => 'int',
-        'egg' => 'int',
+        'allocations_id' => 'int',
+        'nest_id' => 'int',
+        'egg_id' => 'int',
+        'node_id' => 'int',
     ];
 
     protected $appends = [
@@ -80,6 +82,7 @@ class Server extends Model
             $client = app(PterodactylClient::class);
 
             try {
+                //delete server on pterodactyl
                 $client->deleteServer($server->pterodactyl_id);
             } catch (PterodactylRequestException $exception) {
                 //throw exception if it's not a 404 error
@@ -119,10 +122,10 @@ class Server extends Model
             'databases' => $data['attributes']['feature_limits']['databases'],
             'backups' => $data['attributes']['feature_limits']['backups'],
             'allocations' => $data['attributes']['feature_limits']['allocations'],
-            'node' => $data['attributes']['node'],
-            'allocation' => $data['attributes']['allocation'],
-            'nest' => $data['attributes']['nest'],
-            'egg' => $data['attributes']['egg'],
+            'node_id' => $data['attributes']['node'],
+            'allocation_id' => $data['attributes']['allocation'],
+            'nest_id' => $data['attributes']['nest'],
+            'egg_id' => $data['attributes']['egg'],
             'price' => $price
         ]);
     }
@@ -162,9 +165,22 @@ class Server extends Model
      *
      * @return Attribute
      */
+    public function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => number_format($value, '2', '.', ''),
+            set: fn($value) => floatval($value),
+        );
+    }
+
+    /**
+     * Get the price per hour
+     *
+     * @return Attribute
+     */
     public function pricePerHour(): Attribute
     {
-        return Attribute::get(fn() => floatval(number_format($this->price / 30 / 24, 6)));
+        return Attribute::get(fn() => number_format($this->price / 30 / 24, '2', '.', ''));
     }
 
     /**
@@ -174,7 +190,7 @@ class Server extends Model
      */
     public function pricePerDay(): Attribute
     {
-        return Attribute::get(fn() => floatval(number_format($this->price / 30, 6)));
+        return Attribute::get(fn() => number_format($this->price / 30, '2', '.', ''));
     }
 
     /**
@@ -194,7 +210,7 @@ class Server extends Model
      */
     public function egg(): BelongsTo
     {
-        return $this->belongsTo(Egg::class, 'egg');
+        return $this->belongsTo(Egg::class);
     }
 
     /**
@@ -204,6 +220,6 @@ class Server extends Model
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(Node::class, 'node');
+        return $this->belongsTo(Node::class, );
     }
 }
