@@ -5,10 +5,10 @@ use App\Http\Controllers\Admin\NotificationTemplateController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
 use App\Http\Controllers\Settings\PterodactylSettingsController;
 use App\Http\Controllers\Settings\SmtpSettingsController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ProfileController;
 use App\Settings\GeneralSettings;
@@ -33,7 +33,7 @@ Route::post('/checkout', [CheckoutController::class, 'createServer'])->name('che
 //redirect to mainsite
 Route::get('/main', function (GeneralSettings $settings) {
     if ($settings->main_site) return redirect($settings->main_site);
-    return redirect()->route('dashboard');
+    return redirect()->route('dashboard.index');
 })->name('main-site');
 
 //auth routes
@@ -42,8 +42,7 @@ Auth::routes();
 
 //client area
 Route::middleware('auth')->group(function () {
-
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::resource('dashboard', HomeController::class);
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

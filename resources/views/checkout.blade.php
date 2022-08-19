@@ -30,7 +30,7 @@
         <div class="w-100" id="navbar-default-primary">
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
+                    <a href="{{ route('dashboard.index') }}" class="nav-link">
                         <span>
                             <i style="font-size: 16px;" class="fas pe-1 fa-home"></i>
                             {{__('Home')}}

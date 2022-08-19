@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Classes\Pterodactyl\PterodactylClient;
 use App\Exceptions\PterodactylRequestException;
 use App\Helper\PterodactylServerHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerStoreRequest;
 use App\Models\Server;
 use App\Settings\GeneralSettings;
@@ -56,7 +57,7 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', __('Unexpected error during server creation'));
         }
 
-        return redirect()->route('dashboard')->with('success', __('Server created successfully!'));
+        return redirect()->route('dashboard.index')->with('success', __('Server created successfully!'));
     }
 
 

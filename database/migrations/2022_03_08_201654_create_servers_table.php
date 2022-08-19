@@ -32,10 +32,10 @@ return new class extends Migration
             $table->unsignedInteger('allocations');
             $table->unsignedInteger('threads')->nullable();
             $table->boolean('oom_disabled')->default(true);
-            $table->unsignedInteger('node');
-            $table->unsignedInteger('allocation');
-            $table->unsignedInteger('nest');
-            $table->unsignedInteger('egg');
+            $table->unsignedInteger('node_id');
+            $table->unsignedInteger('allocation_id');
+            $table->unsignedInteger('nest_id');
+            $table->unsignedInteger('egg_id');
             $table->float('price', 18, 6)->default(0);
             $table->timestamps();
         });

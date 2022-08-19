@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Settings\GeneralSettings;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Yajra\DataTables\Html\Builder;
@@ -24,14 +25,31 @@ class HomeController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
+        $servers = $user->servers;
 
         //datatables
         if ($request->ajax()) {
-            return $this->dataTableQuery();
+            return $this->dataTableQuery($request);
         }
 
         $html = $this->dataTable();
         return view('home', compact('html', 'settings', 'user'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        $server = Server::query()->findOrFail($id);
+        $server->delete();
+
+        return redirect()
+            ->route('dashboard.index')
+            ->with('success', __('Server removed'));
     }
 
     /**
@@ -41,37 +59,31 @@ class HomeController extends Controller
      */
     public function dataTable(): Builder
     {
-        /** @var GeneralSettings $settings */
-        $settings = app(GeneralSettings::class);
-
         return $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
-            ->addColumn(['data' => 'price', 'name' => 'price', 'title' => $settings->credits_display_name])
-            ->addColumn(['data' => 'cpu', 'name' => 'cpu', 'title' => __('CPU')])
-            ->addColumn(['data' => 'memory', 'name' => 'memory', 'title' => __('Memory')])
-            ->addColumn(['data' => 'disk', 'name' => 'disk', 'title' => __('Disk')])
-            ->addColumn(['data' => 'egg.name', 'name' => 'egg.name', 'title' => __('Egg')])
+            ->addColumn(['data' => 'price', 'name' => 'price', 'title' => __('Cost')])
+            ->addColumn(['data' => 'egg.name', 'name' => 'egg.name', 'title' => __('Config')])
+            ->addColumn(['data' => 'details', 'name' => 'details', 'title' => __('Details'),'searchable' => false, 'orderable' => false])
             ->addColumn(['data' => 'suspended', 'name' => 'suspended', 'title' => __('Suspended')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());
     }
 
     /**
+     * @param Request $request
      * @return mixed
      * @throws Exception
      */
-    public function dataTableQuery(): mixed
+    public function dataTableQuery(Request $request): mixed
     {
-        $query = Server::query()->with('egg');
+        $query = Server::query()
+            ->with(['egg'])
+            ->whereBelongsTo($request->user());
 
         return datatables($query)
             ->addColumn('actions', function (Server $server) {
                 return Blade::render('
-                            <a title="{{__(\'Edit\')}}" href="" class="btn btn-sm btn-info">
-                                <i class="fa fas fa-edit"></i>
-                            </a>
-
-                            <form class="d-inline" method="post" action="">
+                            <form class="d-inline" method="post" action="{{route("dashboard.destroy", $server)}}">
                                 @csrf
                                 @method("DELETE")
                                 <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm"><i
@@ -79,12 +91,18 @@ class HomeController extends Controller
                             </form>'
                     , compact('server'));
             })
+            ->addColumn('details', function (Server $server) {
+                return "CPU: {$server->cpu}%, RAM: {$server->memory}MB, DISK:{$server->disk}MB";
+            })
+            ->editColumn('price', function (Server $server) {
+                return "<span><i class='fa fa-coins me-2'></i>{$server->price}</span>";
+            })
             ->editColumn('suspended', function (Server $server) {
                 return $server->suspended
                     ? "<span class='badge bg-danger'>" . __('Suspended') . "</span>"
                     : "<span class='badge bg-success'>" . __('Active') . "</span>";
             })
-            ->rawColumns(['actions', 'suspended'])
+            ->rawColumns(['actions', 'suspended', 'price'])
             ->make(true);
     }
 }
