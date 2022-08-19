@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Settings\MailSettings;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +32,19 @@ class AppServiceProvider extends ServiceProvider
         /** @var MailSettings $settings */
         $settings = $this->app->make(MailSettings::class);
         $settings->setConfig();
+
+
+        //get the current Branch name and latest git Version the Instance is running on and safe it as a config variable
+        try {
+            (Storage::get('latestVersion') ? config(["LATESTVERSION" => Storage::get('latestVersion')]) : config(["LATESTVERSION" => "0.0"]));
+            $stringfromfile = file(base_path().'/.git/HEAD');
+            $firstLine = $stringfromfile[0]; //get the string from the array
+            $explodedstring = explode("/", $firstLine, 3); //seperate out by the "/" in the string
+            $branchname = $explodedstring[2]; //get the one that is always the branch name
+        } catch (Exception $e) {
+            $branchname = "unknown";
+            Log::error($e);
+        }
+        config(['BRANCHNAME' => $branchname]);
     }
 }
