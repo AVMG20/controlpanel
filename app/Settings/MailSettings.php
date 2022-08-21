@@ -13,6 +13,7 @@ class MailSettings extends Settings
     public ?string $mail_encryption;
     public ?string $mail_from_address;
     public ?string $mail_from_name;
+    public ?bool $mail_enabled = false;
 
     public static function group(): string
     {
@@ -34,6 +35,7 @@ class MailSettings extends Settings
             config()->set('mail.mailers.smtp.password', $this->mail_password);
             config()->set('mail.from.address', $this->mail_from_address);
             config()->set('mail.from.name', $this->mail_from_name);
+            config()->set('mail.enabled', $this->mail_enabled);
         } catch (\Exception $e) {
             //do nothing
         }

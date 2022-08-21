@@ -39,13 +39,14 @@ class SmtpSettingsController extends Controller
         $this->checkPermission('settings.smtp.write');
 
         $request->validate([
-           'mail_host' => 'required',
-           'mail_port' => 'required',
-           'mail_username' => 'nullable',
-           'mail_password' => 'nullable',
-           'mail_encryption' => 'nullable',
-           'mail_from_address' => 'required',
-           'mail_from_name' => 'required',
+            'mail_host' => 'required',
+            'mail_port' => 'required',
+            'mail_username' => 'nullable',
+            'mail_password' => 'nullable',
+            'mail_encryption' => 'nullable',
+            'mail_from_address' => 'required',
+            'mail_from_name' => 'required',
+            'mail_enabled' => '0|1',
         ]);
 
         // Update the settings
@@ -56,6 +57,7 @@ class SmtpSettingsController extends Controller
         $settings->mail_encryption = $request->input('mail_encryption');
         $settings->mail_from_address = $request->input('mail_from_address');
         $settings->mail_from_name = $request->input('mail_from_name');
+        $settings->mail_enabled = $request->input('mail_enabled');
         $settings->save();
 
 

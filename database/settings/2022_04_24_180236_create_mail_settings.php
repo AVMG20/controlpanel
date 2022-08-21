@@ -13,5 +13,6 @@ class CreateMailSettings extends SettingsMigration
         $this->migrator->add('mail.mail_encryption', '');
         $this->migrator->add('mail.mail_from_address', 'hello@example.com');
         $this->migrator->add('mail.mail_from_name', str_replace(' ', '', config('app.name')));
+        $this->migrator->add('mail.mail_enabled', false);
     }
 }

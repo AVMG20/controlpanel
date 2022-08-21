@@ -4,10 +4,19 @@ namespace App\Observers;
 
 use App\Models\NotificationTemplate;
 use App\Models\User;
-use Illuminate\Support\Facades\Notification;
+use App\Settings\MailSettings;
 
 class UserObserver
 {
+
+    /**
+     * @param MailSettings $settings
+     */
+    public function __construct(MailSettings $emailSettings)
+    {
+        $this->emailSettings = $emailSettings;
+    }
+
     /**
      * Handle the User "created" event.
      * Send welcome message to the user
@@ -22,7 +31,7 @@ class UserObserver
             ->where('name', '=' , 'welcome-message')
             ->firstOrFail();
 
-        if (!$notificationTemplate->disabled) {
+        if (!$notificationTemplate->disabled && $this->emailSettings->mail_enabled) {
             $user->notify($notificationTemplate->getDynamicNotification(compact('user')));
         }
     }
