@@ -70,6 +70,20 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="name">{{__('Billing Cycle')}}</label>
+                            <select wire:model="billing_cycle" name="billing_cycle" class="form-control"
+                                    id="billing_cycle">
+                                    <option value="hourly">{{__("hourly")}}</option>
+                                    <option value="monthly">{{__("monthly")}}</option>
+                            </select>
+                            @error('billing_cycle')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
                     </div>
                 </div>
 

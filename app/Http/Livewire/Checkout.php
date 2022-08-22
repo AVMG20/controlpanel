@@ -36,6 +36,7 @@ class Checkout extends Component
     public ?array $selected_configuration = [];
 
     public ?string $name = '';
+    public ?string $billing_cycle = "";
 
     protected $rules = [
         'name' => ['required', 'string', 'max:60'],
@@ -108,7 +109,7 @@ class Checkout extends Component
 
         try {
             $response = $client->createServer($data);
-            Server::createFromPterodactylResponse($response, $user, $configuration->price);
+            Server::createFromPterodactylResponse($response, $user, $configuration->price, $this->billing_cycle);
         } catch (PterodactylRequestException $exception) {
             logger('Creating server failed', ['exception' => $exception]);
             return redirect()->back()->with('error', $exception->getPterodactylErrorMessage());

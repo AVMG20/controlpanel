@@ -6,6 +6,7 @@ use App\Models\Server;
 use App\Models\User;
 use App\Notifications\ServersSuspendedNotification;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class ChargeCreditsCommand extends Command
 {
@@ -52,11 +53,23 @@ class ChargeCreditsCommand extends Command
             foreach ($servers as $server) {
                 /** @var User $user */
                 $user = $server->user;
+                $billing_cycle = $server->billing_cycle;
+                $payment_due = Carbon::parse($server->last_billed)->addHour();
+                $price = $server->pricePerHour();
 
-                #charge credits / suspend server
-                if ($user->credits >= $server->pricePerHour()) {
+                if($billing_cycle == "monthly"){
+                    $payment_due = Carbon::parse($server->last_billed)->addMonth();
+                    $price = $server->price();
+                }
+
+
+                if (!$payment_due->isPast()) { continue;}
+
+
+                if (!$server->cancelled or $user->credits >= $price) {
+                    $user->decrement('credits', $price);
+
                     $this->line("<fg=blue>{$user->name}</> Current credits: <fg=green>{$user->credits}</> Credits to be removed: <fg=red>{$server->pricePerHour()}</>");
-                    $user->decrement('credits', $server->pricePerHour());
                 } else {
                     try {
                         #suspend server

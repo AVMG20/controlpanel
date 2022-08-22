@@ -48,7 +48,7 @@ class CheckoutController extends Controller
 
         try {
             $response = $client->createServer($data);
-            Server::createFromPterodactylResponse($response, $request->user(), $request->configuration->price);
+            Server::createFromPterodactylResponse($response, $request->user(), $request->configuration->price, $request->billing_cycle);
         } catch (PterodactylRequestException $exception) {
             logger('Creating server failed', ['exception' => $exception]);
             return redirect()->back()->with('error', $exception->getPterodactylErrorMessage());

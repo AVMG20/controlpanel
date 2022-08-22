@@ -99,7 +99,7 @@ class Server extends Model
      * @param float $price
      * @return Server
      */
-    public static function createFromPterodactylResponse(Response $response, User $user, float $price): Server
+    public static function createFromPterodactylResponse(Response $response, User $user, float $price, string $billingCycle): Server
     {
         $data = $response->body();
         $data = json_decode($data, true);
@@ -126,7 +126,8 @@ class Server extends Model
             'allocation_id' => $data['attributes']['allocation'],
             'nest_id' => $data['attributes']['nest'],
             'egg_id' => $data['attributes']['egg'],
-            'price' => $price
+            'price' => $price,
+            'billing_cycle' => $billingCycle
         ]);
     }
 
