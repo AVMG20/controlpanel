@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\NotificationTemplateController;
+use App\Http\Controllers\Admin\OverviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
@@ -54,6 +55,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('servers', AdminServerController::class);
+    Route::get('overview', [OverviewController::class, 'index'])->name('overview.index');
     Route::get('/configurations/sync', [ConfigurationController::class, 'syncPterodactyl'])->name('configurations.sync');
     Route::get('/configurations/{configuration}/clone', [ConfigurationController::class, 'clone'])->name('configurations.clone');
     Route::resource('configurations', ConfigurationController::class);
