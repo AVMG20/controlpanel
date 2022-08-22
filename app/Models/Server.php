@@ -193,6 +193,7 @@ class Server extends Model
         return Attribute::get(fn() => number_format($this->price / 30, '2', '.', ''));
     }
 
+
     /**
      * Get user object
      *

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Storage;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +17,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('s:pterodactyl:sync')->daily(); //sync ptero eggs/nodes/locations/nests daily
+         $schedule->command('credits:charge')->hourly();
+
+        //log cronjob activity
+        $schedule->call(function () {
+            Storage::disk('logs')->put('cron.log' , "Last activity from cronjobs - " . now());
+        })->everyMinute();
     }
+
 
     /**
      * Register the commands for the application.
