@@ -86,6 +86,26 @@
                 </div>
             </div>
             <!-- /Usage card -->
+            <!-- Usage card -->
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{__('Last Sync from Pterodactyl')}}
+                                </span>
+                                <span class="h4 font-bold mb-0">{{$lastPteroSync}}</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                    <i class="fas fa-upload fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Usage card -->
         </div>
         <!-- /Cards -->
 

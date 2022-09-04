@@ -16,20 +16,21 @@ class OverviewController extends Controller
 {
     public const TTL = 86400;
 
-    public function index(PterodactylClient $pterodactylClient)
+    public function index(PterodactylClient $pterodactylClient, GeneralSettings $settings)
     {
-        /** @var GeneralSettings $settings */
-        $settings = app(GeneralSettings::class);
+        $userCount =  User::query()->count();
+        $creditCount = User::query()->sum('credits');
+        $creditCount =  number_format($creditCount, 2, '.', '');
 
         //Get counters
         $counters = collect();
         //Set basic variables in the collection
-        $counters->put('users', User::query()->count());
-        $counters->put('credits', number_format(User::query()->sum('credits'), 2, '.', ''));
-       // $counters->put('payments', Payment::query()->count());
-        $counters->put('eggs', Egg::query()->count());
-        $counters->put('nests', Nest::query()->count());
-        $counters->put('locations', Location::query()->count());
+        $counters->put('users', $userCount);
+        $counters->put('credits', $creditCount);
+       // $counters->put('payments', Payment::all()->count());
+        $counters->put('eggs', Egg::all()->count());
+        $counters->put('nests', Nest::all()->count());
+        $counters->put('locations', Location::all()->count());
 
         //Prepare for counting
         $counters->put('servers', collect());
@@ -40,49 +41,15 @@ class OverviewController extends Controller
         $counters['earnings']->total = 0;
         $counters->put('totalUsagePercent', 0);
 
-        /*
-        //Prepare subCollection 'payments'
-        $counters->put('payments', collect());
-        //Get and save payments from last 2 months for later filtering and looping$payments = Payment::query()->where('created_at', '>=', Carbon::today()->startOfMonth()->subMonth())->where('status', 'paid')->get();
-        //Prepare collections and set a few variables
-        $counters['payments']->put('thisMonth', collect());
-        $counters['payments']->put('lastMonth', collect());
-        $counters['payments']['thisMonth']->timeStart = Carbon::today()->startOfMonth()->toDateString();
-        $counters['payments']['thisMonth']->timeEnd = Carbon::today()->toDateString();
-        $counters['payments']['lastMonth']->timeStart = Carbon::today()->startOfMonth()->subMonth()->toDateString();
-        $counters['payments']['lastMonth']->timeEnd = Carbon::today()->endOfMonth()->subMonth()->toDateString();
+        //ToDo add payments from v0.8 PR
 
-
-        //Fill out variables for each currency separately
-        foreach ($payments->where('created_at', '>=', Carbon::today()->startOfMonth()) as $payment) {
-            $paymentCurrency = $payment->currency_code;
-            if (!isset($counters['payments']['thisMonth'][$paymentCurrency])) {
-                $counters['payments']['thisMonth']->put($paymentCurrency, collect());
-                $counters['payments']['thisMonth'][$paymentCurrency]->total = 0;
-                $counters['payments']['thisMonth'][$paymentCurrency]->count = 0;
-            }
-            $counters['payments']['thisMonth'][$paymentCurrency]->total += $payment->total_price;
-            $counters['payments']['thisMonth'][$paymentCurrency]->count++;
-        }
-        foreach ($payments->where('created_at', '<', Carbon::today()->startOfMonth()) as $payment) {
-            $paymentCurrency = $payment->currency_code;
-            if (!isset($counters['payments']['lastMonth'][$paymentCurrency])) {
-                $counters['payments']['lastMonth']->put($paymentCurrency, collect());
-                $counters['payments']['lastMonth'][$paymentCurrency]->total = 0;
-                $counters['payments']['lastMonth'][$paymentCurrency]->count = 0;
-            }
-            $counters['payments']['lastMonth'][$paymentCurrency]->total += $payment->total_price;
-            $counters['payments']['lastMonth'][$paymentCurrency]->count++;
-        }
-        $counters['payments']->total = Payment::query()->count();
- */
         $lastEgg = Egg::query()->latest('updated_at')->first();
         $syncLastUpdate = $lastEgg ? $lastEgg->updated_at->isoFormat('LLL') : __('unknown');
 
 
         //Get node information
         $nodes = collect();
-        foreach ($DBnodes = Node::query()->get() as $DBnode) { //gets all node information and prepares the structure
+        foreach ($DBnodes = Node::all() as $DBnode) { //gets all node information and prepares the structure
             $nodeId = $DBnode['id'];
             $nodes->put($nodeId, collect());
             $nodes[$nodeId]->name = $DBnode['name'];
@@ -99,9 +66,13 @@ class OverviewController extends Controller
 
         $response = ($pterodactylClient->getServers()->json());
         foreach ($response["data"] as $server) { //gets all servers from Pterodactyl and calculates total of credit usage for each node separately + total
+
+            $serverId = $server['attributes']['id'];
             $nodeId = $server['attributes']['node'];
 
-            if ($CPServer = Server::query()->where('pterodactyl_id', $server['attributes']['id'])->first()) {
+            $CPServer = Server::query()->where('pterodactyl_id', $serverId)->first();
+
+            if ($CPServer) {
                 $prize = Server::query()->where('id', $CPServer->product_id)->first()->price;
                 if (!$CPServer->suspended) {
                     $counters['earnings']->active += $prize;
@@ -119,9 +90,7 @@ class OverviewController extends Controller
 
         return view('admin.overview.index', [
             'counters' => $counters,
-            'nodes' => $nodes,
-            'syncLastUpdate' => $syncLastUpdate,
-            'perPageLimit' => ($counters['servers']->total != Server::query()->count()) ? true : false,
+            'lastPteroSync' => $syncLastUpdate,
             'settings' => $settings
         ]);
 
