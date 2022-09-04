@@ -30,7 +30,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{__("Total users")}}</span>
+                                <span
+                                    class="h6 font-semibold text-muted text-sm d-block mb-2">{{__("Total users")}}</span>
                                 <span class="h4 font-bold mb-0">{{$counters['users']}}</span>
                             </div>
                             <div class="col-auto">
@@ -87,7 +88,6 @@
             <!-- /Usage card -->
         </div>
         <!-- /Cards -->
-
 
 
     </div>
