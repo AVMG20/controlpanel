@@ -7,6 +7,8 @@ use App\Http\Requests\Configuration\ConfigurationRequest;
 use App\Models\Configuration;
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
+use App\Models\Pterodactyl\Nest;
+use App\Models\Pterodactyl\Node;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -157,6 +159,22 @@ class ConfigurationController extends Controller
 
         return view('admin.configurations.edit', compact('eggs', 'configuration', 'locations', 'settings'));
     }
+
+    /**
+     * @description Sync locations,nodes,nests,eggs with the linked pterodactyl panel
+     */
+    public function syncPterodactyl()
+    {
+        Location::syncLocations();
+        Node::syncNodes();
+        Nest::syncNests();
+        Egg::syncEggs();
+
+        return redirect()
+            ->back()
+            ->with('success', __('Ptero Synced'));
+    }
+
 
     /**
      * @description create table
