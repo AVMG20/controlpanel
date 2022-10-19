@@ -131,6 +131,70 @@ class Server extends Model
     }
 
     /**
+     * Charge the user for the server
+     *
+     * @return bool true if the user was charged, false if the user doesn't have enough money
+     */
+    public function chargeCredits(): bool
+    {
+        $hourlyPrice = $this->price / 30 / 24;
+
+        //check if the user has enough credits to pay for the server
+        if ($this->user() >= $hourlyPrice) {
+            $this->user()->decrement('credits', $hourlyPrice);
+            return true;
+        }
+
+        //suspend the server
+        $this->suspend();
+
+        return false;
+    }
+
+    /**
+     * Suspends the server
+     *
+     * @param bool $notify Notify the user that the server was suspended
+     * @return Server
+     */
+    public function suspend(bool $notify = true): static
+    {
+        $this->suspended = true;
+        $this->save();
+
+        //notify the user
+        if ($notify) {
+            static $notifiedUsers = [];
+
+            //don't notify the user if they were already notified
+            if (!in_array($this->user_id, $notifiedUsers)) {
+                $user = $this->user();
+
+                //NOTE this notification is to inform the user that ALL servers were suspended
+                NotificationTemplate::sendNotification($user, 'servers-suspended', [
+                    'user' => $user,
+                ]);
+
+                $notifiedUsers[] = $this->user_id;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Unsuspends the server
+     *
+     * @return Server
+     */
+    public function unsuspend(): static
+    {
+        $this->suspended = false;
+        $this->save();
+        return $this;
+    }
+
+    /**
      * Generate the client url to Pterodactyl
      *
      * @return Attribute
@@ -165,22 +229,9 @@ class Server extends Model
      *
      * @return Attribute
      */
-    public function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => number_format($value, '2', '.', ''),
-            set: fn($value) => floatval($value),
-        );
-    }
-
-    /**
-     * Get the price per hour
-     *
-     * @return Attribute
-     */
     public function pricePerHour(): Attribute
     {
-        return Attribute::get(fn() => number_format($this->price / 30 / 24, '2', '.', ''));
+        return Attribute::get(fn() => number_format($this->price / 30 / 24, 2, '.', ''));
     }
 
     /**
@@ -190,7 +241,7 @@ class Server extends Model
      */
     public function pricePerDay(): Attribute
     {
-        return Attribute::get(fn() => number_format($this->price / 30, '2', '.', ''));
+        return Attribute::get(fn() => number_format($this->price / 30, 2, '.', ''));
     }
 
     /**
@@ -220,6 +271,6 @@ class Server extends Model
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(Node::class, );
+        return $this->belongsTo(Node::class,);
     }
 }

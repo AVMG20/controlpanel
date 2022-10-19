@@ -21,7 +21,7 @@ class NotificationSeeder extends Seeder
             'title' => "Getting started",
             'content' => "
                <p>Hello <strong>{{\$user->name}}</strong>, Welcome to our dashboard!</p>
-                <h5>Information</h5>
+                <h4>Information</h4>
                 <p>This dashboard can be used to create and delete servers.<br /> These servers can be used and managed on our pterodactyl panel.<br /> If you have any questions, please join our Discord server and #create-a-ticket.</p>
                 <p>We hope you can enjoy this hosting experience and if you have any suggestions please let us know!</p>
                 <p>Regards,<br />Controlpanel</p>",
@@ -35,6 +35,20 @@ class NotificationSeeder extends Seeder
             'title' => "Testing",
             'content' => "
                <p>Hello <strong>{{\$user->name}}</strong>, Your Mail settings are configured correctly!</p>
+               <p>Regards,<br />Controlpanel</p>",
+            'channels' => json_encode(['mail'])
+        ]);
+
+        NotificationTemplate::query()->firstOrCreate([
+            'name' => 'servers-suspended'
+        ],[
+            'name' => 'servers-suspended',
+            'title' => "Your servers have been suspended",
+            'content' => "
+               <p>
+               Hello <strong>{{\$user->name}}</strong>, Your servers have been suspended! <br>
+               Please recharge your account to continue using our services.
+               </p>
                <p>Regards,<br />Controlpanel</p>",
             'channels' => json_encode(['mail'])
         ]);

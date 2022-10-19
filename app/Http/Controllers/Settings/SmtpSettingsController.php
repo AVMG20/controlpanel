@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Settings\MailSettings;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -46,7 +47,7 @@ class SmtpSettingsController extends Controller
             'mail_encryption' => 'nullable',
             'mail_from_address' => 'required',
             'mail_from_name' => 'required',
-            'mail_enabled' => '0|1',
+            'mail_enabled' => 'boolean',
         ]);
 
         // Update the settings
@@ -68,6 +69,8 @@ class SmtpSettingsController extends Controller
         // send test notification to current user
         if ($request->has('send_test_email')) {
             $this->sendTestMail($request->user(), $settings);
+
+            return redirect()->back()->with('success', __('Test email sent successfully'));
         }
 
         return redirect()->back()->with('success', __('SMTP updated successfully'));
@@ -83,20 +86,18 @@ class SmtpSettingsController extends Controller
         $settings->setConfig();
 
         try {
-            //get notification template
-            $notification = NotificationTemplate::getNotificationByName('test-notification');
+            $result = NotificationTemplate::sendNotification($user, 'test-notification', compact('user'));
 
-            //get notification from template
-            $user->notifyNow($notification->getDynamicNotification(compact('user')));
-            return;
-        } catch (\Exception $exception) {
+            if (!$result) {
+                redirect()->back()->with('error', 'Test email could not be sent (make sure Mails are enabled in settings)');
+            }
+
+        } catch (Exception $exception) {
             logger('Sending test notification failed', ['exception' => $exception]);
 
             redirect()
                 ->back()
                 ->with('error', $exception->getMessage());
-
-            return;
         }
     }
 }
