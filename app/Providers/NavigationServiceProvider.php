@@ -51,7 +51,8 @@ class NavigationServiceProvider extends ServiceProvider
         //load navigation options
         $sidebar = $this->loadSidebar();
         $settings = $this->loadSettings();
-        $loadedNavigationOptions = array_merge($sidebar, $settings);
+        $footer = $this->loadFooter();
+        $loadedNavigationOptions = array_merge($sidebar, $settings, $footer);
 
         //get current navigation options
         $navigation = $view->shared('navigation') ?? [];
@@ -95,6 +96,19 @@ class NavigationServiceProvider extends ServiceProvider
         $path = resource_path('views/layouts/parts/navigation/settings');
 
         return $this->navigationHelper->loadNavigationOptionsFromFolder(NavigationLocation::settings, $path);
+    }
+
+    /**
+     * Load footer for core cp
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected function loadFooter(): array
+    {
+        $path = resource_path('views/layouts/parts/navigation/footer');
+
+        return $this->navigationHelper->loadNavigationOptionsFromFolder(NavigationLocation::footer, $path);
     }
 
     /**
