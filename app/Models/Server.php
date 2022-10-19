@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Log;
 
 class Server extends Model
 {
@@ -131,6 +131,44 @@ class Server extends Model
     }
 
     /**
+     * Sync the ressources of a specifiy pterodactyl server to CPGG
+     * @param Server $server
+     */
+    public static function syncPterodactylServerSpecs(Server $server): Server
+    {
+        $client = app(PterodactylClient::class);
+        $data = $client->getServer($server->pterodactyl_id)->body();
+        $data = json_decode($data, true);
+        try {
+            $server->pterodactyl_id = $data['attributes']['id'];
+            $server->identifier = $data['attributes']['identifier'];
+            $server->name = $data['attributes']['name'];
+            $server->description = $data['attributes']['description'];
+            $server->status = $data['attributes']['status'];
+            $server->suspended = $data['attributes']['suspended'];
+            $server->memory = $data['attributes']['limits']['memory'];
+            $server->cpu = $data['attributes']['limits']['cpu'];
+            $server->swap = $data['attributes']['limits']['swap'];
+            $server->disk = $data['attributes']['limits']['disk'];
+            $server->io = $data['attributes']['limits']['io'];
+            $server->threads = $data['attributes']['limits']['threads'];
+            $server->oom_disabled = $data['attributes']['limits']['oom_disabled'];
+            $server->databases = $data['attributes']['feature_limits']['databases'];
+            $server->backups = $data['attributes']['feature_limits']['backups'];
+            $server->allocations = $data['attributes']['feature_limits']['allocations'];
+            $server->node_id = $data['attributes']['node'];
+            $server->allocation_id = $data['attributes']['allocation'];
+            $server->nest_id = $data['attributes']['nest'];
+            $server->egg_id = $data['attributes']['egg'];
+
+        } catch (PterodactylRequestException $exception) {
+            //throw exception if it's not a 404 error
+            if ($exception->getCode() !== 404) throw $exception;
+            Log::Error("There was an error when trying to Sync Server ".$server->name . "(".$server->identifier.") : ".$exception);
+        }
+    }
+
+    /**
      * Generate the client url to Pterodactyl
      *
      * @return Attribute
@@ -220,6 +258,6 @@ class Server extends Model
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(Node::class, );
+        return $this->belongsTo(Node::class);
     }
 }

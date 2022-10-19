@@ -6,6 +6,7 @@ use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
 use App\Models\Pterodactyl\Nest;
 use App\Models\Pterodactyl\Node;
+use App\Models\Server;
 use Exception;
 use Illuminate\Console\Command;
 
@@ -44,7 +45,7 @@ class SetupSyncPteroCommand extends Command
      */
     public function handle()
     {
-        $bar = $this->output->createProgressBar(4);
+        $bar = $this->output->createProgressBar(5);
         $bar->start();
 
         Location::syncLocations();
@@ -57,6 +58,16 @@ class SetupSyncPteroCommand extends Command
         $bar->advance();
 
         Egg::syncEggs();
+        $bar->advance();
+
+        $this->newLine();
+        $this->line('Syncing Servers..this might take a while.');
+
+        Server::inRandomOrder()->chunk(15, function($servers) {
+            foreach ($servers as $server) {
+                Server::syncPterodactylServerSpecs($server);
+            }
+        });
         $bar->advance();
 
         $this->newLine();
