@@ -16,18 +16,43 @@ class OverviewController extends Controller
 {
     public const TTL = 86400;
 
-    public function index(PterodactylClient $pterodactylClient, GeneralSettings $settings)
+    public function index(GeneralSettings $settings)
     {
-        $userCount =  User::query()->count();
-        $creditCount = User::query()->sum('credits');
-        $creditCount =  number_format($creditCount, 2, '.', '');
 
+        //Check the last Sync Status
+        $lastEgg = Egg::query()->latest('updated_at')->first();
+        $syncLastUpdate = $lastEgg ? $lastEgg->updated_at->isoFormat('LLL') : __('unknown');
+
+        //Generate the Counters used on the Overview
+        $counters = $this->constructNodeInfo()["counters"];
+        $nodes = $this->constructNodeInfo()["nodes"];
+
+        return view('admin.overview.index', [
+            'counters' => $counters,
+            'nodeCounters' => $nodes,
+            'lastPteroSync' => $syncLastUpdate,
+            'settings' => $settings
+        ]);
+
+
+    }
+
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function constructCounters()
+    {
+
+        $userCount = User::query()->count();
+        $creditCount = User::query()->sum('credits');
+        $creditCount = number_format($creditCount, 2, '.', '');
         //Get counters
         $counters = collect();
         //Set basic variables in the collection
         $counters->put('users', $userCount);
         $counters->put('credits', $creditCount);
-       // $counters->put('payments', Payment::all()->count());
+        // $counters->put('payments', Payment::all()->count());
         $counters->put('eggs', Egg::all()->count());
         $counters->put('nests', Nest::all()->count());
         $counters->put('locations', Location::all()->count());
@@ -41,11 +66,17 @@ class OverviewController extends Controller
         $counters['earnings']->total = 0;
         $counters->put('totalUsagePercent', 0);
 
-        //ToDo add payments from v0.8 PR
+        return $counters;
+    }
 
-        $lastEgg = Egg::query()->latest('updated_at')->first();
-        $syncLastUpdate = $lastEgg ? $lastEgg->updated_at->isoFormat('LLL') : __('unknown');
 
+    /**
+     * @return array
+     */
+    private function constructNodeInfo()
+    {
+        $pterodactylClient = app(PterodactylClient::class);
+        $counters = $this->constructCounters();
 
         //Get node information
         $nodes = collect();
@@ -73,27 +104,24 @@ class OverviewController extends Controller
             $CPServer = Server::query()->where('pterodactyl_id', $serverId)->first();
 
             if ($CPServer) {
-                $prize = Server::query()->where('id', $CPServer->product_id)->first()->price;
+                $price = Server::query()->where('id', $CPServer->product_id)->first()->price;
                 if (!$CPServer->suspended) {
-                    $counters['earnings']->active += $prize;
+                    $counters['earnings']->active += $price;
                     $counters['servers']->active++;
-                    $nodes[$nodeId]->activeEarnings += $prize;
+                    $nodes[$nodeId]->activeEarnings += $price;
                     $nodes[$nodeId]->activeServers++;
                 }
-                $counters['earnings']->total += $prize;
+                $counters['earnings']->total += $price;
                 $counters['servers']->total++;
-                $nodes[$nodeId]->totalEarnings += $prize;
+                $nodes[$nodeId]->totalEarnings += $price;
                 $nodes[$nodeId]->totalServers++;
             }
         }
-
-
-        return view('admin.overview.index', [
+        return [
             'counters' => $counters,
-            'lastPteroSync' => $syncLastUpdate,
-            'settings' => $settings
-        ]);
-
-
+            'nodes' => $nodes
+        ];
     }
+
+
 }
