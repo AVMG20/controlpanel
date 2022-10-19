@@ -71,23 +71,25 @@
         <!-- /Cards -->
 
         <div class="row">
+          <div class="col-12">
 
-            <!-- Information -->
-            <div class="card card-body border-0 shadow table-wrapper table-responsive">
-                <div class="d-flex justify-content-between mb-3">
-                    <div>
-                        <h2 class="mb-4 h5">{{ __('Servers') }}</h2>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i> {{__('Create server')}}</button>
-                    </div>
-                </div>
+              <!-- Information -->
+              <div class="card card-body border-0 shadow table-wrapper table-responsive">
+                  <div class="d-flex justify-content-between mb-3">
+                      <div>
+                          <h2 class="mb-4 h5">{{ __('Servers') }}</h2>
+                      </div>
+                      <div>
+                          <button class="btn btn-primary"><i class="fas fa-plus me-2"></i> {{__('Create server')}}</button>
+                      </div>
+                  </div>
 
-                {!! $html->table() !!}
+                  {!! $html->table() !!}
 
-            </div>
-            <!-- /Information -->
+              </div>
+              <!-- /Information -->
 
+          </div>
         </div>
 
     </div>
