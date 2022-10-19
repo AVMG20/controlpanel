@@ -162,8 +162,8 @@ class Server extends Model
             $server->egg_id = $data['attributes']['egg'];
 
         } catch (PterodactylRequestException $exception) {
-            //throw exception if it's not a 404 error
-            if ($exception->getCode() !== 404) throw $exception;
+            //delete server if it's  a 404 error
+            if ($exception->getCode() == 404) $server->delete();
             Log::Error("There was an error when trying to Sync Server ".$server->name . "(".$server->identifier.") : ".$exception);
         }
     }
