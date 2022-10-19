@@ -6,7 +6,7 @@ use App\Models\Server;
 use Exception;
 use Illuminate\Console\Command;
 
-class SyncPteroCommand extends Command
+class SyncPteroServersCommand extends Command
 {
     /**
      * The name and signature of the console command.
