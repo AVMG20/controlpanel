@@ -64,6 +64,7 @@ class SetupSyncPteroCommand extends Command
         $this->line('Syncing Servers..this might take a while.');
 
         Server::inRandomOrder()->chunk(15, function($servers) {
+            /** @var Server $server */
             foreach ($servers as $server) {
                 Server::syncPterodactylServerSpecs($server);
             }
