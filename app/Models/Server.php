@@ -139,12 +139,18 @@ class Server extends Model
     {
         $hourlyPrice = $this->price / 30 / 24;
 
+        /** @var User $user */
+        $user = $this->user;
+
         //check if the user has enough credits to pay for the server
-        if ($this->user() >= $hourlyPrice) {
-            $this->user()->decrement('credits', $hourlyPrice);
+        if ($user->credits >= $hourlyPrice) {
+            $user->decrement('credits', $hourlyPrice);
             return true;
         }
 
+        
+        //TODO change to $user->suspendServers() and suspend all servers
+        //TODO change server suspend to only suspend and not notify as wel.
         //suspend the server
         $this->suspend();
 
@@ -168,7 +174,8 @@ class Server extends Model
 
             //don't notify the user if they were already notified
             if (!in_array($this->user_id, $notifiedUsers)) {
-                $user = $this->user();
+                /** @var User $user */
+                $user = $this->user;
 
                 //NOTE this notification is to inform the user that ALL servers were suspended
                 NotificationTemplate::sendNotification($user, 'servers-suspended', [
