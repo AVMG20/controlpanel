@@ -86,7 +86,7 @@ class SmtpSettingsController extends Controller
         $settings->setConfig();
 
         try {
-            $result = NotificationTemplate::sendNotification($user, 'test-notification', compact('user'));
+            $result = NotificationTemplate::sendNotification($user, 'test-notification', compact('user'), true);
 
             if (!$result) {
                 redirect()->back()->with('error', 'Test email could not be sent (make sure Mails are enabled in settings)');

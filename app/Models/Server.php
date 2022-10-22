@@ -142,17 +142,20 @@ class Server extends Model
         /** @var User $user */
         $user = $this->user;
 
+        static $suspendedUsers = [];
+
+        //keep track of users that had there servers suspended, no need to charge other servers
+        if (in_array($user->id, $suspendedUsers)) return false;
+
         //check if the user has enough credits to pay for the server
         if ($user->credits >= $hourlyPrice) {
             $user->decrement('credits', $hourlyPrice);
             return true;
         }
 
-        
-        //TODO change to $user->suspendServers() and suspend all servers
-        //TODO change server suspend to only suspend and not notify as wel.
-        //suspend the server
-        $this->suspend();
+        //suspend user servers
+        $user->suspendAllServers();
+        $suspendedUsers[] = $user->id;
 
         return false;
     }
@@ -160,31 +163,12 @@ class Server extends Model
     /**
      * Suspends the server
      *
-     * @param bool $notify Notify the user that the server was suspended
      * @return Server
      */
-    public function suspend(bool $notify = true): static
+    public function suspend(): static
     {
         $this->suspended = true;
         $this->save();
-
-        //notify the user
-        if ($notify) {
-            static $notifiedUsers = [];
-
-            //don't notify the user if they were already notified
-            if (!in_array($this->user_id, $notifiedUsers)) {
-                /** @var User $user */
-                $user = $this->user;
-
-                //NOTE this notification is to inform the user that ALL servers were suspended
-                NotificationTemplate::sendNotification($user, 'servers-suspended', [
-                    'user' => $user,
-                ]);
-
-                $notifiedUsers[] = $this->user_id;
-            }
-        }
 
         return $this;
     }

@@ -31,6 +31,7 @@ class CreditsChargeCommand extends Command
         Server::query()->where('suspended' , '=' , '0')->chunk(100 , function ($servers) {
             /** @var Server $server */
             foreach ($servers as $server) {
+
                 $server->chargeCredits();
             }
         });

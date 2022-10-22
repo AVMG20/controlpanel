@@ -52,5 +52,19 @@ class NotificationSeeder extends Seeder
                <p>Regards,<br />Controlpanel</p>",
             'channels' => json_encode(['mail'])
         ]);
+
+        NotificationTemplate::query()->firstOrCreate([
+            'name' => 'servers-unsuspended'
+        ],[
+            'name' => 'servers-unsuspended',
+            'title' => "Your servers have been unsuspended",
+            'content' => "
+               <p>
+               Hello <strong>{{\$user->name}}</strong>, Your servers have been unsuspended! <br>
+               You can now use your servers again.
+               </p>
+               <p>Regards,<br />Controlpanel</p>",
+            'channels' => json_encode(['mail'])
+        ]);
     }
 }

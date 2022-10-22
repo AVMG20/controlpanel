@@ -36,7 +36,7 @@ class NotificationTemplate extends Model
      * @param array $data array of variables to be passed to the notification
      * @return bool true if the notification was sent, false otherwise
      */
-    public static function sendNotification(User $notifiable, string $notificationName, array $data = []): bool
+    public static function sendNotification(User $notifiable, string $notificationName, array $data = [], bool $sendNow = false): bool
     {
         $notificationTemplate = NotificationTemplate::getNotificationByName($notificationName);
 
@@ -44,7 +44,8 @@ class NotificationTemplate extends Model
 
         $dynamicNotification = $notificationTemplate->getDynamicNotification($data);
 
-        $notifiable->notifyNow($dynamicNotification);
+        if ($sendNow) $notifiable->notifyNow($dynamicNotification);
+        else $notifiable->notify($dynamicNotification);
 
         return true;
     }
