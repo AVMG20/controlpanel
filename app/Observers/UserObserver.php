@@ -10,7 +10,7 @@ class UserObserver
 {
 
     /**
-     * @param MailSettings $settings
+     * @param MailSettings $emailSettings
      */
     public function __construct(MailSettings $emailSettings)
     {
@@ -44,7 +44,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        //
+        $this->checkForCreditChange($user);
     }
 
     /**
@@ -78,5 +78,25 @@ class UserObserver
     public function forceDeleted(User $user)
     {
         //
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    protected function checkForCreditChange(User $user): void
+    {
+        //check for credit change
+        if ($user->isDirty('credits')) {
+            $creditUsage = $user->credit_usage ?? 0;
+            if ($creditUsage == 0) return;
+
+            //get hourly usage
+            $hourlyUsage = $creditUsage / 30 / 24;
+
+            if ($user->credits > $hourlyUsage) {
+                $user->unsuspendAllServers();
+            }
+        }
     }
 }

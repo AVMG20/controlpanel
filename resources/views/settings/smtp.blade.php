@@ -46,8 +46,7 @@
 
                 <x-input.checkbox label="{{(__('Mail enabled'))}}"
                                    name="mail_enabled"
-                                   value="0"
-                                   checked="{{$settings->mail_enabled}}"
+                                   value="{{$settings->mail_enabled}}"
                                    tooltip="{{__('Enable or disable the mail system.')}}"/>
 
                 @can('settings.pterodactyl.write')
