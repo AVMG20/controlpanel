@@ -59,17 +59,16 @@ class User extends Authenticatable
     }
 
     /**
-     * get usage formatted
+     * get usage formatted (usage is in per month)
      *
      * @return float
      */
     public function getCreditUsageAttribute(): float
     {
         $usage = $this->servers()
-            ->where('suspended', '=', '0')
             ->sum('price');
 
-        return number_format($usage, '2', '.', '');
+        return number_format($usage ?? 0, '2', '.', '');
     }
 
     /**
@@ -80,6 +79,35 @@ class User extends Authenticatable
     public function getServerCountAttribute(): int
     {
         return $this->servers()->count();
+    }
+
+
+    /**
+     * @param bool $notify Whether to notify the user of the change
+     * @return void
+     */
+    public function suspendAllServers(bool $notify = true): void
+    {
+        $this->servers()->update(['suspended' => '1']);
+
+        //notify the user
+        if (!$notify) return;
+
+        NotificationTemplate::sendNotification($this, 'servers-suspended', [
+            'user' => $this,
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function unsuspendAllServers(): void
+    {
+        $this->servers()->update(['suspended' => '0']);
+
+        NotificationTemplate::sendNotification($this, 'servers-unsuspended', [
+            'user' => $this,
+        ]);
     }
 
     /**
@@ -99,5 +127,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Server::class);
     }
-
 }
