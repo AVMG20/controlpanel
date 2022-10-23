@@ -15,7 +15,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
          $schedule->command('sync:pterodactyl:info')->daily(); //sync ptero eggs/nodes/locations/nests daily
+        $schedule->command('credits:charge')->hourly(); //charge credits hourly
+
     }
 
     /**
