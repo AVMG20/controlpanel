@@ -12,6 +12,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    <!-- Custom Headerscripts -->
+    <script src="{{ asset('js/custom.js') }}"></script>
+
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.js"></script>
