@@ -39,27 +39,28 @@
     @endphp
     <style>
         :root {
-            --bs-white: {{$secondarycolor}};
-            --bs-gray-dark: {{$tertiarycolor}};
-            --bs-gray-100: {{$primarycolor}};
-            --bs-gray-700: {{$textcolor}};
-            --bs-gray-800: {{$tertiarycolor}};
-            --bs-gray-900: {{$textcolor}};
-            --bs-primary: {{$tertiarycolor}};
-            --bs-white: {{$secondarycolor}};
-            --bs-gray-100: {{$primarycolor}};
-            --bs-gray-700: {{$textcolor}};
-            --bs-gray-800: {{$tertiarycolor}};
-            --bs-gray-900: {{$textcolor}};
-            --bs-primary-rgb: {{$primarycolorrgb}};
-            --bs-white-rgb: {{$secondarycolorrgb}};
-            --bs-red-100-rgb: {{$primarycolorrgb}};
-            --bs-gray-100-rgb: {{$primarycolorrgb}};
-            --bs-gray-800-rgb: {{$tertiarycolorrgb}};
-            --bs-white-rgb: {{$secondarycolorrgb}};
-            --bs-body-bg-rgb: {{$primarycolorrgb}};
-            --bs-body-color: {{$textcolor}};
-            --bs-body-bg: {{$primarycolor}};
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}}           @endisset;
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
+            @isset($tertiarycolor) --bs-gray-dark: {{$tertiarycolor}};        @endisset
+            @isset($primarycolor)  --bs-gray-100: {{$primarycolor}};          @endisset
+            @isset($textcolor)--bs-gray-700: {{$textcolor}};                  @endisset
+            @isset($tertiarycolor) --bs-gray-800: {{$tertiarycolor}};         @endisset
+            @isset($textcolor) --bs-gray-900: {{$textcolor}};                 @endisset
+            @isset($tertiarycolor) --bs-primary: {{$tertiarycolor}};          @endisset
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
+            @isset($primarycolor) --bs-gray-100: {{$primarycolor}};           @endisset
+            @isset($textcolor)--bs-gray-700: {{$textcolor}};                  @endisset
+            @isset($tertiarycolor) --bs-gray-800: {{$tertiarycolor}};         @endisset
+            @isset($textcolor)--bs-gray-900: {{$textcolor}};                  @endisset
+            @isset($secondarycolor) --bs-primary-rgb: {{$primarycolorrgb}};   @endisset
+            @isset($secondarycolor) --bs-white-rgb: {{$secondarycolorrgb}};   @endisset
+            @isset($primarycolor) --bs-red-100-rgb: {{$primarycolorrgb}};     @endisset
+            @isset($primarycolor) --bs-gray-100-rgb: {{$primarycolorrgb}};    @endisset
+            @isset($tertiarycolor) --bs-gray-800-rgb: {{$tertiarycolorrgb}};  @endisset
+            @isset($secondarycolor) --bs-white-rgb: {{$secondarycolorrgb}};   @endisset
+            @isset($primarycolor) --bs-body-bg-rgb: {{$primarycolorrgb}};     @endisset
+            @isset($textcolor)  --bs-body-color: {{$textcolor}};              @endisset
+            @isset($primarycolor)  --bs-body-bg: {{$primarycolor}};           @endisset
         }
 
         .w-100px {
