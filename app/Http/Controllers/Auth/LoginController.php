@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Settings\CustomizationSettings;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use TimeHunter\LaravelGoogleReCaptchaV3\Validations\GoogleReCaptchaV3ValidationRule;
@@ -47,10 +48,10 @@ class LoginController extends Controller
         ]);
     }
 
-    public function showLoginForm()
+    public function showLoginForm(CustomizationSettings $settings)
     {
         session(['link' => url()->previous()]);
-        return view('auth.login');
+        return view('auth.login', compact('settings'));
     }
 
     public function authenticated()

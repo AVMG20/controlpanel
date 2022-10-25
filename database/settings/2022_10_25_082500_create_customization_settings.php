@@ -10,5 +10,7 @@ class CreateCustomizationSettings extends SettingsMigration
         $this->migrator->add('customization.secondary_color', '#FFFFFF');
         $this->migrator->add('customization.tertiary_color', '#1F2937');
         $this->migrator->add('customization.hover_color', '#1F2937');
+
+        $this->migrator->add('customization.logo_enabled', false);
     }
 }

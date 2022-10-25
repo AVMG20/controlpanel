@@ -90,6 +90,7 @@ class CustomizationSettingsController extends Controller
         $settings->main_color = $request->main_color;
         $settings->secondary_color = $request->secondary_color;
         $settings->tertiary_color = $request->tertiary_color;
+        $settings->logo_enabled = $request->logo_enabled;
         $settings->save();
 
         return redirect()->back()->with('success', __('Settings saved'));

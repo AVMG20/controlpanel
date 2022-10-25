@@ -30,6 +30,11 @@
                               name="logo"
                               tooltip="{{(__('Your Dashboards logo, shown on the Login-Screen'))}}"
                               accept="image/png,image/jpeg,image/jpg"/>
+                <x-input.checkbox label="{{(__('Logo enabled'))}}"
+                                  name="logo_enabled"
+                                  value="{{$settings->logo_enabled}}"
+                                  tooltip="{{__('Enable or disable the Logo on Login-Screen.')}}"/>
+
 
                 <x-input.file label="{{(__('Dashboard Icon'))}}"
                               name="icon"
