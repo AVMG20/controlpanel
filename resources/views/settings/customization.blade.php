@@ -55,6 +55,7 @@
 
             </div>
             <div class="col-lg-6">
+                <!-- This file is loaded in the Header of /view/layouts/dashboard.blade.php -->
                 <x-input.textarea label="{{(__('Custom Javascript'))}}"
                                   name="jscode"
                                   value="{!! $jscode !!}"

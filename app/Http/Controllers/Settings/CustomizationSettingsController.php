@@ -29,6 +29,10 @@ class CustomizationSettingsController extends Controller
         return view('settings.customization', compact('settings', 'jscode'));
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     private function updateIcons(Request $request)
     {
         $request->validate([
@@ -48,11 +52,16 @@ class CustomizationSettingsController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     private function updateCustomJavascript(Request $request)
     {
         //if no code is entered, clear the file
         ($request->jscode) ? : $request->jscode = "";
 
+        //save the custom.js to /public/js/. This file is loaded in the Header of /view/layouts/dashboard.blade.php
         Storage::disk('open')->put('js/custom.js', $request->jscode);
     }
 
@@ -68,15 +77,15 @@ class CustomizationSettingsController extends Controller
 
         $request->validate([
             'primary_color' => [
-                'required',
+                'nullable',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
             ],
             'secondary_color' => [
-                'required',
+                'nullable',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
             ],
             'tertiary_color' => [
-                'required',
+                'nullable',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
             ],
             'logo_enabled' => 'boolean',
@@ -90,10 +99,10 @@ class CustomizationSettingsController extends Controller
         // update Javascript from request
         $this->updateCustomJavascript($request);
 
-        $settings->primary_color = $request->primary_color;
-        $settings->secondary_color = $request->secondary_color;
-        $settings->tertiary_color = $request->tertiary_color;
-        $settings->text_color = $request->text_color;
+        $settings->primary_color = $request->primary_color ?? "#F2F4F6";
+        $settings->secondary_color = $request->secondary_color ?? "#FFFFFF";
+        $settings->tertiary_color = $request->tertiary_color ?? "#1F2937";
+        $settings->text_color = $request->text_color ?? "#111827";
         $settings->logo_enabled = $request->logo_enabled;
         $settings->alert_enabled = $request->alert_enabled;
         $settings->alert_message = $request->alert_message;
