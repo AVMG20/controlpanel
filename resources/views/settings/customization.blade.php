@@ -26,6 +26,11 @@
                               tooltip="{{(__('This is the color of the Buttons and other Elements (Default: #1F2937)'))}}"
                               value="{{$settings->tertiary_color}}"/>
 
+                <x-input.text label="{{(__('Text Color'))}}"
+                              name="text_color"
+                              tooltip="{{(__('This is the color of most of the Text (Default: #111827)'))}}"
+                              value="{{$settings->text_color}}"/>
+
                 <x-input.file label="{{(__('Dashboard Logo'))}}"
                               name="logo"
                               tooltip="{{(__('Your Dashboards logo, shown on the Login-Screen'))}}"

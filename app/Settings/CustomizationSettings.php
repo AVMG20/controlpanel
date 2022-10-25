@@ -8,9 +8,10 @@ use Spatie\LaravelSettings\Settings;
 class CustomizationSettings extends Settings
 {
 
-    public string $primary_color;
-    public string $secondary_color;
-    public string $tertiary_color;
+    public ?string $primary_color = "#F2F4F6";
+    public ?string $secondary_color = "#FFFFFF";
+    public ?string $tertiary_color = "#1F2937";
+    public ?string $text_color = "#111827";
     public ?bool $logo_enabled = false;
     public ?bool $alert_enabled = true;
     public ?string $alert_message = NULL;

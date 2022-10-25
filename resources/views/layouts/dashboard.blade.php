@@ -31,6 +31,8 @@
         }
     </style>
 
+    <?php include "css/app_css.php"; ?>
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
