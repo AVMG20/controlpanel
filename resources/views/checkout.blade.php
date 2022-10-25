@@ -11,6 +11,9 @@
     <!-- Main js-->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    <!-- Custom Headerscripts -->
+    <script src="{{ asset('js/custom.js') }}"></script>
+
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
@@ -23,9 +26,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-sm navbar-transparent navbar-dark navbar-theme-primary mb-4">
     <div class="container position-relative">
-        <a class="navbar-brand me-lg-5" href="{{ route('main-site') }}">
-            <img class="navbar-brand-dark" src="{{ asset('images/brand/light.svg') }}" alt="Volt logo"/>
-            <img class="navbar-brand-light" src="{{ asset('images/brand/dark.svg') }}" alt="Volt logo"/>
+        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+            <img src="{{ asset('images/icon.png') }}" height="50" width="50" alt="Logo">
         </a>
         <div class="w-100" id="navbar-default-primary">
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
