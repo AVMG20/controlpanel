@@ -110,10 +110,10 @@ class CustomizationSettingsController extends Controller
         // update Javascript from request
         $this->updateCustomJavascript($request, $settings);
 
-        $settings->primary_color = $request->primary_color ?? "#F2F4F6";
-        $settings->secondary_color = $request->secondary_color ?? "#FFFFFF";
-        $settings->tertiary_color = $request->tertiary_color ?? "#1F2937";
-        $settings->text_color = $request->text_color ?? "#111827";
+        $settings->primary_color = $request->primary_color;
+        $settings->secondary_color = $request->secondary_color;
+        $settings->tertiary_color = $request->tertiary_color;
+        $settings->text_color = $request->text_color;
         $settings->logo_enabled = $request->logo_enabled;
         $settings->alert_enabled = $request->alert_enabled;
         $settings->alert_message = $request->alert_message;
