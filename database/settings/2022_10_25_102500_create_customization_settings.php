@@ -18,5 +18,8 @@ class CreateCustomizationSettings extends SettingsMigration
         $this->migrator->add('customization.alert_type', "dark");
 
         $this->migrator->add('customization.custom_js_filename', '');
+        $this->migrator->add('customization.custom_icon_filename', '');
+        $this->migrator->add('customization.custom_favicon_filename', '');
+        $this->migrator->add('customization.custom_logo_filename', '');
     }
 }

@@ -8,8 +8,8 @@
                         <h1 class="mb-3 h3">{{ __('Welcome back') }}</h1>
                     </div>
 
-                    @if($settings->logo_enabled && file_exists(storage_path("app/public/images/logo.png")))
-                        <img src="{{asset("storage/images/logo.png")}}">
+                    @if($settings->logo_enabled && file_exists(storage_path("app/public/images/".$settings->custom_logo_filename)))
+                        <img src="{{asset("storage/images/".$settings->custom_logo_filename)}}">
                     @endif
 
                     <form class="mt-4" action="{{ route('login') }}" method="POST">

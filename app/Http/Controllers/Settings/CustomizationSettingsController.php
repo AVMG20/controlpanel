@@ -33,7 +33,7 @@ class CustomizationSettingsController extends Controller
      * @param Request $request
      * @return void
      */
-    private function updateIcons(Request $request)
+    private function updateIcons(Request $request, CustomizationSettings $settings)
     {
         $request->validate([
             'icon' => 'nullable|max:10000|mimes:jpg,png,jpeg',
@@ -42,13 +42,36 @@ class CustomizationSettingsController extends Controller
         ]);
 
         if ($request->hasFile('icon')) {
-            $request->file('icon')->storeAs('public/images', 'icon.png');
+            $filepath = storage_path("app/public/images/" . $settings->custom_icon_filename);
+            //Delete our old File
+            if (file_exists($filepath)) File::delete($filepath);
+            //save the new image file as <timestamp>_logo.png to /public/images/.
+            $filename = time() . "_icon.png";
+            $request->file('icon')->storeAs('public/images', $filename);
+            $settings->custom_icon_filename = $filename;
+            $settings->save();
         }
+
         if ($request->hasFile('logo')) {
-            $request->file('logo')->storeAs('public/images', 'logo.png');
+            $filepath = storage_path("app/public/images/" . $settings->custom_logo_filename);
+            //Delete our old File
+            if (file_exists($filepath)) File::delete($filepath);
+            //save the new image file as <timestamp>_logo.png to /public/images/.
+            $filename = time() . "_logo.png";
+            $request->file('logo')->storeAs('public/images', $filename);
+            $settings->custom_logo_filename = $filename;
+            $settings->save();
         }
+
         if ($request->hasFile('favicon')) {
-            $request->file('favicon')->storeAs('public/images', 'favicon.ico');
+            $filepath = storage_path("app/public/images/" . $settings->custom_favicon_filename);
+            //Delete our old File
+            if (file_exists($filepath)) File::delete($filepath);
+            //save the new image file as <timestamp>_logo.png to /public/images/.
+            $filename = time() . "_favicon.ico";
+            $request->file('favicon')->storeAs('public/images', $filename);
+            $settings->custom_favicon_filename = $filename;
+            $settings->save();
         }
     }
 
@@ -106,7 +129,7 @@ class CustomizationSettingsController extends Controller
         ]);
 
         // update Icons from request
-        $this->updateIcons($request);
+        $this->updateIcons($request, $settings);
         // update Javascript from request
         $this->updateCustomJavascript($request, $settings);
 

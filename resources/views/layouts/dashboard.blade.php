@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
@@ -38,6 +39,11 @@
         $tertiarycolorrgb = $settings->convert_hex_to_rgb($settings->tertiary_color);
         $textcolorrgb = $settings->convert_hex_to_rgb($settings->text_color);
     @endphp
+
+    <!-- FavIcon -->
+    @if (file_exists(storage_path("app/public/images/".$settings->custom_favicon_filename)) && $settings->custom_favicon_filename != null)
+        <link rel="icon" type="image/x-icon" href="{{asset("storage/images/".$settings->custom_favicon_filename)}}">
+    @endif
 
         <!-- Custom Headerscripts -->
     <script src="{{ asset("js/".$custom_js_filename) }}"></script>

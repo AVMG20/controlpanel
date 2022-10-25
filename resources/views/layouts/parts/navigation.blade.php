@@ -2,7 +2,9 @@
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
             <span class="sidebar-icon me-3">
-                <img src="{{ asset('images/icon.png') }}" height="20" width="20" alt="Logo">
+                @if (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && $settings->custom_icon_filename != null)
+                    <img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
+                @endif
             </span>
             <span class="mt-1 ms-1 sidebar-text">
                 {{ config('app.name', 'Laravel') }}
