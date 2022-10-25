@@ -31,7 +31,7 @@
         }
     </style>
 
-    <?php include "css/app_css.php"; ?>
+    <?php include "css/app_css.min.php"; ?>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>

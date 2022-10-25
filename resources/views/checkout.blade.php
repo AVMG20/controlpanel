@@ -15,7 +15,7 @@
     <script src="{{ asset('js/custom.js') }}"></script>
 
     <!-- Styles -->
-    <?php include "css/app_css.php"; ?>
+    <?php include "css/app_css.min.php"; ?>
 
     <!-- Sweet alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
