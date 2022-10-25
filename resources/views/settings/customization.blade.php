@@ -31,28 +31,6 @@
                               tooltip="{{(__('This is the color of most of the Text (Default: #111827)'))}}"
                               value="{{$settings->text_color}}"/>
 
-                <x-input.file label="{{(__('Dashboard Logo'))}}"
-                              name="logo"
-                              tooltip="{{(__('Your Dashboards logo, shown on the Login-Screen'))}}"
-                              accept="image/png,image/jpeg,image/jpg"/>
-                <x-input.checkbox label="{{(__('Logo enabled'))}}"
-                                  name="logo_enabled"
-                                  value="{{$settings->logo_enabled}}"
-                                  tooltip="{{__('Enable or disable the Logo on Login-Screen.')}}"/>
-
-
-                <x-input.file label="{{(__('Dashboard Icon'))}}"
-                              name="icon"
-                              tooltip="{{(__('Your Dashboards logo, shown on the top left'))}}"
-                              accept="image/png,image/jpeg,image/jpg"/>
-
-                <x-input.file label="{{(__('Dashboard FavIcon'))}}"
-                              name="favicon"
-                              tooltip="{{(__('Your Dashboards FavIcon, shown on Tab of a Webbrowser'))}}"
-                              accept="image/x-icon"/>
-
-
-
             </div>
             <div class="col-lg-6">
                 <!-- This file is loaded in the Header of /view/layouts/dashboard.blade.php -->
@@ -74,16 +52,50 @@
 
                 <x-input.select label="{{(__('Alert Type'))}}"
                                 name="alert_type">
-                    <option @if($settings->alert_type == "light") selected @endif value="light">{{__('Light')}}</option>
-                    <option @if($settings->alert_type == "success") selected @endif value="success">{{__('Success')}}</option>
-                    <option @if($settings->alert_type == "warning") selected @endif value="warning">{{__('Warning')}}</option>
-                    <option @if($settings->alert_type == "danger") selected @endif value="danger">{{__('Danger')}}</option>
-                    <option @if($settings->alert_type == "info") selected @endif  value="info">{{__('Info')}}</option>
+                    <option @if($settings->alert_type == "light") selected
+                            @endif value="light">{{__('Light')}}</option>
+                    <option @if($settings->alert_type == "success") selected
+                            @endif value="success">{{__('Success')}}</option>
+                    <option @if($settings->alert_type == "warning") selected
+                            @endif value="warning">{{__('Warning')}}</option>
+                    <option @if($settings->alert_type == "danger") selected
+                            @endif value="danger">{{__('Danger')}}</option>
+                    <option @if($settings->alert_type == "info") selected
+                            @endif  value="info">{{__('Info')}}</option>
 
                 </x-input.select>
 
 
             </div>
+
+            <div class="row mt-4">
+
+                <div class="col-lg-6">
+                    <x-input.checkbox label="{{(__('Logo enabled'))}}"
+                                      name="logo_enabled"
+                                      value="{{$settings->logo_enabled}}"
+                                      tooltip="{{__('Enable or disable the Logo on Login-Screen.')}}"/>
+
+
+                    <x-input.file label="{{(__('Dashboard Logo'))}}"
+                                  name="logo"
+                                  tooltip="{{(__('Your Dashboards logo, shown on the Login-Screen'))}}"
+
+                                  accept="image/png,image/jpeg,image/jpg"/>
+                    <x-input.file label="{{(__('Dashboard Icon'))}}"
+                                  name="icon"
+                                  tooltip="{{(__('Your Dashboards logo, shown on the top left'))}}"
+                                  accept="image/png,image/jpeg,image/jpg"/>
+
+                    <x-input.file label="{{(__('Dashboard FavIcon'))}}"
+                                  name="favicon"
+                                  tooltip="{{(__('Your Dashboards FavIcon, shown on Tab of a Webbrowser'))}}"
+                                  accept="image/x-icon"/>
+
+
+                </div>
+            </div>
+
             @can('settings.customization.write')
                 <div class="form-group d-flex justify-content-end mt-3">
                     <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
