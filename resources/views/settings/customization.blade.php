@@ -3,7 +3,7 @@
 @section('settings_content')
     <h2 class="mb-4 h5">{{__('Customization')}}</h2>
 
-    <form method="post" action="{{route('settings.customization.update')}}">
+    <form method="post" action="{{route('settings.customization.update')}}" enctype="multipart/form-data"  >
         @csrf
         @method('PATCH')
 
@@ -75,7 +75,6 @@
                                       name="logo_enabled"
                                       value="{{$settings->logo_enabled}}"
                                       tooltip="{{__('Enable or disable the Logo on Login-Screen.')}}"/>
-
 
                     <x-input.file label="{{(__('Dashboard Logo'))}}"
                                   name="logo"
