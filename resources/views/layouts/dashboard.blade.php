@@ -25,28 +25,63 @@
     <!-- Sweet alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @php
+        $settings = new \App\Settings\CustomizationSettings;
+        $primarycolor = $settings->primary_color;
+        $secondarycolor = $settings->secondary_color;
+        $tertiarycolor = $settings->tertiary_color;
+        $textcolor = $settings->text_color;
+
+        $primarycolorrgb = $settings->convert_hex_to_rgb($settings->primary_color);
+        $secondarycolorrgb = $settings->convert_hex_to_rgb($settings->secondary_color);
+        $tertiarycolorrgb = $settings->convert_hex_to_rgb($settings->tertiary_color);
+        $textcolorrgb = $settings->convert_hex_to_rgb($settings->text_color);
+    @endphp
     <style>
-        .w-100px{
+        :root {
+            --bs-white: {{$secondarycolor}};
+            --bs-gray-dark: {{$tertiarycolor}};
+            --bs-gray-100: {{$primarycolor}};
+            --bs-gray-700: {{$textcolor}};
+            --bs-gray-800: {{$tertiarycolor}};
+            --bs-gray-900: {{$textcolor}};
+            --bs-primary: {{$tertiarycolor}};
+            --bs-white: {{$secondarycolor}};
+            --bs-gray-100: {{$primarycolor}};
+            --bs-gray-700: {{$textcolor}};
+            --bs-gray-800: {{$tertiarycolor}};
+            --bs-gray-900: {{$textcolor}};
+            --bs-primary-rgb: {{$primarycolorrgb}};
+            --bs-white-rgb: {{$secondarycolorrgb}};
+            --bs-red-100-rgb: {{$primarycolorrgb}};
+            --bs-gray-100-rgb: {{$primarycolorrgb}};
+            --bs-gray-800-rgb: {{$tertiarycolorrgb}};
+            --bs-white-rgb: {{$secondarycolorrgb}};
+            --bs-body-bg-rgb: {{$primarycolorrgb}};
+            --bs-body-color: {{$textcolor}};
+            --bs-body-bg: {{$primarycolor}};
+        }
+
+        .w-100px {
             width: 100px !important;
         }
     </style>
 
-    <?php include "css/app_css.min.php"; ?>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
 <body>
-    @include('layouts.parts.nav')
-    @include('layouts.parts.sidenav')
-    <main class="content">
-        {{-- TopBar --}}
-        @include('layouts.parts.topbar')
-        @yield('content')
-        {{-- Footer --}}
-        @include('layouts.parts.footer')
-    </main>
+@include('layouts.parts.nav')
+@include('layouts.parts.sidenav')
+<main class="content">
+    {{-- TopBar --}}
+    @include('layouts.parts.topbar')
+    @yield('content')
+    {{-- Footer --}}
+    @include('layouts.parts.footer')
+</main>
 
-    @include('layouts.parts.scripts')
-    @yield('scripts')
+@include('layouts.parts.scripts')
+@yield('scripts')
 </body>
