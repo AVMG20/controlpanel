@@ -2,7 +2,7 @@
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
             <span class="sidebar-icon me-3">
-                <img src="{{ asset('images/brand/light.svg') }}" height="20" width="20" alt="Logo">
+                <img src="{{ asset('images/icon.png') }}" height="20" width="20" alt="Logo">
             </span>
             <span class="mt-1 ms-1 sidebar-text">
                 {{ config('app.name', 'Laravel') }}
