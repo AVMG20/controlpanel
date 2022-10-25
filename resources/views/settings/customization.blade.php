@@ -26,6 +26,21 @@
                               tooltip="{{(__('This is the color of the Buttons and other Elements (Default: #1F2937)'))}}"
                               value="{{$settings->tertiary_color}}"/>
 
+                <x-input.file label="{{(__('Dashboard Logo'))}}"
+                              name="logo"
+                              tooltip="{{(__('Your Dashboards logo, shown on the Login-Screen'))}}"
+                              accept="image/png,image/jpeg,image/jpg"/>
+
+                <x-input.file label="{{(__('Dashboard Icon'))}}"
+                              name="icon"
+                              tooltip="{{(__('Your Dashboards logo, shown on the top left'))}}"
+                              accept="image/png,image/jpeg,image/jpg"/>
+
+                <x-input.file label="{{(__('Dashboard FavIcon'))}}"
+                              name="favicon"
+                              tooltip="{{(__('Your Dashboards FavIcon, shown on Tab of a Webbrowser'))}}"
+                              accept="image/x-icon"/>
+
 
 
             </div>

@@ -50,9 +50,9 @@ class CustomizationSettingsController extends Controller
 
     private function updateCustomJavascript(Request $request)
     {
-        if (!$request->jscode) {
-            $request->jscode = "";
-        }
+        //if no code is entered, clear the file
+        ($request->jscode) ? : $request->jscode = "";
+
         Storage::disk('open')->put('js/custom.js', $request->jscode);
     }
 
