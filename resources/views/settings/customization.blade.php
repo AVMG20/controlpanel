@@ -55,6 +55,28 @@
                                   value="{!! $jscode !!}"
                                   tooltip="{{(__('This Javascript code will be implemented in your global CP.GG'))}}"/>
 
+
+                <x-input.checkbox label="{{(__('Alert enabled'))}}"
+                                  name="alert_enabled"
+                                  value="{{$settings->alert_enabled}}"
+                                  tooltip="{{__('Enable or disable the Alert Textbox on the Dashboard for all users.')}}"/>
+
+                <x-input.textarea label="{{(__('Alert Message'))}}"
+                                  name="alert_message"
+                                  value="{!!  $settings->alert_message !!}"
+                                  tooltip="{{(__('This will be Display on every Users Dashboard. You can use HTML'))}}"/>
+
+                <x-input.select label="{{(__('Alert Type'))}}"
+                                name="alert_type">
+                    <option @if($settings->alert_type == "light") selected @endif value="light">{{__('Light')}}</option>
+                    <option @if($settings->alert_type == "success") selected @endif value="success">{{__('Success')}}</option>
+                    <option @if($settings->alert_type == "warning") selected @endif value="warning">{{__('Warning')}}</option>
+                    <option @if($settings->alert_type == "danger") selected @endif value="danger">{{__('Danger')}}</option>
+                    <option @if($settings->alert_type == "info") selected @endif  value="info">{{__('Info')}}</option>
+
+                </x-input.select>
+
+
             </div>
             @can('settings.customization.write')
                 <div class="form-group d-flex justify-content-end mt-3">

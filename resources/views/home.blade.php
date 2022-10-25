@@ -1,6 +1,14 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+    @if($csettings->alert_enabled && !empty($csettings->alert_message))
+        <div class="alert mt-4 alert-{{$csettings->alert_type}}" role="alert">
+            {!! $csettings->alert_message !!}
+        </div>
+    @endif
+
+
     <div class="main py-4">
 
         <!-- Cards -->

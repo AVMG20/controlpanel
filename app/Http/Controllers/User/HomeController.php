@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use App\Models\User;
+use App\Settings\CustomizationSettings;
 use App\Settings\GeneralSettings;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
@@ -21,7 +22,7 @@ class HomeController extends Controller
      * @return Renderable
      * @throws Exception
      */
-    public function index(Request $request, GeneralSettings $settings)
+    public function index(Request $request, GeneralSettings $settings, CustomizationSettings $csettings)
     {
         /** @var User $user */
         $user = $request->user();
@@ -33,7 +34,7 @@ class HomeController extends Controller
         }
 
         $html = $this->dataTable();
-        return view('home', compact('html', 'settings', 'user'));
+        return view('home', compact('html', 'settings', 'csettings', 'user'));
     }
 
     /**

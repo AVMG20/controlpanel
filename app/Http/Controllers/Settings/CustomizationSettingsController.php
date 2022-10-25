@@ -79,7 +79,10 @@ class CustomizationSettingsController extends Controller
                 'required',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
             ],
-
+            'logo_enabled' => 'boolean',
+            'alert_enabled' => 'boolean',
+            'alert_message' => 'nullable',
+            'alert_type' => 'required',
         ]);
 
         // update Icons from request
@@ -91,6 +94,9 @@ class CustomizationSettingsController extends Controller
         $settings->secondary_color = $request->secondary_color;
         $settings->tertiary_color = $request->tertiary_color;
         $settings->logo_enabled = $request->logo_enabled;
+        $settings->alert_enabled = $request->alert_enabled;
+        $settings->alert_message = $request->alert_message;
+        $settings->alert_type = $request->alert_type;
         $settings->save();
 
         return redirect()->back()->with('success', __('Settings saved'));

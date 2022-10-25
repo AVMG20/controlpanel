@@ -12,5 +12,9 @@ class CreateCustomizationSettings extends SettingsMigration
         $this->migrator->add('customization.hover_color', '#1F2937');
 
         $this->migrator->add('customization.logo_enabled', false);
+
+        $this->migrator->add('customization.alert_enabled', true);
+        $this->migrator->add('customization.alert_message', "Welcome to our Dashboard. You can edit this Message in your Settings!");
+        $this->migrator->add('customization.alert_type', "dark");
     }
 }
