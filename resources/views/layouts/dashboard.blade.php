@@ -12,8 +12,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <!-- Custom Headerscripts -->
-    <script src="{{ asset('js/custom.js') }}"></script>
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css"/>
@@ -27,6 +25,9 @@
 
     @php
         $settings = new \App\Settings\CustomizationSettings;
+
+        $custom_js_filename = $settings->custom_js_filename;
+
         $primarycolor = $settings->primary_color;
         $secondarycolor = $settings->secondary_color;
         $tertiarycolor = $settings->tertiary_color;
@@ -37,6 +38,10 @@
         $tertiarycolorrgb = $settings->convert_hex_to_rgb($settings->tertiary_color);
         $textcolorrgb = $settings->convert_hex_to_rgb($settings->text_color);
     @endphp
+
+        <!-- Custom Headerscripts -->
+    <script src="{{ asset("js/".$custom_js_filename) }}"></script>
+
     <style>
         :root {
             @isset($secondarycolor) --bs-white: {{$secondarycolor}}           @endisset;

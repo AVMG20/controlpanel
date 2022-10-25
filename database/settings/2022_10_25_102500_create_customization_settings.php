@@ -16,5 +16,7 @@ class CreateCustomizationSettings extends SettingsMigration
         $this->migrator->add('customization.alert_enabled', true);
         $this->migrator->add('customization.alert_message', "Welcome to our Dashboard. You can edit this Message in your Settings!");
         $this->migrator->add('customization.alert_type', "dark");
+
+        $this->migrator->add('customization.custom_js_filename', '');
     }
 }

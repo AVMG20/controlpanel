@@ -20,11 +20,11 @@ class CustomizationSettingsController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index(CustomizationSettings $settings, Request $request)
+    public function index(CustomizationSettings $settings)
     {
         $this->checkPermission('settings.customization.read');
 
-        $jscode = Storage::disk('open')->get('js/custom.js');
+        $jscode = Storage::disk('open')->get('js/' . $settings->custom_js_filename);
 
         return view('settings.customization', compact('settings', 'jscode'));
     }
@@ -53,16 +53,27 @@ class CustomizationSettingsController extends Controller
     }
 
     /**
+     * @param CustomizationSettings $settings
      * @param Request $request
      * @return void
      */
-    private function updateCustomJavascript(Request $request)
+    private function updateCustomJavascript(Request $request, CustomizationSettings $settings)
     {
         //if no code is entered, clear the file
-        ($request->jscode) ? : $request->jscode = "";
+        ($request->jscode) ?: $request->jscode = "";
 
-        //save the custom.js to /public/js/. This file is loaded in the Header of /view/layouts/dashboard.blade.php
-        Storage::disk('open')->put('js/custom.js', $request->jscode);
+        //Delete our old File
+        if (file_exists(public_path("js/" . $settings->custom_js_filename))) {
+            File::delete(public_path("js/" . $settings->custom_js_filename));
+        }
+
+        //save the new javascript file as <timestamp>.js to /public/js/. This file is loaded in the Header of /view/layouts/dashboard.blade.php
+        $filename = time() . ".js";
+        Storage::disk('open')->put('js/' . $filename, $request->jscode);
+
+        $settings->custom_js_filename = $filename;
+        $settings->save();
+
     }
 
 
@@ -97,7 +108,7 @@ class CustomizationSettingsController extends Controller
         // update Icons from request
         $this->updateIcons($request);
         // update Javascript from request
-        $this->updateCustomJavascript($request);
+        $this->updateCustomJavascript($request, $settings);
 
         $settings->primary_color = $request->primary_color ?? "#F2F4F6";
         $settings->secondary_color = $request->secondary_color ?? "#FFFFFF";

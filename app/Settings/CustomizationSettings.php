@@ -16,6 +16,7 @@ class CustomizationSettings extends Settings
     public ?bool $alert_enabled = true;
     public ?string $alert_message = NULL;
     public ?string $alert_type = NULL;
+    public ?string $custom_js_filename = NULL;
 
     public static function group(): string
     {
