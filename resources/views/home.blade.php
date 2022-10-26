@@ -80,7 +80,7 @@
                           <h2 class="mb-4 h5">{{ __('Servers') }}</h2>
                       </div>
                       <div>
-                          <button class="btn btn-primary"><i class="fas fa-plus me-2"></i> {{__('Create server')}}</button>
+                          <a href="{{route("checkout.store")}}"><button class="btn btn-primary"><i class="fas fa-plus me-2"></i> {{__('Create server')}}</button></a>
                       </div>
                   </div>
 
