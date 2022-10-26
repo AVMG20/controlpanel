@@ -106,6 +106,46 @@
                 </div>
             </div>
             <!-- /Usage card -->
+
+            <!-- Usage card -->
+            <div class=" col-sm-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <span class="h4 font-bold mb-0">{{__("Nodes Info")}}</span>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-sm ">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Usage-%</th>
+                                    <th scope="col">Total Servers</th>
+                                    <th scope="col">Active Servers</th>
+                                    <th scope="col">Active Earnings</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach($nodeCounters as $node)
+
+                                    <tr>
+                                        <th scope="row">{{$node->id}}</th>
+                                        <td>{{$node->name}}</td>
+                                        <td>{{$node->usagePercent}}</td>
+                                        <td>{{$node->totalServers}}</td>
+                                        <td>{{$node->activeServers}}</td>
+                                        <td>{{$node->activeEarnings}}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Usage card -->
         </div>
         <!-- /Cards -->
 

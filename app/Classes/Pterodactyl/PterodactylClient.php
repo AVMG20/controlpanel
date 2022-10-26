@@ -77,7 +77,7 @@ class PterodactylClient
      * @description Returns the infos of a single node
      */
     public function getNode($id) {
-            $response = $this->client->get('/application/nodes/' . $id);
+            $response = $this->client->get('application/nodes/' . $id);
             return $this->handleResponse($response);
     }
 

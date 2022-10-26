@@ -11,6 +11,7 @@ use App\Models\Pterodactyl\Node;
 use App\Models\Server;
 use App\Models\User;
 use App\Settings\GeneralSettings;
+use App\Settings\PterodactylSettings;
 
 class OverviewController extends Controller
 {
@@ -75,7 +76,8 @@ class OverviewController extends Controller
      */
     private function constructNodeInfo()
     {
-        $pterodactylClient = app(PterodactylClient::class);
+        $pterosettings = new PterodactylSettings();
+        $pterodactylClient = new PterodactylClient($pterosettings);
         $counters = $this->constructCounters();
 
         //Get node information
@@ -83,8 +85,9 @@ class OverviewController extends Controller
         foreach ($DBnodes = Node::all() as $DBnode) { //gets all node information and prepares the structure
             $nodeId = $DBnode['id'];
             $nodes->put($nodeId, collect());
+            $nodes[$nodeId]->id = $nodeId;
             $nodes[$nodeId]->name = $DBnode['name'];
-            $pteroNode = $pterodactylClient->getNode($nodeId);
+            $pteroNode = $pterodactylClient->getNode($nodeId)->json()["attributes"];
             $nodes[$nodeId]->usagePercent = round(max($pteroNode['allocated_resources']['memory'] / ($pteroNode['memory'] * ($pteroNode['memory_overallocate'] + 100) / 100), $pteroNode['allocated_resources']['disk'] / ($pteroNode['disk'] * ($pteroNode['disk_overallocate'] + 100) / 100)) * 100, 2);
             $counters['totalUsagePercent'] += $nodes[$nodeId]->usagePercent;
 
