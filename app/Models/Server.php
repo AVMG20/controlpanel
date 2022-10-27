@@ -226,8 +226,8 @@ class Server extends Model
     {
         $this->suspended = false;
         $this->save();
-        return $this;
 
+        return $this;
     }
 
     /**
