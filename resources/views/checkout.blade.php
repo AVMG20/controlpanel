@@ -36,7 +36,7 @@
 
     <style>
         :root {
-            @isset($secondarycolor) --bs-white: {{$secondarycolor}}           @endisset;
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
             @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
             @isset($tertiarycolor) --bs-gray-dark: {{$tertiarycolor}};        @endisset
             @isset($primarycolor)  --bs-gray-100: {{$primarycolor}};          @endisset
@@ -71,7 +71,7 @@
 <nav class="navbar navbar-expand-sm navbar-transparent navbar-dark navbar-theme-primary mb-4">
     <div class="container position-relative">
         <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-            @if (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && $settings->custom_icon_filename != null)
+            @if (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && !is_null($settings->custom_icon_filename))
                 <img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
             @endif
         </a>
