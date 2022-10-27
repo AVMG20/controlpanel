@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Settings\CustomizationSettings;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use TimeHunter\LaravelGoogleReCaptchaV3\Validations\GoogleReCaptchaV3ValidationRule;
 
 class LoginController extends Controller
@@ -34,10 +39,10 @@ class LoginController extends Controller
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     protected function validateLogin(Request $request)
     {
@@ -48,12 +53,19 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * @param CustomizationSettings $settings
+     * @return Application|Factory|View
+     */
     public function showLoginForm(CustomizationSettings $settings)
     {
         session(['link' => url()->previous()]);
         return view('auth.login', compact('settings'));
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function authenticated()
     {
         $link = session('link');
