@@ -7,7 +7,6 @@ use App\Exceptions\PterodactylRequestException;
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Node;
 use App\Settings\PterodactylSettings;
-use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -141,9 +140,12 @@ class Server extends Model
 
         $settings = new PterodactylSettings();
         $client = new PterodactylClient($settings);
+
         try {
-        $data = $client->getServer($server->pterodactyl_id)->body();
-        $data = json_decode($data, true);
+
+            $data = $client->getServer($server->pterodactyl_id)->body();
+            $data = json_decode($data, true);
+
             $server->pterodactyl_id = $data['attributes']['id'];
             $server->identifier = $data['attributes']['identifier'];
             $server->name = $data['attributes']['name'];
@@ -168,17 +170,16 @@ class Server extends Model
 
         } catch (PterodactylRequestException $exception) {
             //delete server if it's  a 404 error
-            if($exception->getCode() == 404) $server->delete();
+            if ($exception->getCode() == 404) $server->delete();
             Log::Error("There was an error when trying to Sync Server " . $server->name . "(" . $server->identifier . ") : " . $exception);
         }
     }
 
 
-
-/* Charge the user for the server
-*
-* @return bool true if the user was charged, false if the user doesnt have enough money
-     */
+    /* Charge the user for the server
+    *
+    * @return bool true if the user was charged, false if the user doesnt have enough money
+    */
     public function chargeCredits(): bool
     {
         $hourlyPrice = $this->price / 30 / 24;
