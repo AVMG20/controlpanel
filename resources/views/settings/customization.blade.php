@@ -3,7 +3,7 @@
 @section('settings_content')
     <h2 class="mb-4 h5">{{__('Customization')}}</h2>
 
-    <form method="post" action="{{route('settings.customization.update')}}" enctype="multipart/form-data" >
+    <form method="post" action="{{route('settings.customization.update')}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -89,7 +89,7 @@
                     <x-input.file label="{{(__('Dashboard FavIcon'))}}"
                                   name="favicon"
                                   tooltip="{{(__('Your Dashboards FavIcon, shown on Tab of a Webbrowser'))}}"
-                                  accept="image/x-icon"/>
+                                  accept="image/png,image/jpeg,image/jpg"/>
 
 
                 </div>

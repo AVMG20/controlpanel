@@ -9,10 +9,14 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 
+/**
+ *
+ */
 class CustomizationSettingsController extends Controller
 {
     /**
@@ -30,7 +34,35 @@ class CustomizationSettingsController extends Controller
     }
 
     /**
+     * @param CustomizationSettings $settings
+     * @param String $key
+     * @return string
+     */
+    private function saveCustomizationFile(CustomizationSettings $settings, string $key)
+    {
+        $filepath = storage_path("app/public/images/");
+        switch ($key) {
+            case "icon":
+                $filepath .= $settings->custom_icon_filename;
+                break;
+            case "logo":
+                $filepath .= $settings->custom_logo_filename;
+                break;
+            case "favicon":
+                $filepath .= $settings->custom_favicon_filename;
+                break;
+        }
+        if (file_exists($filepath)) File::delete($filepath);
+        $filename = time() . "_" . $key . ".png";
+
+        return $filename;
+
+    }
+
+
+    /**
      * @param Request $request
+     * @param CustomizationSettings $settings
      * @return void
      */
     private function updateIcons(Request $request, CustomizationSettings $settings)
@@ -38,41 +70,31 @@ class CustomizationSettingsController extends Controller
         $request->validate([
             'icon' => 'nullable|max:10000|mimes:jpg,png,jpeg',
             'logo' => 'nullable|max:10000|mimes:jpg,png,jpeg',
-            'favicon' => 'nullable|max:10000|mimes:ico',
+            'favicon' => 'nullable|max:10000|mimes:jpg,png,jpeg',
         ]);
 
         if ($request->hasFile('icon')) {
-            $filepath = storage_path("app/public/images/" . $settings->custom_icon_filename);
-            //Delete our old File
-            if (file_exists($filepath)) File::delete($filepath);
-            //save the new image file as <timestamp>_logo.png to /public/images/.
-            $filename = time() . "_icon.png";
+            $filename = $this->saveCustomizationFile($settings, "icon");
             $request->file('icon')->storeAs('public/images', $filename);
             $settings->custom_icon_filename = $filename;
             $settings->save();
         }
 
         if ($request->hasFile('logo')) {
-            $filepath = storage_path("app/public/images/" . $settings->custom_logo_filename);
-            //Delete our old File
-            if (file_exists($filepath)) File::delete($filepath);
-            //save the new image file as <timestamp>_logo.png to /public/images/.
-            $filename = time() . "_logo.png";
+            $filename = $this->saveCustomizationFile($settings, "logo");
             $request->file('logo')->storeAs('public/images', $filename);
             $settings->custom_logo_filename = $filename;
             $settings->save();
         }
 
         if ($request->hasFile('favicon')) {
-            $filepath = storage_path("app/public/images/" . $settings->custom_favicon_filename);
-            //Delete our old File
-            if (file_exists($filepath)) File::delete($filepath);
-            //save the new image file as <timestamp>_logo.png to /public/images/.
-            $filename = time() . "_favicon.ico";
+            $filename = $this->saveCustomizationFile($settings, "favicon");
             $request->file('favicon')->storeAs('public/images', $filename);
             $settings->custom_favicon_filename = $filename;
             $settings->save();
         }
+        Artisan::call("cache:clear");
+        Artisan::call("view:clear");
     }
 
     /**

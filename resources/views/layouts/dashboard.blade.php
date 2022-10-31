@@ -25,15 +25,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!--Include customization options -->
-    @include("layouts.parts.customization")
-
-    <!-- FavIcon -->
-    @if (file_exists(storage_path("app/public/images/".$settings->custom_favicon_filename)) && $settings->custom_favicon_filename != null)
-        <link rel="icon" type="image/x-icon" href="{{asset("storage/images/".$settings->custom_favicon_filename)}}">
-    @endif
-
-        <!-- Custom Headerscripts -->
-    <script src="{{ asset("js/".$custom_js_filename) }}"></script>
+    @include('layouts.parts.customization')
 
 
     <title>{{ config('app.name', 'Laravel') }}</title>

@@ -1,5 +1,5 @@
 @php
-    $settings = new \App\Settings\CustomizationSettings;
+    $settings = app(app\Settings\CustomizationSettings::class);
 
     $custom_js_filename = $settings->custom_js_filename;
 
@@ -17,8 +17,8 @@
 
 <style>
     :root {
-        @isset($secondarycolor) --bs-white: {{$secondarycolor}}           @endisset;
-        @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
+            @isset($secondarycolor) --bs-white: {{$secondarycolor}};          @endisset
             @isset($tertiarycolor) --bs-gray-dark: {{$tertiarycolor}};        @endisset
             @isset($primarycolor)  --bs-gray-100: {{$primarycolor}};          @endisset
             @isset($textcolor)--bs-gray-700: {{$textcolor}};                  @endisset
@@ -45,3 +45,11 @@
         width: 100px !important;
     }
 </style>
+
+<!-- FavIcon -->
+@if (file_exists(storage_path("app/public/images/".$settings->custom_favicon_filename)) && $settings->custom_favicon_filename != null)
+    <link rel="icon" type="image/png" href="{{asset("storage/images/".$settings->custom_favicon_filename)}}" />
+@endif
+
+<!-- Custom Headerscripts -->
+<script src="{{ asset("js/".$custom_js_filename) }}"></script>
