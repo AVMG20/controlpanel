@@ -1,8 +1,6 @@
 @php
     $settings = app(app\Settings\CustomizationSettings::class);
 
-    $custom_js_filename = $settings->custom_js_filename;
-
     $primarycolor = $settings->primary_color;
     $secondarycolor = $settings->secondary_color;
     $tertiarycolor = $settings->tertiary_color;
@@ -39,17 +37,23 @@
             @isset($primarycolor) --bs-body-bg-rgb: {{$primarycolorrgb}};     @endisset
             @isset($textcolor)  --bs-body-color: {{$textcolor}};              @endisset
             @isset($primarycolor)  --bs-body-bg: {{$primarycolor}};           @endisset
-        }
+          }
 
     .w-100px {
         width: 100px !important;
     }
 </style>
 
-<!-- FavIcon -->
-@if (file_exists(storage_path("app/public/images/".$settings->custom_favicon_filename)) && $settings->custom_favicon_filename != null)
-    <link rel="icon" type="image/png" href="{{asset("storage/images/".$settings->custom_favicon_filename)}}" />
+<!-- favicon -->
+@if (!empty($settings->custom_favicon_filename) && asset('storage/images/' . $settings->custom_favicon_filename))
+
+    @php($exploded = explode('.', $settings->custom_favicon_filename))
+    @php($fileExtension = end($exploded))
+
+    <link rel="icon" type="image/{{$fileExtension}}" href="{{asset('storage/images/' . $settings->custom_favicon_filename)}}" />
 @endif
 
-<!-- Custom Headerscripts -->
-<script src="{{ asset("js/".$custom_js_filename) }}"></script>
+<!-- Custom header scripts -->
+@if (!empty($settings->custom_js_filename) && asset("storage/js/".$settings->custom_js_filename))
+    <script src="{{ asset("storage/js/".$settings->custom_js_filename) }}"></script>
+@endif
