@@ -81,6 +81,9 @@ class Server extends Model
             /** @var PterodactylClient $client */
             $client = app(PterodactylClient::class);
 
+            /** @var PterodactylSettings $settings */
+            $settings = app(PterodactylSettings::class);
+
             try {
                 //delete server on pterodactyl
                 $client->deleteServer($server->pterodactyl_id);
