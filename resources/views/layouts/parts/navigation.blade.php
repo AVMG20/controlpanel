@@ -4,13 +4,17 @@
 
             @php($settings = app(app\Settings\CustomizationSettings::class))
 
-            @if (!empty($settings->custom_icon_filename) && asset('storage/images/' . $settings->custom_icon_filename))
-                <span class="sidebar-icon me-3">
-                    <img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
-                </span>
-            @endif
+            <img height="50" width="50" style="border-radius:50%;" alt="Logo" src=
+                @if (!empty($settings->custom_icon_filename) && asset('storage/images/' . $settings->custom_icon_filename))
+                    "{{asset("storage/images/".$settings->custom_icon_filename)}}"
+                @else
+                    "{{asset("storage/images/logo.png")}}"
+                @endif
+            />
 
-            <span class="mt-1 ms-1 sidebar-text">
+
+
+            <span class="mt-1 ms-2 sidebar-text">
                 {{ config('app.name', 'Laravel') }}
             </span>
         </a>
