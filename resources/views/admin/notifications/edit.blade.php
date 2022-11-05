@@ -37,9 +37,20 @@
                     <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
                 </div>
             </form>
-
         </div>
-
+        <br />
+        <div class="card card-body border-0 shadow table-wrapper table-responsive">
+            <ul class="list-group list-group-light">
+                @foreach(json_decode($notification->models) as $a => $item)
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span>{{class_basename(new $item())}}</span>
+                        @foreach((new $item())->getFillable() as $b => $value)
+                            <span>{{preg_replace('/\s+/', ' ', $value)}}</span>
+                        @endforeach
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
 @endsection
 

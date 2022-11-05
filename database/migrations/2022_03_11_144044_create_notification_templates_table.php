@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->text('channels')->comment('Stored as json array');
+            $table->text('models')->comment('Stored as json array');
             $table->boolean('disabled')->default(false);
             $table->timestamps();
         });

@@ -21,6 +21,7 @@ class NotificationTemplate extends Model
         'title',
         'content',
         'channels',
+        'models',
         'disabled',
     ];
 
@@ -81,6 +82,16 @@ class NotificationTemplate extends Model
         return Attribute::get(function ($value) {
             return json_decode($value, true);
         });
+    }
+
+    /**
+     * Models this notification can use
+     *
+     * @return array $models
+     */
+    public function models(): array
+    {
+        return json_decode($this->attributes['models']);
     }
 
     /**
