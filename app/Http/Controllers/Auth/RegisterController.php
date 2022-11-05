@@ -71,7 +71,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'username' => ['required', 'string', 'max:30', 'min:4', 'alpha_num', 'unique:users'],
             'first_name' => ['required', 'string', 'max:30', 'min:3'],
-            'last_name' => ['string', 'max:30'],
+            'last_name' => ['max:30'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'g-recaptcha-response' => [new GoogleReCaptchaV3ValidationRule()]
@@ -149,13 +149,20 @@ class RegisterController extends Controller
      */
     protected function createPterodactylUser(Request $request, User $user): array
     {
+        //check last_name
+        if(empty($user->last_name))
+        {
+            $last_name = $user->first_name;
+        } else {
+            $last_name = $user->last_name;
+        }
         try {
             $response = $this->client->createUser([
                 "external_id" => App::environment('local') ? Str::random() : strval($user->id),
                 "username" => strval($user->username),
                 "email" => strval($user->email),
                 "first_name" => strval($user->first_name),
-                "last_name" => strval($user->last_name),
+                "last_name" => strval($last_name),
                 "password" => $request->password,
                 "root_admin" => false,
                 "language" => config('app.locale')

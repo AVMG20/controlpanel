@@ -58,7 +58,7 @@
                                         <i class="fas fa-user-alt fa-fw"></i>
                                     </span>
                                     <input name="last_name" id="last_name" type="name" class="form-control"
-                                        placeholder="{{ __('Last Name') }}" value="{{ old('last_name') }}" autofocus required>
+                                        placeholder="{{ __('Last Name') }}" value="{{ old('last_name') }}" autofocus>
                                 </div>
 
                                 @error('last_name')
