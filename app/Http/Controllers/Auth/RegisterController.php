@@ -69,7 +69,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:30', 'min:4', 'alpha_num', 'unique:users'],
+            'username' => ['required', 'string', 'max:30', 'min:4', 'alpha_num', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:30', 'min:3'],
+            'last_name' => ['string', 'max:30'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'g-recaptcha-response' => [new GoogleReCaptchaV3ValidationRule()]
@@ -150,10 +152,10 @@ class RegisterController extends Controller
         try {
             $response = $this->client->createUser([
                 "external_id" => App::environment('local') ? Str::random() : strval($user->id),
-                "username" => strval($user->name),
+                "username" => strval($user->username),
                 "email" => strval($user->email),
-                "first_name" => strval($user->name),
-                "last_name" => strval($user->name),
+                "first_name" => strval($user->first_name),
+                "last_name" => strval($user->last_name),
                 "password" => $request->password,
                 "root_admin" => false,
                 "language" => config('app.locale')
@@ -179,7 +181,9 @@ class RegisterController extends Controller
     protected function createUser(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'credits' => $this->settings->initial_user_credits,
             'server_limit' => $this->settings->initial_server_limit,
