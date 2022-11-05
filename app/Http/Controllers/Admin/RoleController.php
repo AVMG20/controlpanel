@@ -133,6 +133,12 @@ class RoleController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
+        if ($role->hasAllPermissions() && $role->count() === 1) {
+            return redirect()
+                ->route('admin.roles.index')
+                ->with('error', __('You cannot delete all administrative roles from the system'));
+        }
+
         $role->delete();
 
         return redirect()
