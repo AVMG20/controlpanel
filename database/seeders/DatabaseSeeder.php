@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Standard\NotificationSeeder;
 use Database\Seeders\Standard\PermissionSeeder;
+use Database\Seeders\Standard\NewOptionsSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +18,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             NotificationSeeder::class,
-            PermissionSeeder::class
+            PermissionSeeder::class,
+            NewOptionsSeeder::class
         ]);
     }
 }
