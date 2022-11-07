@@ -25,7 +25,7 @@ class CheckoutController extends Controller
      */
     public function index(GeneralSettings $generalSettings, SystemSettings $systemSettings): Factory|View|Application|RedirectResponse
     {
-        if (!$systemSettings->creation_of_new_servers && !$this->can(Permission::find(1)->id)) {
+        if (!$systemSettings->creation_of_new_servers && !$this->can(Permission::all())) {
             return redirect()->back()->with('error', __('Creation of new servers has been disabled by the system administrator'));
         }
 
