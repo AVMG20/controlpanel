@@ -117,14 +117,13 @@ class RoleController extends Controller
             foreach ($permissions as $key => $value) {
                 if ($key === 0 && $value === "1" && count($permissions) > 1) {
                     $role->syncPermissions($permissions[0]);
-                    break;
                 } elseif ($key != 0 && $value != "1" && count($permissions) > 1) {
                     $role->syncPermissions("1");
-                    break;
                 }
                 else {
                     $role->syncPermissions($permissions);
                 }
+                break;
             }
         }
 
