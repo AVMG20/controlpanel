@@ -91,7 +91,7 @@ class NotificationTemplate extends Model
      */
     public function models(): array
     {
-        return json_decode($this->attributes['models']);
+        return json_decode($this->attributes['models'], true);
     }
 
     /**
