@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NotificationTemplate\Role\UserUpdateRequest;
+use App\Http\Requests\NotificationTemplate\User\UserUpdateRequest;
+use App\Http\Requests\NotificationTemplate\User\UserStoreRequest;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\View\View;
@@ -44,9 +45,13 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create(GeneralSettings $settings)
     {
-        abort(404);
+        $this->checkPermission(self::WRITE_PERMISSIONS);
+
+        $roles = Role::all();
+
+        return view('admin.users.edit', compact('roles', 'settings'));
     }
 
     /**
@@ -55,9 +60,18 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request): RedirectResponse
     {
-        abort(404);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'credits' => $request->credits,
+            'server_limit' => $request->server_limit,
+            'password' => Hash::make($request->password),
+            'roles' => $request->roles
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', __('User Created'));
     }
 
     /**
