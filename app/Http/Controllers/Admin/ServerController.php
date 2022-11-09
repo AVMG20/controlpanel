@@ -101,7 +101,7 @@ class ServerController extends Controller
      */
     public function update(ServerUpdateRequest $request, Server $server, PterodactylServerHelper $helper, PterodactylClient $client)
     {
-        $serverBuildData = $helper->createUpdateBuildData($server->allocation, $request);
+        $serverBuildData = $helper->createUpdateBuildData($server->allocation_id, $request);
         $serverDetailData = $helper->createUpdateDetailsData($server->user_id, $request);
 
         try {
