@@ -47,7 +47,7 @@ class SyncPteroServersCommand extends Command
         Server::inRandomOrder()->chunk(15, function($servers) {
             /** @var Server $server */
             foreach ($servers as $server) {
-                Server::syncPterodactylServerSpecs($server);
+                $server->syncPterodactylServerSpecs();
             }
         });
 

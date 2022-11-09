@@ -135,44 +135,43 @@ class Server extends Model
 
     /**
      * Sync the ressources of a specifiy pterodactyl server to CPGG
-     * @param Server $server
      * @return void
      **/
-    public static function syncPterodactylServerSpecs(Server $server)
+    public function syncPterodactylServerSpecs()
     {
         $settings = app(PterodactylSettings::class);
         $client = new PterodactylClient($settings);
 
         try {
-            $data = $client->getServer($server->pterodactyl_id)->body();
+            $data = $client->getServer($this->pterodactyl_id)->body();
             $data = json_decode($data, true);
 
-            $server->pterodactyl_id = $data['attributes']['id'];
-            $server->identifier = $data['attributes']['identifier'];
-            $server->name = $data['attributes']['name'];
-            $server->description = $data['attributes']['description'];
-            $server->status = $data['attributes']['status'];
-            $server->suspended = $data['attributes']['suspended'];
-            $server->memory = $data['attributes']['limits']['memory'];
-            $server->cpu = $data['attributes']['limits']['cpu'];
-            $server->swap = $data['attributes']['limits']['swap'];
-            $server->disk = $data['attributes']['limits']['disk'];
-            $server->io = $data['attributes']['limits']['io'];
-            $server->threads = $data['attributes']['limits']['threads'];
-            $server->oom_disabled = $data['attributes']['limits']['oom_disabled'];
-            $server->databases = $data['attributes']['feature_limits']['databases'];
-            $server->backups = $data['attributes']['feature_limits']['backups'];
-            $server->allocations = $data['attributes']['feature_limits']['allocations'];
-            $server->node_id = $data['attributes']['node'];
-            $server->allocation_id = $data['attributes']['allocation'];
-            $server->nest_id = $data['attributes']['nest'];
-            $server->egg_id = $data['attributes']['egg'];
-            $server->save();
+            $this->pterodactyl_id = $data['attributes']['id'];
+            $this->identifier = $data['attributes']['identifier'];
+            $this->name = $data['attributes']['name'];
+            $this->description = $data['attributes']['description'];
+            $this->status = $data['attributes']['status'];
+            $this->suspended = $data['attributes']['suspended'];
+            $this->memory = $data['attributes']['limits']['memory'];
+            $this->cpu = $data['attributes']['limits']['cpu'];
+            $this->swap = $data['attributes']['limits']['swap'];
+            $this->disk = $data['attributes']['limits']['disk'];
+            $this->io = $data['attributes']['limits']['io'];
+            $this->threads = $data['attributes']['limits']['threads'];
+            $this->oom_disabled = $data['attributes']['limits']['oom_disabled'];
+            $this->databases = $data['attributes']['feature_limits']['databases'];
+            $this->backups = $data['attributes']['feature_limits']['backups'];
+            $this->allocations = $data['attributes']['feature_limits']['allocations'];
+            $this->node_id = $data['attributes']['node'];
+            $this->allocation_id = $data['attributes']['allocation'];
+            $this->nest_id = $data['attributes']['nest'];
+            $this->egg_id = $data['attributes']['egg'];
+            $this->save();
 
         } catch (PterodactylRequestException $exception) {
             //delete server if it's  a 404 error
-            if ($exception->getCode() == 404) $server->delete();
-            Log::Error("There was an error when trying to Sync Server " . $server->name . "(" . $server->identifier . ") : " . $exception);
+            if ($exception->getCode() == 404) $this->delete();
+            Log::Error("There was an error when trying to Sync Server " . $this->name . "(" . $this->identifier . ") : " . $exception);
         }
     }
 
