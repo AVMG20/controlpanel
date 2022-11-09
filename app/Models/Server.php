@@ -140,12 +140,10 @@ class Server extends Model
      **/
     public static function syncPterodactylServerSpecs(Server $server)
     {
-
-        $settings = new PterodactylSettings();
+        $settings = app(PterodactylSettings::class);
         $client = new PterodactylClient($settings);
 
         try {
-
             $data = $client->getServer($server->pterodactyl_id)->body();
             $data = json_decode($data, true);
 
@@ -181,7 +179,7 @@ class Server extends Model
 
     /* Charge the user for the server
     *
-    * @return bool true if the user was charged, false if the user doesnt have enough money
+    * @return bool true if the user was charged, false if the user doesn't have enough money
     */
     public function chargeCredits(): bool
     {
@@ -311,8 +309,6 @@ class Server extends Model
      */
     public function node(): BelongsTo
     {
-
         return $this->belongsTo(Node::class);
-
     }
 }

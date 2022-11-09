@@ -50,6 +50,7 @@ class SyncPteroServersCommand extends Command
                 Server::syncPterodactylServerSpecs($server);
             }
         });
+
         $this->newLine();
         $this->line('Pterodactyl servers synced successfully!');
         return 0;
