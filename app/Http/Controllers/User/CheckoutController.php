@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerStoreRequest;
 use App\Models\Server;
 use App\Settings\GeneralSettings;
+use App\Settings\SystemSettings;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Spatie\Permission\Models\Permission;
 
 class CheckoutController extends Controller
 {
@@ -21,8 +23,12 @@ class CheckoutController extends Controller
      * @param GeneralSettings $generalSettings
      * @return Factory|View|Application
      */
-    public function index(GeneralSettings $generalSettings): Factory|View|Application
+    public function index(GeneralSettings $generalSettings, SystemSettings $systemSettings): Factory|View|Application|RedirectResponse
     {
+        if (!$systemSettings->creation_of_new_servers && !$this->can(Permission::all())) {
+            return redirect()->back()->with('error', __('Creation of new servers has been disabled by the system administrator'));
+        }
+
         return view('checkout', [
             'credits_display_name' => $generalSettings->credits_display_name
         ]);
@@ -59,7 +65,4 @@ class CheckoutController extends Controller
 
         return redirect()->route('dashboard.index')->with('success', __('Server created successfully!'));
     }
-
-
-
 }

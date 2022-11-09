@@ -12,9 +12,6 @@ class GeneralSettings extends Settings
     //url to the main site
     public string $main_site;
 
-    //check the ip during register for dupes
-    public bool $register_ip_check;
-
     //the initial amount of credits given to the user on register
     public float $initial_user_credits;
     //the initial amount of credits given to the user on register

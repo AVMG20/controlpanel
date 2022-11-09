@@ -23,11 +23,6 @@
             </div>
 
             <div class="col-lg-6">
-                <x-input.checkbox label="{{(__('Register IP Check'))}}"
-                                  name="register_ip_check"
-                                  tooltip="{{(__('Prevent users from making multiple accounts using the same IP'))}}"
-                                  value="{{$settings->register_ip_check}}"/>
-
                 <x-input.select
                     label="{{(__('Initial user role'))}}"
                     name="initial_user_role">

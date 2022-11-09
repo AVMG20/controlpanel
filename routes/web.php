@@ -12,6 +12,7 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ProfileController;
 use App\Settings\GeneralSettings;
+use App\Http\Controllers\Settings\SystemSettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,6 +73,9 @@ Route::prefix('settings')->name('settings.')->middleware('auth')->group(function
 
     Route::get('smtp', [SmtpSettingsController::class, 'index'])->name('smtp.index');
     Route::patch('smtp', [SmtpSettingsController::class, 'update'])->name('smtp.update');
+
+    Route::get('system', [SystemSettingsController::class, 'index'])->name('system.index');
+    Route::patch('system', [SystemSettingsController::class, 'update'])->name('system.update');
 });
 
 

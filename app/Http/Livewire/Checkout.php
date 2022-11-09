@@ -12,6 +12,7 @@ use App\Models\Pterodactyl\Nest;
 use App\Models\Server;
 use App\Models\User;
 use App\Settings\GeneralSettings;
+use App\Settings\SystemSettings;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,7 +48,9 @@ class Checkout extends Component
     public function mount()
     {
         $generalSettings = app(GeneralSettings::class);
+        $systemSettings = app(SystemSettings::class);
         $this->credits_display_name = $generalSettings->credits_display_name;
+        $this->creation_of_new_servers = $systemSettings->creation_of_new_servers;
     }
 
     public function render()

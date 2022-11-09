@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Settings\GeneralSettings;
+use App\Settings\SystemSettings;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
@@ -45,6 +47,8 @@ class RegisterController extends Controller
 
     protected GeneralSettings $settings;
 
+    protected SystemSettings $system;
+
     protected PterodactylClient $client;
 
     /**
@@ -52,13 +56,24 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct(GeneralSettings $settings, PterodactylClient $client)
+    public function __construct(GeneralSettings $settings, SystemSettings $system, PterodactylClient $client)
     {
         $this->middleware('guest');
         $this->settings = $settings;
         $this->client = $client;
+        $this->creation_of_new_users = $system->creation_of_new_users;
     }
 
+    /**
+     * Overwrites the create function of the registration form.
+     *
+     * @return View
+     */
+    public function showRegistrationForm(): View {
+        $creation_of_new_users = $this->creation_of_new_users;
+
+        return view('auth.register', compact('creation_of_new_users'));
+    }
 
     /**
      * Get a validator for an incoming registration request.
