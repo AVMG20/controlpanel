@@ -7,6 +7,7 @@ use App\Exceptions\PterodactylRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Settings\CustomizationSettings;
 use App\Settings\GeneralSettings;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -46,17 +47,24 @@ class RegisterController extends Controller
     protected GeneralSettings $settings;
 
     protected PterodactylClient $client;
+    private CustomizationSettings $customizationSettings;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(GeneralSettings $settings, PterodactylClient $client)
+    public function __construct(GeneralSettings $settings, CustomizationSettings $customizationSettings, PterodactylClient $client)
     {
         $this->middleware('guest');
         $this->settings = $settings;
         $this->client = $client;
+        $this->customizationSettings = $customizationSettings;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', ['customizationSettings' => $this->customizationSettings]);
     }
 
 
