@@ -6,6 +6,7 @@
  * @optional string $type
  * @optional string $value
  * @optional string $tooltip
+ * @optional string $placeholder
  */
 ?>
 
@@ -23,6 +24,7 @@
             @endif
             <input value="{{old($name,  $value ?? null)}}" id="{{$name}}"
                    name="{{$name}}"
+                   @if (isset($placeholder)) placeholder="{{$placeholder}}" @endif
                    type="{{$type ?? 'text'}}" class="form-control @error($name)is-invalid @enderror"/>
             @if(isset($prepend))
                 <span class="input-group-text">{{$prepend}}</span>

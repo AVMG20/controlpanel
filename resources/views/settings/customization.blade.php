@@ -17,21 +17,25 @@
 
                 <x-input.text label="{{(__('Primary color'))}}"
                               name="primary_color"
+                              placeholder="#F2F4F6"
                               tooltip="{{(__('This is the background color of your dashboard.')) . ' (Default: #F2F4F6)'}}"
                               value="{{$settings->primary_color}}"/>
 
                 <x-input.text label="{{(__('Secondary color'))}}"
                               name="secondary_color"
+                              placeholder="#FFFFFF"
                               tooltip="{{(__('This is the foreground color of your dashboard.')) . ' (Default: #FFFFFF)'}}"
                               value="{{$settings->secondary_color}}"/>
 
                 <x-input.text label="{{(__('Tertiary color'))}}"
                               name="tertiary_color"
+                              placeholder="#1F2937"
                               tooltip="{{(__('This is the color for the buttons and other elements.')) . ' (Default: #1F2937)'}}"
                               value="{{$settings->tertiary_color}}"/>
 
                 <x-input.text label="{{(__('Text color'))}}"
                               name="text_color"
+                              placeholder="#111827"
                               tooltip="{{(__('This is the color for most of the text.')) . ' (Default: #111827)'}}"
                               value="{{$settings->text_color}}"/>
 
