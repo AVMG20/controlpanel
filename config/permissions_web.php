@@ -37,4 +37,7 @@ return [
 
     'settings.smtp.read',
     'settings.smtp.write',
+
+    'settings.customization.read',
+    'settings.customization.write',
 ];

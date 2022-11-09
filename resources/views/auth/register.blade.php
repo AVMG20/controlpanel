@@ -8,6 +8,13 @@
                     <div class="text-center text-md-center mb-4 mt-md-0">
                         <h1 class="mt-n3 mb-0 h3">{{ __('Create Account') }}</h1>
                     </div>
+
+                    @if ($customizationSettings->logo_enabled && !empty($customizationSettings->custom_logo_filename) && asset('storage/images/' . $customizationSettings->custom_logo_filename))
+                        <div class="text-center">
+                            <img src="{{asset("storage/images/".$customizationSettings->custom_logo_filename)}}" alt="Logo">
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
