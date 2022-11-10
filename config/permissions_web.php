@@ -21,6 +21,8 @@ return [
     'admin.notifications.read',
     'admin.notifications.write',
 
+    'admin.versioncheck.notify',
+
     /*
      * Permissions for settings
      */
