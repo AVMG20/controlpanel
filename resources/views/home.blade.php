@@ -10,7 +10,7 @@
 
 
     <div class="main py-4">
-        @can("admin.versioncheck.read")
+        @can("admin.versioncheck.notify")
             @if(config("app.version") < config("LATESTVERSION"))
                 <div class="alert alert-danger" role="alert">
                     <p><b>{{__("Version Outdated:")}}</b></p>
