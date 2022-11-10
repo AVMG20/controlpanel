@@ -44,9 +44,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //get the current Branch name and latest git Version the Instance is running on and safe it as a config variable
         try {
-            //Read the latestVersion file from \App\Console\Commands\GetLatestGithubversion.php and save it in a config variable
-            (Storage::get('latestVersion') ? config(["LATESTVERSION" => Storage::get('latestVersion')]) : config(["LATESTVERSION" => "0.0"]));
-
             //read the Branchname from the .git file
             $stringfromfile = file(base_path() . '/.git/HEAD');
             $firstLine = $stringfromfile[0]; //get the string from the array

@@ -11,11 +11,11 @@
 
     <div class="main py-4">
         @can("admin.versioncheck.notify")
-            @if(config("app.version") < config("LATESTVERSION"))
+            @if(Storage::get('latestVersion') && config("app.version") < Storage::get('latestVersion'))
                 <div class="alert alert-danger" role="alert">
                     <p><b>{{__("Version Outdated:")}}</b></p>
                     <p>{{__("You are running on")}} v{{config("app.version")}}-{{config("BRANCHNAME")}}.
-                        {{__("The latest Version is")}} v{{config("LATESTVERSION")}}</p>
+                        {{__("The latest Version is")}} v{{Storage::get('latestVersion')}}</p>
                     <a href="https://controlpanel.gg/docs/Installation/updating">{{__("Consider updating now")}}</a>
                 </div>
             @endif
