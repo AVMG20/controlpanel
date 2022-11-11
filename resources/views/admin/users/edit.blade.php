@@ -18,10 +18,12 @@
                 @method('PATCH')
             @endisset
 
-        <!-- cardd -->
+        <!-- card -->
             <div class="card card-body border-0 shadow table-wrapper table-responsive">
                 <h2 class="mb-4 h5">{{isset($user) ? __('Edit user') : __('Create user')}}</h2>
-
+                @error('pterodactyl_error')
+                    <div class="invalid-feedback p-3 mb-2 bg-danger text-white"> {{ $message }}</div>
+                @enderror
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -58,8 +60,12 @@
                             multiple>
                             @foreach($roles as $role)
                                 <option style="color: {{$role->color}}"
-                                        @if(isset($user) && $user->roles->contains($role)) selected
-                                        @endif value="{{$role->id}}">{{$role->name}}</option>
+                                    @if(isset($user) && $user->roles->contains($role) || !isset($user) && $role->id === $settings->initial_user_role)
+                                        selected
+                                    @endif
+                                    value="{{ $role->id }}">
+                                        {{$role->name}}
+                                </option>
                             @endforeach
                         </x-input.select>
 

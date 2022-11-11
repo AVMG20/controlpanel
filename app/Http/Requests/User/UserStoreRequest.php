@@ -31,7 +31,7 @@ class UserStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:4|max:30',
-            'email' => 'required|string|email|' . Rule::unique('users')->ignore($this->user),
+            'email' => 'required|string|email|' . Rule::unique('users', 'email'),
             'credits' => 'required|numeric|min:0|max:99999999999',
             'server_limit' => 'sometimes|numeric|max:2147483647|min:0',
             'roles' => 'nullable|array',

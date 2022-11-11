@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationTemplate\User\UserUpdateRequest;
 use App\Http\Requests\NotificationTemplate\User\UserStoreRequest;
+use App\Classes\Pterodactyl\Models\PterodactylUser;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\View\View;
@@ -18,6 +19,9 @@ use Yajra\DataTables\Html\Builder;
 
 class UserController extends Controller
 {
+
+    use PterodactylUser;
+
     const READ_PERMISSIONS = 'admin.users.read';
     const WRITE_PERMISSIONS = 'admin.users.write';
 
@@ -62,13 +66,22 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request): RedirectResponse
     {
-        User::create([
+        $this->validatePterodactylUser($request->email);
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'credits' => $request->credits,
             'server_limit' => $request->server_limit,
-            'password' => Hash::make($request->password),
-            'roles' => $request->roles
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->assignRole($request->roles);
+
+        $data = $this->createPterodactylUser($request, $user);
+
+        $user->update([
+            'pterodactyl_id' => $data['attributes']['id']
         ]);
 
         return redirect()->route('admin.users.index')->with('success', __('User Created'));
