@@ -56,7 +56,7 @@ class NotificationSeeder extends Seeder
                </p>
                <p>Regards,<br />Controlpanel</p>",
             'channels' => json_encode(['mail']),
-            'models' => json_encode([User::class, Server::class]),
+            'models' => json_encode([User::class]),
         ]);
 
         NotificationTemplate::query()->firstOrCreate([
@@ -71,7 +71,7 @@ class NotificationSeeder extends Seeder
                </p>
                <p>Regards,<br />Controlpanel</p>",
             'channels' => json_encode(['mail']),
-            'models' => json_encode([User::class, Server::class]),
+            'models' => json_encode([User::class]),
         ]);
     }
 }
