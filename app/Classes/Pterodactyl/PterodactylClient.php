@@ -74,12 +74,34 @@ class PterodactylClient
     /**
      * @throws PterodactylRequestException
      */
+    public function getServers(): PromiseInterface|Response
+    {
+        $response = $this->client->get('application/servers?per_page=' . self::PER_PAGE);
+        return $this->handleResponse($response);
+    }
+
+
+    /**
+     * @throws PterodactylRequestException
+     */
     public function getNodes(): PromiseInterface|Response
     {
         $response = $this->client->get('application/nodes?per_page=' . self::PER_PAGE);
         return $this->handleResponse($response);
     }
 
+    /**
+     * Get server from Pterodactyl using Pterodactyl id
+     *
+     * @param int $pterodactylId
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
+     */
+    public function getServer(int $pterodactylId): PromiseInterface|Response
+    {
+        $response = $this->client->get("application/servers/$pterodactylId");
+        return $this->handleResponse($response);
+    }
     /**
      * Get user from Pterodactyl using Pterodactyl id
      *

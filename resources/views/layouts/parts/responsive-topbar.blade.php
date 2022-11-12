@@ -2,11 +2,11 @@
     <div class="d-flex align-items-center">
         <div class="avatar-lg me-4">
             <img class="card-img-top rounded-circle border-white"
-                src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->name }}"
-                alt="{{ Auth::user()->name }}">
+                src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->username }}"
+                alt="{{ Auth::user()->username }}">
         </div>
         <div class="d-block">
-            <h2 class="h5 mb-3">Hi, {{ auth()->user()->name }}</h2>
+            <h2 class="h5 mb-3">Hi, {{ auth()->user()->username }}</h2>
             <a class="btn btn-secondary btn-sm d-inline-flex align-items-center" href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                 <form method="POST" id="logout-form" action="{{ route('logout') }}">

@@ -5,23 +5,26 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use App\Models\User;
+use App\Settings\CustomizationSettings;
 use App\Settings\GeneralSettings;
 use Exception;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\View\View;
 use Yajra\DataTables\Html\Builder;
 
 class HomeController extends Controller
 {
+
     /**
-     * Show the application dashboard.
-     *
-     * @return Renderable
+     * @param Request $request
+     * @param GeneralSettings $settings
+     * @param CustomizationSettings $csettings
+     * @return view|mixed
      * @throws Exception
      */
-    public function index(Request $request, GeneralSettings $settings)
+    public function index(Request $request, GeneralSettings $settings, CustomizationSettings $csettings)
     {
         /** @var User $user */
         $user = $request->user();
@@ -33,7 +36,7 @@ class HomeController extends Controller
         }
 
         $html = $this->dataTable();
-        return view('home', compact('html', 'settings', 'user'));
+        return view('home', compact('html', 'settings', 'csettings', 'user'));
     }
 
     /**
@@ -63,7 +66,7 @@ class HomeController extends Controller
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
             ->addColumn(['data' => 'price', 'name' => 'price', 'title' => __('Cost')])
             ->addColumn(['data' => 'egg.name', 'name' => 'egg.name', 'title' => __('Config')])
-            ->addColumn(['data' => 'details', 'name' => 'details', 'title' => __('Details'),'searchable' => false, 'orderable' => false])
+            ->addColumn(['data' => 'details', 'name' => 'details', 'title' => __('Details'), 'searchable' => false, 'orderable' => false])
             ->addColumn(['data' => 'suspended', 'name' => 'suspended', 'title' => __('Suspended')])
             ->addAction(['data' => 'actions', 'name' => 'actions', 'title' => __('Actions'), 'searchable' => false, 'orderable' => false])
             ->parameters($this->dataTableDefaultParameters());

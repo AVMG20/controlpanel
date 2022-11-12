@@ -21,6 +21,8 @@ return [
     'admin.notifications.read',
     'admin.notifications.write',
 
+    'admin.versioncheck.notify',
+
     /*
      * Permissions for settings
      */
@@ -35,4 +37,7 @@ return [
 
     'settings.smtp.read',
     'settings.smtp.write',
+
+    'settings.customization.read',
+    'settings.customization.write',
 ];

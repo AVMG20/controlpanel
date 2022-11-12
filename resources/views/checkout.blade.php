@@ -8,11 +8,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
     <!-- Main js-->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!--Include customization options -->
+    @include("layouts.parts.customization")
+
+    <!-- Custom Headerscripts -->
+    <script src="{{ asset("js/".$custom_js_filename) }}"></script>
+
+
 
     <!-- Sweet alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -23,9 +31,10 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-sm navbar-transparent navbar-dark navbar-theme-primary mb-4">
     <div class="container position-relative">
-        <a class="navbar-brand me-lg-5" href="{{ route('main-site') }}">
-            <img class="navbar-brand-dark" src="{{ asset('images/brand/light.svg') }}" alt="Volt logo"/>
-            <img class="navbar-brand-light" src="{{ asset('images/brand/dark.svg') }}" alt="Volt logo"/>
+        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+            @if (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && !is_null($settings->custom_icon_filename))
+                <img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
+            @endif
         </a>
         <div class="w-100" id="navbar-default-primary">
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
@@ -60,9 +69,9 @@
                         <div class="media d-flex align-items-center">
                             <img class="avatar rounded-circle"
                                  src="{{ Auth::user()->getAvatar() }}"
-                                 alt="{{ Auth::user()->name }}">
+                                 alt="{{ Auth::user()->username }}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                <span class="mb-0 font-small fw-bold">{{ auth()->user()->name }}</span>
+                                <span class="mb-0 font-small fw-bold">{{ auth()->user()->username }}</span>
                             </div>
                         </div>
                     </a>

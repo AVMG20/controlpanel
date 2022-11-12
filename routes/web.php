@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\NotificationTemplateController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServerController as AdminServerController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Settings\CustomizationSettingsController;
 use App\Http\Controllers\Settings\GeneralSettingsController;
 use App\Http\Controllers\Settings\PterodactylSettingsController;
 use App\Http\Controllers\Settings\SmtpSettingsController;
@@ -72,6 +73,9 @@ Route::prefix('settings')->name('settings.')->middleware('auth')->group(function
 
     Route::get('smtp', [SmtpSettingsController::class, 'index'])->name('smtp.index');
     Route::patch('smtp', [SmtpSettingsController::class, 'update'])->name('smtp.update');
+
+    Route::get('customization', [CustomizationSettingsController::class, 'index'])->name('customization.index');
+    Route::patch('customization', [CustomizationSettingsController::class, 'update'])->name('customization.update');
 });
 
 
