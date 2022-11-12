@@ -158,12 +158,7 @@ class RegisterController extends Controller
     protected function createPterodactylUser(Request $request, User $user): array
     {
         //check last_name
-        if(empty($user->last_name))
-        {
-            $last_name = $user->first_name;
-        } else {
-            $last_name = $user->last_name;
-        }
+        $last_name = empty($user->last_name) ? $user->first_name : $user->last_name;
         try {
             $response = $this->client->createUser([
                 "external_id" => App::environment('local') ? Str::random() : strval($user->id),

@@ -18,7 +18,7 @@
                         @csrf
                         <!-- Form -->
                         <div class="form-group mb-4">
-                            <label for="email">{{ __('Your Email') }}</label>
+                            <label for="email">{{ __('Your Email or Username') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
                                     <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20"
@@ -29,12 +29,12 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <input name="email" type="email" class="form-control" placeholder="{{ __('Email') }}"
+                                <input name="email" type="text" class="form-control" placeholder="{{ __('Email or Username') }}"
                                     id="email" value="{{ old('email') }}" required autofocus>
                             </div>
-                            @error('email')
-                                <div class="invalid-feedback"> {{ $message }} </div>
-                            @enderror
+                            @if($errors->any())
+                                <div class="invalid-feedback"> @foreach ($errors->all() as $error){{ $error }}@endforeach </div>
+                            @endif
                         </div>
                         <!-- End of Form -->
                         <div class="form-group">
