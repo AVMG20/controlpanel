@@ -72,6 +72,16 @@ class PterodactylClient
     }
 
     /**
+     * @return mixed
+     * @throws Exception
+     * @description Returns the infos of a single node
+     */
+    public function getNode($id) {
+            $response = $this->client->get('application/nodes/' . $id);
+            return $this->handleResponse($response);
+    }
+
+    /**
      * @throws PterodactylRequestException
      */
     public function getServers(): PromiseInterface|Response
@@ -175,6 +185,18 @@ class PterodactylClient
     public function updateServerDetails(int $pterodactyl_id, array $data): PromiseInterface|Response
     {
         $response = $this->client->patch("application/servers/$pterodactyl_id/details", $data);
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Get Servers from Pterodactyl
+     *
+     * @return PromiseInterface|Response
+     * @throws PterodactylRequestException
+     */
+    public function getServers(): PromiseInterface|Response
+    {
+        $response = $this->client->get('application/servers?per_page=' . self::PER_PAGE);
         return $this->handleResponse($response);
     }
 
