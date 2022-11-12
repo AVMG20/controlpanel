@@ -25,21 +25,54 @@
                         <div class="invalid-feedback"> {{ $message }} </div>
                         @enderror
 
-                    <!-- Form -->
+                        <!-- Form -->
                         <div class="form-group mt-4 mb-4">
-                            <label for="name">{{ __('Your Name') }}</label>
+                            <label for="username">{{ __('Your Username') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fas fa-user-alt fa-fw"></i>
                                 </span>
-                                <input name="name" id="name" type="name" class="form-control"
-                                       placeholder="{{ __('Name') }}" value="{{ old('name') }}" autofocus required>
+                                <input name="username" id="username" type="name" class="form-control"
+                                       placeholder="{{ __('Username') }}" value="{{ old('username') }}" autofocus required>
                             </div>
 
-                            @error('name')
+                            @error('username')
                             <div class="invalid-feedback"> {{ $message }} </div> @enderror
                         </div>
                         <!-- End of Form -->
+                        
+                        <div class="row">
+                            <!-- Form -->
+                            <div class="col form-group">
+                                <label for="first_name">{{ __('Your First Name') }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-user-alt fa-fw"></i>
+                                    </span>
+                                    <input name="first_name" id="first_name" type="name" class="form-control"
+                                        placeholder="{{ __('First Name') }}" value="{{ old('first_name') }}" autofocus required>
+                                </div>
+
+                                @error('first_name')
+                                <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            </div>
+                            <!-- End of Form -->
+                            <!-- Form -->
+                            <div class="col form-group">
+                                <label for="last_name">{{ __('Your Last Name') }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-user-alt fa-fw"></i>
+                                    </span>
+                                    <input name="last_name" id="last_name" type="name" class="form-control"
+                                        placeholder="{{ __('Last Name') }}" value="{{ old('last_name') }}" autofocus>
+                                </div>
+
+                                @error('last_name')
+                                <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            </div>
+                            <!-- End of Form -->
+                        </div>
 
                         <!-- Form -->
                         <div class="form-group mt-4 mb-4">

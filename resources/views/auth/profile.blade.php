@@ -12,16 +12,40 @@
 
                         <div class="row align-items-center">
                             <div class="col-md-6 mb-3">
-                                <label for="name">{{ 'Your Name' }}</label>
+                                <label for="first_name">{{ 'Your First Name' }}</label>
+                                <div class="input-group"> 
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-alt fa-fw"></i>
+                                    </span>
+                                    <input id="first_name" class="form-control" type="text" name="first_name"
+                                        placeholder="{{ __('First Name') }}" value="{{ old('first_name', auth()->user()->first_name) }}"
+                                        required>
+                                </div>
+                                @error('first_name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name">{{ 'Your Last Name' }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="fas fa-user-alt fa-fw"></i>
                                     </span>
-                                    <input id="name" class="form-control" type="text" name="name"
-                                        placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}"
+                                    <input id="last_name" class="form-control" type="text" name="last_name"
+                                        placeholder="{{ __('Last Name') }}" value="{{ old('last_name', auth()->user()->last_name) }}"
+                                        >
+                                </div>
+                                @error('last_name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="username">{{ 'Your Username' }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-alt fa-fw"></i>
+                                    </span>
+                                    <input id="username" class="form-control" type="text" name="username"
+                                        placeholder="{{ __('Username') }}" value="{{ old('username', auth()->user()->username) }}"
                                         required>
                                 </div>
-                                @error('name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                                @error('username') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email">{{ __('Your Email') }}</label>

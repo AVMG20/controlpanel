@@ -69,9 +69,9 @@
                         <div class="media d-flex align-items-center">
                             <img class="avatar rounded-circle"
                                  src="{{ Auth::user()->getAvatar() }}"
-                                 alt="{{ Auth::user()->name }}">
+                                 alt="{{ Auth::user()->username }}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                <span class="mb-0 font-small fw-bold">{{ auth()->user()->name }}</span>
+                                <span class="mb-0 font-small fw-bold">{{ auth()->user()->username }}</span>
                             </div>
                         </div>
                     </a>

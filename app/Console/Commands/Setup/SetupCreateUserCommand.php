@@ -95,8 +95,10 @@ class SetupCreateUserCommand extends Command
 
         /** @var User $user */
         $user = User::create([
-            'name' => $data['first_name'],
+            'username' => $data['username'],
             'email' => $data['email'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'credits' => $this->settings->initial_user_credits,
             'server_limit' => $this->settings->initial_server_limit,
             'password' => Hash::make($password),
@@ -113,7 +115,7 @@ class SetupCreateUserCommand extends Command
         $this->table(['Field', 'Value'], [
             ['ID', $user->id],
             ['Ptero-ID', $user->pterodactyl_id],
-            ['Username', $user->name],
+            ['Username', $user->username],
             ['Email', $user->email],
             ['credits', $user->credits],
             ['server_limit', $user->server_limit],
