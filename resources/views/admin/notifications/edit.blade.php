@@ -37,9 +37,29 @@
                     <button name="submit" type="submit" class="btn btn-primary">{{__('Submit')}}</button>
                 </div>
             </form>
-
         </div>
-
+        <br />
+        <div class="card card-body border-0 shadow table-wrapper table-responsive d-inline-flex">
+            <div class="row">
+                @foreach(json_decode($notification->models) as $a => $item)
+                    <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{class_basename(new $item())}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ __('Example') }} &lbrace;&lbrace;${{strtolower(class_basename(new $item()))}}->id&rbrace;&rbrace;</h6>
+                                <p class="card-text">{{ __('blade.notification.models') }}</p>
+                                <button type="button" class="btn btn-gray-700 fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="
+                                    @foreach((new $item())->getFillable() as $b => $value)
+                                        {{preg_replace('/\s+/', ' ', $value)}}
+                                        <br/>
+                                     @endforeach">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 @endsection
 

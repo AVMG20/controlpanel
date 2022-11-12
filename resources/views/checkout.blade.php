@@ -18,9 +18,7 @@
     @include("layouts.parts.customization")
 
     <!-- Custom Headerscripts -->
-    <script src="{{ asset("js/".$custom_js_filename) }}"></script>
-
-
+    @stack('headerScripts')
 
     <!-- Sweet alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -32,9 +30,7 @@
 <nav class="navbar navbar-expand-sm navbar-transparent navbar-dark navbar-theme-primary mb-4">
     <div class="container position-relative">
         <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-            @if (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && !is_null($settings->custom_icon_filename))
-                <img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
-            @endif
+            @stack('customIcon')
         </a>
         <div class="w-100" id="navbar-default-primary">
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">

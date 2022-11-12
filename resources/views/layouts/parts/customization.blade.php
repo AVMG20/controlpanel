@@ -12,6 +12,13 @@
     $textcolorrgb = $settings->convert_hex_to_rgb($settings->text_color);
 @endphp
 
+@push ('headerScripts')
+    <script src="{{ asset("js/".$settings->custom_js_filename) }}"></script>
+@endpush
+
+@pushIf (file_exists(storage_path("app/public/images/".$settings->custom_icon_filename)) && !is_null($settings->custom_icon_filename), 'customIcon')
+<img src="{{asset("storage/images/".$settings->custom_icon_filename)}}" height="50" width="50" alt="Logo">
+@endPushIf
 
 <style>
     :root {

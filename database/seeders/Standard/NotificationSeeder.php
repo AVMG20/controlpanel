@@ -3,7 +3,10 @@
 namespace Database\Seeders\Standard;
 
 use App\Models\NotificationTemplate;
+use App\Models\Server;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use phpDocumentor\Reflection\Types\Object_;
 
 class NotificationSeeder extends Seeder
 {
@@ -25,7 +28,8 @@ class NotificationSeeder extends Seeder
                 <p>This dashboard can be used to create and delete servers.<br /> These servers can be used and managed on our pterodactyl panel.<br /> If you have any questions, please join our Discord server and #create-a-ticket.</p>
                 <p>We hope you can enjoy this hosting experience and if you have any suggestions please let us know!</p>
                 <p>Regards,<br />Controlpanel</p>",
-            'channels' => json_encode(['mail'])
+            'channels' => json_encode(['mail']),
+            'models' => json_encode([User::class]),
         ]);
 
         NotificationTemplate::query()->firstOrCreate([
@@ -36,7 +40,8 @@ class NotificationSeeder extends Seeder
             'content' => "
                <p>Hello <strong>{{\$user->username}}</strong>, Your Mail settings are configured correctly!</p>
                <p>Regards,<br />Controlpanel</p>",
-            'channels' => json_encode(['mail'])
+            'channels' => json_encode(['mail']),
+            'models' => json_encode([User::class]),
         ]);
 
         NotificationTemplate::query()->firstOrCreate([
@@ -50,7 +55,8 @@ class NotificationSeeder extends Seeder
                Please recharge your account to continue using our services.
                </p>
                <p>Regards,<br />Controlpanel</p>",
-            'channels' => json_encode(['mail'])
+            'channels' => json_encode(['mail']),
+            'models' => json_encode([User::class]),
         ]);
 
         NotificationTemplate::query()->firstOrCreate([
@@ -64,7 +70,8 @@ class NotificationSeeder extends Seeder
                You can now use your servers again.
                </p>
                <p>Regards,<br />Controlpanel</p>",
-            'channels' => json_encode(['mail'])
+            'channels' => json_encode(['mail']),
+            'models' => json_encode([User::class]),
         ]);
     }
 }
