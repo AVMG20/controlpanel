@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css" />
@@ -22,11 +24,8 @@
     <!-- Sweet alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <style>
-        .w-100px {
-            width: 100px !important;
-        }
-    </style>
+    <!--Include customization options -->
+    @include('layouts.parts.customization')
 
     @yield('head')
 
@@ -34,16 +33,16 @@
 </head>
 
 <body>
-    @include('layouts.parts.nav')
-    @include('layouts.parts.sidenav')
-    <main class="content">
-        {{-- TopBar --}}
-        @include('layouts.parts.topbar')
-        @yield('content')
-        {{-- Footer --}}
-        @include('layouts.parts.footer')
-    </main>
+@include('layouts.parts.nav')
+@include('layouts.parts.sidenav')
+<main class="content">
+    {{-- TopBar --}}
+    @include('layouts.parts.topbar')
+    @yield('content')
+    {{-- Footer --}}
+    @include('layouts.parts.footer')
+</main>
 
-    @include('layouts.parts.scripts')
-    @yield('scripts')
+@include('layouts.parts.scripts')
+@yield('scripts')
 </body>

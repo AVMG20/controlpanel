@@ -22,11 +22,6 @@ class GeneralSettings extends Settings
     //the initial role given to the user on register
     public int $initial_user_role;
 
-    //url location of the icon
-    public string $panel_icon_url;
-    //url location of the favicon
-    public string $panel_favicon_url;
-
     public static function group(): string
     {
         return 'general';
