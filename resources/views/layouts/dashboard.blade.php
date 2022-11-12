@@ -15,7 +15,7 @@
 
 
     <!-- Datatables -->
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css" />
     <script type="text/javascript" src="//cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.js"></script>
 
     <!-- include ckeditor -->
@@ -27,6 +27,7 @@
     <!--Include customization options -->
     @include('layouts.parts.customization')
 
+    @yield('head')
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
