@@ -110,23 +110,6 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, Role $role)
     {
-        $permissions = $request->permissions;
-
-        if ($permissions) {
-            // Do not add any other permissions if * is chosen.
-            foreach ($permissions as $key => $value) {
-                if ($key === 0 && $value === "1" && count($permissions) > 1) {
-                    $role->syncPermissions($permissions[0]);
-                } elseif ($key != 0 && $value != "1" && count($permissions) > 1) {
-                    $role->syncPermissions("1");
-                }
-                else {
-                    $role->syncPermissions($permissions);
-                }
-                break;
-            }
-        }
-
         $role->update([
             'name' => $request->name,
             'color' => $request->color
