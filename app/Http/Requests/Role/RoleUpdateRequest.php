@@ -43,7 +43,7 @@ class RoleUpdateRequest extends FormRequest
         // Do not add any other permissions if * is chosen.
         $permissions = $this->permissions;
 
-        if (in_array("1", $permissions) && count($permissions) > 1 || (!in_array("1", $permissions) && count($permissions) === Permission::all()->count() - 1)) {
+        if (in_array("1", $permissions) && count($permissions) > 1 || (!in_array("1", $permissions) && count($permissions) === Permission::count() - 1)) {
             $this->request->add(['permissions' => ["1"]]);
         }
     }
