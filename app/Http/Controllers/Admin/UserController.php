@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NotificationTemplate\Role\UserUpdateRequest;
+use App\Http\Requests\NotificationTemplate\User\UserUpdateRequest;
+use App\Http\Requests\NotificationTemplate\User\UserStoreRequest;
+use App\Classes\Pterodactyl\Models\PterodactylUser;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Illuminate\Contracts\View\View;
@@ -19,6 +21,14 @@ class UserController extends Controller
 {
     const READ_PERMISSIONS = 'admin.users.read';
     const WRITE_PERMISSIONS = 'admin.users.write';
+
+    protected PterodactylUser $client;
+
+    public function __construct(PterodactylUser $client)
+    {
+        parent::__construct();
+        $this->client = $client;
+    }
 
     /**
      * Display a listing of the resource.
@@ -44,9 +54,13 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create(GeneralSettings $settings)
     {
-        abort(404);
+        $this->checkPermission(self::WRITE_PERMISSIONS);
+
+        $roles = Role::all();
+
+        return view('admin.users.edit', compact('roles', 'settings'));
     }
 
     /**
@@ -55,9 +69,29 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request): RedirectResponse
     {
-        abort(404);
+        $this->client->validatePterodactylUser($request->email);
+
+        $user = User::create([
+            'username' => $request->username,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'credits' => $request->credits,
+            'server_limit' => $request->server_limit,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->assignRole($request->roles);
+
+        $data = $this->client->createPterodactylUser($request, $user);
+
+        $user->update([
+            'pterodactyl_id' => $data['attributes']['id']
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', __('User Created'));
     }
 
     /**
@@ -135,7 +169,11 @@ class UserController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        dd($user);
+        $user->delete();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', __('User removed'));
     }
 
     /**
@@ -182,7 +220,7 @@ class UserController extends Controller
                             <form class="d-inline" method="post" action="{{route("admin.users.destroy", $user)}}">
                                 @csrf
                                 @method("DELETE")
-                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm"><i
+                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm" @if (Auth::user()->id === $user->id) disabled @endif><i
                                         class="fa fas fa-trash"></i></button>
                             </form>'
                     , compact('user'));

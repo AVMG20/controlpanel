@@ -4,21 +4,26 @@
     <div class="main py-4">
 
         <!-- actions -->
-        <div class="d-flex justify-content-end my-3">
-            <a href="{{route('admin.users.create')}}" class="btn btn-primary">
-                <i class="fa fas fa-sign-in-alt pe-2"></i>{{__('Login as')}}
-            </a>
-        </div>
+        @if (isset($user))
+            <div class="d-flex justify-content-end my-3">
+                <a href="{{route('admin.users.create')}}" class="btn btn-primary">
+                    <i class="fa fas fa-sign-in-alt pe-2"></i>{{__('Login as')}}
+                </a>
+            </div>
+        @endif
 
-        <form method="post" action="{{route('admin.users.update', $user)}}">
-        @csrf
-        @method('PATCH')
-
+        <form method="post" action="{{isset($user) ? route('admin.users.update', $user->id) : route('admin.users.store')}}">
+            @csrf
+            @isset($user)
+                @method('PATCH')
+            @endisset
 
         <!-- card -->
             <div class="card card-body border-0 shadow table-wrapper table-responsive">
-                <h2 class="mb-4 h5">{{_('Edit user')}}</h2>
-
+                <h2 class="mb-4 h5">{{isset($user) ? __('Edit user') : __('Create user')}}</h2>
+                @error('pterodactyl_error')
+                    <div class="invalid-feedback p-3 mb-2 bg-danger text-white"> {{ $message }}</div>
+                @enderror
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -49,7 +54,7 @@
                                         min="0"
                                         max="9999999999999"
                                         step=".000001"
-                                        value="{{ isset($user) ? $user->credits : null}}"/>
+                                        value="{{ isset($user) ? $user->credits : $settings->initial_user_credits}}"/>
 
                         <x-input.number label="{{(__('Server limit'))}}"
                                         name="server_limit"
@@ -57,7 +62,7 @@
                                         tooltip="{{__('The amount of servers an user can have')}}"
                                         max="2147483647"
                                         step="1"
-                                        value="{{ isset($user) ? $user->server_limit : null}}"/>
+                                        value="{{ isset($user) ? $user->server_limit : $settings->initial_server_limit}}"/>
 
                     </div>
                     <div class="col-lg-6">
@@ -68,8 +73,12 @@
                             multiple>
                             @foreach($roles as $role)
                                 <option style="color: {{$role->color}}"
-                                        @if(isset($user) && $user->roles->contains($role)) selected
-                                        @endif value="{{$role->id}}">{{$role->name}}</option>
+                                    @if(isset($user) && $user->roles->contains($role) || !isset($user) && $role->id === $settings->initial_user_role)
+                                        selected
+                                    @endif
+                                    value="{{ $role->id }}">
+                                        {{$role->name}}
+                                </option>
                             @endforeach
                         </x-input.select>
 
@@ -83,7 +92,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card card-body border-0 shadow table-wrapper mt-3">
-                        <h2 class="mb-4 h5">{{_('Edit user password')}}</h2>
+                        <h2 class="mb-4 h5">{{isset($user) ? __('Edit user password') : __('Create user password')}}</h2>
 
                         <x-input.text label="{{(__('Password'))}}"
                                       type="password"
@@ -96,9 +105,7 @@
                     </div>
                 </div>
             </div>
-
         </form>
-
     </div>
 @endsection
 
