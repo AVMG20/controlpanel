@@ -30,7 +30,9 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:4|max:30',
+            'username' => 'required|string|min:4|max:30',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'email' => 'required|string|email|' . Rule::unique('users', 'email'),
             'credits' => 'required|numeric|min:0|max:99999999999',
             'server_limit' => 'sometimes|numeric|max:2147483647|min:0',
