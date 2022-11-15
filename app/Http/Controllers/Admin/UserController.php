@@ -19,11 +19,16 @@ use Yajra\DataTables\Html\Builder;
 
 class UserController extends Controller
 {
-
-    use PterodactylUser;
-
     const READ_PERMISSIONS = 'admin.users.read';
     const WRITE_PERMISSIONS = 'admin.users.write';
+
+    protected PterodactylUser $client;
+
+    public function __construct(PterodactylUser $client)
+    {
+        parent::__construct();
+        $this->client = $client;
+    }
 
     /**
      * Display a listing of the resource.
@@ -66,7 +71,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request): RedirectResponse
     {
-        $this->validatePterodactylUser($request->email);
+        $this->client->validatePterodactylUser($request->email);
 
         $user = User::create([
             'name' => $request->name,
@@ -78,7 +83,7 @@ class UserController extends Controller
 
         $user->assignRole($request->roles);
 
-        $data = $this->createPterodactylUser($request, $user);
+        $data = $this->client->createPterodactylUser($request, $user);
 
         $user->update([
             'pterodactyl_id' => $data['attributes']['id']

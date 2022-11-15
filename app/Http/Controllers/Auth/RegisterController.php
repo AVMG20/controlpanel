@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Classes\Pterodactyl\PterodactylClient;
+use App\Classes\Pterodactyl\Models\PterodactylUser;
 use App\Exceptions\PterodactylRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Settings\GeneralSettings;
-use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use TimeHunter\LaravelGoogleReCaptchaV3\Validations\GoogleReCaptchaV3ValidationRule;
 
@@ -45,14 +42,14 @@ class RegisterController extends Controller
 
     protected GeneralSettings $settings;
 
-    protected PterodactylClient $client;
+    protected PterodactylUser $client;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(GeneralSettings $settings, PterodactylClient $client)
+    public function __construct(GeneralSettings $settings, PterodactylUser $client)
     {
         $this->middleware('guest');
         $this->settings = $settings;
@@ -90,13 +87,13 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         //check if user already exists in ptero
-        $this->validatePterodactylUser($request->email);
+        $this->client->validatePterodactylUser($request->email);
 
         //create user
         event(new Registered($user = $this->createUser($request->all())));
 
         //create pterodactyl user
-        $data = $this->createPterodactylUser($request, $user);
+        $data = $this->client->createPterodactylUser($request, $user);
 
         //update user with pterodactyl_id
         $user->update([
@@ -115,59 +112,6 @@ class RegisterController extends Controller
         return $request->wantsJson()
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
-    }
-
-
-    /**
-     * Check if there is already a user with the given email in Pterodactyl
-     *
-     * @param string $email
-     * @return void
-     * @throws PterodactylRequestException
-     * @throws ValidationException
-     */
-    protected function validatePterodactylUser(string $email)
-    {
-        $response = $this->client->getUserByEmail(trim($email));
-        $data = $response->json();
-
-        if (!empty($data['data'])) {
-            #Feature, email the user, to verify he owns the email. so we can link the accounts instead of trowing an error
-            throw ValidationException::withMessages([
-                'pterodactyl_error' => __('User with given email already exists in pterodactyl!')
-            ]);
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @param User $user
-     * @return array
-     * @throws ValidationException
-     */
-    protected function createPterodactylUser(Request $request, User $user): array
-    {
-        try {
-            $response = $this->client->createUser([
-                "external_id" => App::environment('local') ? Str::random() : strval($user->id),
-                "username" => strval($user->name),
-                "email" => strval($user->email),
-                "first_name" => strval($user->name),
-                "last_name" => strval($user->name),
-                "password" => $request->password,
-                "root_admin" => false,
-                "language" => config('app.locale')
-            ]);
-        } catch (Exception $exception) {
-            $user->delete();
-            logger('Creating user in pterodactyl failed', ['exception' => $exception]);
-
-            throw ValidationException::withMessages([
-                'pterodactyl_error' => __('Creating pterodactyl account failed! Please contact an administrator.')
-            ]);
-        }
-
-        return $response->json();
     }
 
     /**

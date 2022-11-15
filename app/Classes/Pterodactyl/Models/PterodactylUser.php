@@ -10,18 +10,19 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Exception;
 
-trait PterodactylUser
+class PterodactylUser extends PterodactylClient
 {
-    protected PterodactylClient $client;
-
-    public function __construct(PterodactylClient $client)
+    /**
+     * Check if there is already a user with the given email in Pterodactyl
+     *
+     * @param string $email
+     * @return void
+     * @throws PterodactylRequestException
+     * @throws ValidationException
+     */
+    public function validatePterodactylUser(string $email)
     {
-        $this->client = $client;
-    }
-
-    protected function validatePterodactylUser(string $email)
-    {
-        $response = $this->client->getUserByEmail(trim($email));
+        $response = $this->getUserByEmail(trim($email));
         $data = $response->json();
 
         if (!empty($data['data'])) {
@@ -32,10 +33,18 @@ trait PterodactylUser
         }
     }
 
-    protected function createPterodactylUser(Request $request, User $user): array
+    /**
+     * Creates a new user in Pterodactyl
+     *
+     * @param Request $request
+     * @param User $user
+     * @return array
+     * @throws ValidationException
+     */
+    public function createPterodactylUser(Request $request, User $user): array
     {
         try {
-            $response = $this->client->createUser([
+            $response = $this->createUser([
                 "external_id" => App::environment('local') ? Str::random() : strval($user->id),
                 "username" => strval($user->name),
                 "email" => strval($user->email),
