@@ -8,6 +8,12 @@
                         <h1 class="mb-3 h3">{{ __('Welcome back') }}</h1>
                     </div>
 
+                    @if ($settings->logo_enabled && !empty($settings->custom_logo_filename) && asset('storage/images/' . $settings->custom_logo_filename))
+                        <div class="text-center">
+                            <img src="{{asset("storage/images/".$settings->custom_logo_filename)}}" alt="Logo">
+                        </div>
+                    @endif
+
                     <form class="mt-4" action="{{ route('login') }}" method="POST">
                         @csrf
                         <!-- Form -->

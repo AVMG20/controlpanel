@@ -101,7 +101,7 @@ class ServerController extends Controller
      */
     public function update(ServerUpdateRequest $request, Server $server, PterodactylServerHelper $helper, PterodactylClient $client)
     {
-        $serverBuildData = $helper->createUpdateBuildData($server->allocation, $request);
+        $serverBuildData = $helper->createUpdateBuildData($server->allocation_id, $request);
         $serverDetailData = $helper->createUpdateDetailsData($server->user_id, $request);
 
         try {
@@ -147,7 +147,7 @@ class ServerController extends Controller
 
         $builder = $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
-            ->addColumn(['data' => 'user.name', 'name' => 'user.name', 'title' => __('User')])
+            ->addColumn(['data' => 'user.username', 'name' => 'user.username', 'title' => __('User')])
             ->addColumn(['data' => 'price', 'name' => 'price', 'title' => $settings->credits_display_name])
             ->addColumn(['data' => 'cpu', 'name' => 'cpu', 'title' => __('CPU')])
             ->addColumn(['data' => 'memory', 'name' => 'memory', 'title' => __('Memory')])

@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Log;
 
 class Server extends Model
 {
@@ -81,6 +81,9 @@ class Server extends Model
             /** @var PterodactylClient $client */
             $client = app(PterodactylClient::class);
 
+            /** @var PterodactylSettings $settings */
+            $settings = app(PterodactylSettings::class);
+
             try {
                 //delete server on pterodactyl
                 $client->deleteServer($server->pterodactyl_id);
@@ -131,10 +134,52 @@ class Server extends Model
     }
 
     /**
-     * Charge the user for the server
-     *
-     * @return bool true if the user was charged, false if the user doesn't have enough money
-     */
+     * Sync the ressources of a specifiy pterodactyl server to CPGG
+     * @return void
+     **/
+    public function syncPterodactylServerSpecs()
+    {
+        $settings = app(PterodactylSettings::class);
+        $client = new PterodactylClient($settings);
+
+        try {
+            $data = $client->getServer($this->pterodactyl_id)->body();
+            $data = json_decode($data, true);
+
+            $this->pterodactyl_id = $data['attributes']['id'];
+            $this->identifier = $data['attributes']['identifier'];
+            $this->name = $data['attributes']['name'];
+            $this->description = $data['attributes']['description'];
+            $this->status = $data['attributes']['status'];
+            $this->suspended = $data['attributes']['suspended'];
+            $this->memory = $data['attributes']['limits']['memory'];
+            $this->cpu = $data['attributes']['limits']['cpu'];
+            $this->swap = $data['attributes']['limits']['swap'];
+            $this->disk = $data['attributes']['limits']['disk'];
+            $this->io = $data['attributes']['limits']['io'];
+            $this->threads = $data['attributes']['limits']['threads'];
+            $this->oom_disabled = $data['attributes']['limits']['oom_disabled'];
+            $this->databases = $data['attributes']['feature_limits']['databases'];
+            $this->backups = $data['attributes']['feature_limits']['backups'];
+            $this->allocations = $data['attributes']['feature_limits']['allocations'];
+            $this->node_id = $data['attributes']['node'];
+            $this->allocation_id = $data['attributes']['allocation'];
+            $this->nest_id = $data['attributes']['nest'];
+            $this->egg_id = $data['attributes']['egg'];
+            $this->save();
+
+        } catch (PterodactylRequestException $exception) {
+            //delete server if it's  a 404 error
+            if ($exception->getCode() == 404) $this->delete();
+            Log::Error("There was an error when trying to Sync Server " . $this->name . "(" . $this->identifier . ") : " . $exception);
+        }
+    }
+
+
+    /* Charge the user for the server
+    *
+    * @return bool true if the user was charged, false if the user doesn't have enough money
+    */
     public function chargeCredits(): bool
     {
         $hourlyPrice = $this->price / 30 / 24;
@@ -182,6 +227,7 @@ class Server extends Model
     {
         $this->suspended = false;
         $this->save();
+
         return $this;
     }
 
@@ -262,6 +308,6 @@ class Server extends Model
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(Node::class,);
+        return $this->belongsTo(Node::class);
     }
 }

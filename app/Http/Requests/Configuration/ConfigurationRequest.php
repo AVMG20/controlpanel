@@ -43,7 +43,7 @@ class ConfigurationRequest extends FormRequest
             'backups' => 'required|integer|max:1000000|min:0',
             'allocations' => 'required|integer|max:1000000|min:0',
             'locations' => 'required',
-            'locations.*' => 'required|exists:nodes,location_id',
+            'locations.*' => 'required|exists:locations,id',
             'eggs' => 'required',
             'eggs.*' => 'required|exists:eggs,id',
             'disabled' => 'required|boolean',

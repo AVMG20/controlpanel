@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Console\Commands\Setup;
+namespace App\Console\Commands\Sync;
 
 use App\Models\Pterodactyl\Egg;
 use App\Models\Pterodactyl\Location;
 use App\Models\Pterodactyl\Nest;
 use App\Models\Pterodactyl\Node;
+use App\Models\Server;
 use Exception;
 use Illuminate\Console\Command;
 
-class SetupSyncPteroCommand extends Command
+class SyncPteroCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 's:pterodactyl:sync';
+    protected $signature = 'sync:pterodactyl:info';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync pterodactyl records to controlpanel';
+    protected $description = 'Sync pterodactyl Nodes/Nest/Eggs/Locations to controlpanel';
 
     /**
      * Create a new command instance.

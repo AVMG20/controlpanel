@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('pterodactyl_id')->nullable();
-            $table->string('name');
+            $table->string('username');
+            $table->string('email')->unique();
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->string('password');
             $table->float('credits', 18, 6)->default(0);
             $table->unsignedInteger('server_limit')->default(0);
-            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

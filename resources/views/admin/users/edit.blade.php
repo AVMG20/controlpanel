@@ -28,9 +28,22 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-                        <x-input.text label="{{(__('Name'))}}"
-                                      name="name"
-                                      value="{{ isset($user) ? $user->name : null}}"/>
+                        <x-input.text label="{{(__('Username'))}}"
+                                      name="username"
+                                      value="{{ isset($user) ? $user->username : null}}"/>
+                        
+                        <div class="row">
+                            <div class="col">
+                                <x-input.text label="{{(__('First Name'))}}"
+                                name="first_name"
+                                value="{{ isset($user) ? $user->first_name : null}}"/>
+                            </div>
+                            <div class="col">
+                                <x-input.text label="{{(__('Last Name'))}}"
+                                name="last_name"
+                                value="{{ isset($user) ? $user->last_name : null}}"/>
+                            </div>
+                        </div>
 
                         <x-input.text label="{{(__('Email'))}}"
                                       name="email"

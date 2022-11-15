@@ -52,11 +52,18 @@ class RegisterController extends Controller
      *
      * @return void
      */
+
     public function __construct(GeneralSettings $settings, CustomizationSettings $customizationSettings, PterodactylUser $client)
     {
         $this->middleware('guest');
         $this->settings = $settings;
         $this->client = $client;
+        $this->customizationSettings = $customizationSettings;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', ['customizationSettings' => $this->customizationSettings]);
     }
 
 

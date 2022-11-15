@@ -21,11 +21,11 @@
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
                             <div class="media-body me-2 text-dark align-items-center d-none d-lg-block">
-                                <span class="mb-0 font-small fw-bold text-gray-900">{{ auth()->user()->name }}</span>
+                                <span class="mb-0 font-small fw-bold text-gray-900">{{ auth()->user()->username }}</span>
                             </div>
                             <img class="avatar rounded-circle"
                                 src="{{ auth()->user()->getAvatar() }}"
-                                alt="{{ auth()->user()->name }}">
+                                alt="{{ auth()->user()->username }}">
                         </div>
                     </a>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
