@@ -179,7 +179,8 @@ class UserController extends Controller
         $settings = app(GeneralSettings::class);
 
         $builder = $this->htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => __('Name')])
+            ->addColumn(['data' => 'username', 'name' => 'username', 'title' => __('Username')])
+            ->addColumn(['data' => 'client_name', 'name' => 'client_name', 'title' => __('Client Name')])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => __('Email')])
             ->addColumn(['data' => 'roles', 'name' => 'roles', 'title' => __('Roles'), 'searchable' => false])
             ->addColumn(['data' => 'credits', 'name' => 'credits', 'title' => $settings->credits_display_name])
@@ -224,6 +225,9 @@ class UserController extends Controller
                 }
 
                 return $html;
+            })
+            ->addColumn('client_name', function (User $user) {
+                return $user->first_name . ", " . $user->last_name;
             })
             ->editColumn('updated_at', function ($model) {
                 return $model->updated_at ? $model->updated_at->diffForHumans() : '';

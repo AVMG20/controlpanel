@@ -46,10 +46,10 @@ class PterodactylUser extends PterodactylClient
         try {
             $response = $this->createUser([
                 "external_id" => App::environment('local') ? Str::random() : strval($user->id),
-                "username" => strval($user->name),
+                "username" => strval($user->username),
                 "email" => strval($user->email),
-                "first_name" => strval($user->name),
-                "last_name" => strval($user->name),
+                "first_name" => strval($user->first_name),
+                "last_name" => strval($user->last_name),
                 "password" => $request->password,
                 "root_admin" => false,
                 "language" => config('app.locale')

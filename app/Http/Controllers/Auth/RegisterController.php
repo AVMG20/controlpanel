@@ -7,6 +7,7 @@ use App\Exceptions\PterodactylRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Settings\CustomizationSettings;
 use App\Settings\GeneralSettings;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -44,12 +45,14 @@ class RegisterController extends Controller
 
     protected PterodactylUser $client;
 
+    private CustomizationSettings $customizationSettings;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(GeneralSettings $settings, PterodactylUser $client)
+    public function __construct(GeneralSettings $settings, CustomizationSettings $customizationSettings, PterodactylUser $client)
     {
         $this->middleware('guest');
         $this->settings = $settings;
@@ -66,7 +69,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:30', 'min:4', 'alpha_num', 'unique:users'],
+            'username' => ['required', 'string', 'max:30', 'min:4', 'alpha_num', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:30', 'min:3'],
+            'last_name' => ['string', 'max:30'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'g-recaptcha-response' => [new GoogleReCaptchaV3ValidationRule()]
@@ -123,7 +128,9 @@ class RegisterController extends Controller
     protected function createUser(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'credits' => $this->settings->initial_user_credits,
             'server_limit' => $this->settings->initial_server_limit,
