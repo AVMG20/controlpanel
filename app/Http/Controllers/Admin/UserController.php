@@ -74,7 +74,9 @@ class UserController extends Controller
         $this->client->validatePterodactylUser($request->email);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'credits' => $request->credits,
             'server_limit' => $request->server_limit,
@@ -167,7 +169,11 @@ class UserController extends Controller
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
 
-        dd($user);
+        $user->delete();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', __('User removed'));
     }
 
     /**
@@ -214,7 +220,7 @@ class UserController extends Controller
                             <form class="d-inline" method="post" action="{{route("admin.users.destroy", $user)}}">
                                 @csrf
                                 @method("DELETE")
-                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm"><i
+                                <button title="{{__(\'Delete\')}}" type="submit" class="btn btn-sm btn-danger confirm" @if (Auth::user()->id === $user->id) disabled @endif><i
                                         class="fa fas fa-trash"></i></button>
                             </form>'
                     , compact('user'));
