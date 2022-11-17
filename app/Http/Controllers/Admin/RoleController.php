@@ -110,10 +110,6 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, Role $role)
     {
-        if ($request->permissions) {
-            $role->syncPermissions($request->permissions);
-        }
-
         $role->update([
             'name' => $request->name,
             'color' => $request->color
@@ -132,6 +128,12 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $this->checkPermission(self::WRITE_PERMISSIONS);
+
+        if ($role->hasAllPermissions() && $role->count() === 1) {
+            return redirect()
+                ->route('admin.roles.index')
+                ->with('error', __('You cannot delete all administrative roles from the system'));
+        }
 
         $role->delete();
 
